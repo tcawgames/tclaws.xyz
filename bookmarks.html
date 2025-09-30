@@ -401,13 +401,20 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(10px); }
+        }
+
+        /* Scroll-based visibility */
+        .back-home-btn.scroll-hidden {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
         }
 
         /* Responsive styles */
@@ -726,11 +733,13 @@
         // Back to Home Button functionality
         const backHomeBtn = document.getElementById('backHomeBtn');
         let hideTimeout;
+        let lastScrollTop = 0;
+        let isScrolling = false;
         
         // Function to show the button
         function showBackButton() {
             clearTimeout(hideTimeout);
-            backHomeBtn.classList.remove('fade-out');
+            backHomeBtn.classList.remove('fade-out', 'scroll-hidden');
             backHomeBtn.classList.add('fade-in');
             backHomeBtn.classList.remove('hidden');
             
@@ -750,6 +759,38 @@
             }, 500);
         }
         
+        // Function to handle scroll-based visibility
+        function handleScrollVisibility() {
+            if (backHomeBtn.classList.contains('hidden')) return;
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // If scrolling down and not at the very top
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                backHomeBtn.classList.add('scroll-hidden');
+            } 
+            // If scrolling up or near the top
+            else if (scrollTop < lastScrollTop || scrollTop <= 100) {
+                backHomeBtn.classList.remove('scroll-hidden');
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        }
+        
+        // Throttle scroll events for better performance
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+        
         // Start the typewriter effect when page loads
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(typeWriter, 1000);
@@ -759,6 +800,9 @@
             
             // Initially hide the back button
             hideBackButton();
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', throttle(handleScrollVisibility, 100));
         });
         
         // Category switching
@@ -799,13 +843,6 @@
             } else {
                 // If button is visible, go to home page
                 window.location.href = 'https://tcaw.xyz';
-            }
-        });
-        
-        // Auto-hide the button when page is scrolled
-        window.addEventListener('scroll', () => {
-            if (!backHomeBtn.classList.contains('hidden')) {
-                hideBackButton();
             }
         });
     </script>
