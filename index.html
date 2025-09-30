@@ -3,700 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tclaws</title>
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/KxD0MmmS/image-removebg-preview-6.png">
+    <title>Tcaw Bookmarks</title>
+    <link rel="icon" href="https://i.ibb.co/WvrS3f2v/image.png">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-green: #39ff14;
-            --dark-bg: #0a0a0a;
-            --card-bg: rgba(18, 18, 18, 0.8);
-            --text-color: #f0f0f0;
+            --primary: #00ff88;
+            --primary-dark: #00cc6a;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --text-secondary: #b0b0b0;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-color);
-            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
         }
         
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--dark-bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease;
-        }
-        
-        .logo-container {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 30px;
-            animation: pulse 2s infinite;
-        }
-        
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        .loading-text {
-            font-size: 2rem;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-            animation: fadeInOut 2s infinite;
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(10, 10, 10, 0.9);
+        .navbar {
+            background-color: rgba(30, 30, 30, 0.8);
             backdrop-filter: blur(10px);
-            z-index: 100;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--neon-green);
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 1rem 2rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
         
         .logo img {
-            width: 40px;
-            height: 40px;
-        }
-        
-        .logo h1 {
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-            font-size: 1.8rem;
+            height: 32px;
+            width: 32px;
+            border-radius: 4px;
         }
         
         .nav-links {
             display: flex;
-            gap: 30px;
+            margin-left: auto;
+            gap: 1.5rem;
         }
         
-        .nav-links a {
-            color: var(--text-color);
+        .nav-link {
+            color: var(--text);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--neon-green);
-            text-shadow: 0 0 8px var(--neon-green);
-        }
-        
-        .nav-links a.active {
-            color: var(--neon-green);
-            text-shadow: 0 0 8px var(--neon-green);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--neon-green);
-            box-shadow: 0 0 8px var(--neon-green);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
-            width: 100%;
-        }
-        
-        /* Main Content */
-        main {
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
-        }
-        
-        .page {
-            display: none;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        .page-title {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-            text-align: center;
-            animation: slideInFromTop 0.8s ease;
-        }
-        
-        /* Socials Page */
-        .socials-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .social-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s ease;
-            animation-fill-mode: both;
-        }
-        
-        .social-card:hover {
-            transform: translateY(-10px);
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 10px 25px rgba(57, 255, 20, 0.2);
-        }
-        
-        .social-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--neon-green);
-            text-shadow: 0 0 10px var(--neon-green);
-        }
-        
-        .social-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .social-card p {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        
-        .social-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: transparent;
-            color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .social-link:hover {
-            background-color: var(--neon-green);
-            color: var(--dark-bg);
-            box-shadow: 0 0 15px var(--neon-green);
-        }
-        
-        /* About Page */
-        .about-content {
+            font-size: 1.1rem;
+            transition: color 0.2s;
             display: flex;
-            flex-direction: column;
-            gap: 30px;
-            max-width: 800px;
-            margin: 0 auto;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .about-section {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s ease;
-            animation-fill-mode: both;
+        .nav-link:hover {
+            color: var(--primary);
         }
         
-        .about-section h2 {
-            color: var(--neon-green);
-            margin-bottom: 15px;
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .category {
+            margin-bottom: 3rem;
+        }
+        
+        .category-title {
             font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
         }
         
-        .about-section p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        
-        /* Contact Page */
-        .contact-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .discord-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 40px;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--neon-green);
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .discord-icon {
-            font-size: 4rem;
-            color: #7289da;
-            margin-bottom: 20px;
-        }
-        
-        .discord-card h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--neon-green);
-        }
-        
-        .discord-card p {
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-        }
-        
-        .discord-username {
-            display: inline-block;
-            background-color: rgba(114, 137, 218, 0.2);
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-family: monospace;
-            font-size: 1.5rem;
-            color: var(--neon-green);
-            border: 1px solid #7289da;
-        }
-        
-        /* 3D Prints Page */
-        .prints-container {
+        .bookmarklets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            gap: 1.5rem;
         }
         
-        .print-card {
+        .bookmarklet-card {
             background-color: var(--card-bg);
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease;
-            animation-fill-mode: both;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         
-        .print-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(57, 255, 20, 0.2);
+        .bookmarklet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.1);
         }
         
-        .print-image {
-            width: 100%;
-            height: 200px;
-            background-color: #222;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #666;
-            font-style: italic;
-        }
-        
-        .print-info {
-            padding: 20px;
-        }
-        
-        .print-info h3 {
-            color: var(--neon-green);
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-        
-        .print-info p {
-            line-height: 1.5;
-            color: #ccc;
-        }
-        
-        /* Process Section */
-        .process-section {
-            margin-top: 60px;
-        }
-        
-        .process-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .process-step {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.8s ease;
-            animation-fill-mode: both;
-        }
-        
-        .step-number {
-            background-color: var(--neon-green);
-            color: var(--dark-bg);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
+        .bookmarklet-name {
             font-size: 1.2rem;
-            flex-shrink: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .step-content h3 {
-            color: var(--neon-green);
-            margin-bottom: 10px;
+        .bookmarklet-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
         }
         
-        .step-content p {
-            line-height: 1.6;
-        }
-        
-        /* Footer */
-        footer {
-            background-color: rgba(10, 10, 10, 0.9);
-            border-top: 1px solid var(--neon-green);
-            padding: 20px 0;
-            margin-top: 60px;
+        .bookmarklet-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
             text-align: center;
         }
         
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .bookmarklet-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 255, 136, 0),
+                rgba(0, 255, 136, 0),
+                rgba(0, 255, 136, 0.3),
+                rgba(0, 255, 136, 0)
+            );
+            transform: rotate(30deg);
+            transition: all 0.7s;
+            opacity: 0;
         }
         
-        .footer-content p {
-            color: #aaa;
+        .bookmarklet-btn:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            color: white;
         }
         
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .bookmarklet-btn:hover::before {
+            animation: shine 1.5s;
+            opacity: 1;
         }
         
-        @keyframes fadeInOut {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @keyframes shine {
+            0% {
+                transform: rotate(30deg) translate(-30%, -30%);
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes slideInFromTop {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            100% {
+                transform: rotate(30deg) translate(30%, 30%);
             }
         }
         
-        /* Animation delays for staggered effects */
-        .social-card:nth-child(1) { animation-delay: 0.1s; }
-        .social-card:nth-child(2) { animation-delay: 0.2s; }
-        .social-card:nth-child(3) { animation-delay: 0.3s; }
-        .social-card:nth-child(4) { animation-delay: 0.4s; }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
         
-        .about-section:nth-child(1) { animation-delay: 0.1s; }
-        .about-section:nth-child(2) { animation-delay: 0.2s; }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
         
-        .print-card:nth-child(1) { animation-delay: 0.1s; }
-        .print-card:nth-child(2) { animation-delay: 0.2s; }
-        .print-card:nth-child(3) { animation-delay: 0.3s; }
-        .print-card:nth-child(4) { animation-delay: 0.4s; }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
         
-        .process-step:nth-child(1) { animation-delay: 0.1s; }
-        .process-step:nth-child(2) { animation-delay: 0.2s; }
-        .process-step:nth-child(3) { animation-delay: 0.3s; }
-        .process-step:nth-child(4) { animation-delay: 0.4s; }
+        .hidden {
+            display: none;
+        }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-links {
-                gap: 20px;
-            }
-            
-            .page-title {
-                font-size: 2rem;
-            }
-            
-            .process-step {
-                flex-direction: column;
-                text-align: center;
-            }
+        .active-category {
+            color: var(--primary) !important;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+            margin-top: 3rem;
+        }
+
+        .instructions {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Home Page Styles */
+        .home-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .typewriter-container {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: var(--primary);
+            height: 4rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .typewriter {
+            border-right: 3px solid var(--primary);
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary); }
+        }
+
+        .start-button {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            margin-top: 2rem;
+        }
+
+        .start-button:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+            transform: translateY(-3px);
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="logo-container">
-            <img src="https://i.ibb.co/KxD0MmmS/image-removebg-preview-6.png" alt="TClaws Logo">
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://i.ibb.co/WvrS3f2v/image.png" alt="Tcaw Logo">
+            <span>tcaw bookmarks</span>
         </div>
-        <div class="loading-text">Loading...</div>
-    </div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="https://i.ibb.co/KxD0MmmS/image-removebg-preview-6.png" alt="TClaws Logo">
-                <h1>TCLAWS</h1>
-            </div>
-            <div class="nav-links">
-                <a href="#" class="nav-link active" data-page="socials">Socials</a>
-                <a href="#" class="nav-link" data-page="about">About Me</a>
-                <a href="#" class="nav-link" data-page="prints">3D Prints</a>
-                <a href="#" class="nav-link" data-page="contact">Contact</a>
-            </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active-category" data-category="home">🏠 Home</a>
+            <a href="#" class="nav-link" data-category="games">🎮 Play</a>
+            <a href="#" class="nav-link" data-category="tools">🔨 Tools</a>
+            <a href="#" class="nav-link" data-category="mods">🤩 Mods</a>
         </div>
     </nav>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Socials Page -->
-        <section id="socials" class="page active">
-            <h2 class="page-title">My Socials</h2>
-            <div class="socials-container">
-                <div class="social-card">
-                    <div class="social-icon">📷</div>
-                    <h3>Instagram</h3>
-                    <p>Follow me for behind-the-scenes content and daily updates on my 3D printing projects.</p>
-                    <a href="#" class="social-link">Follow @tclaws</a>
+    
+    <div class="container">
+        <!-- Home Page -->
+        <div class="category" id="home-category">
+            <div class="home-page">
+                <div class="typewriter-container">
+                    <span id="typewriter" class="typewriter"></span>
                 </div>
-                <div class="social-card">
-                    <div class="social-icon">🐦</div>
-                    <h3>Twitter</h3>
-                    <p>Join the conversation about 3D printing, modeling, and creative tech projects.</p>
-                    <a href="#" class="social-link">Follow @tclaws</a>
-                </div>
-                <div class="social-card">
-                    <div class="social-icon">📺</div>
-                    <h3>YouTube</h3>
-                    <p>Watch tutorials, project showcases, and time-lapses of my 3D printing process.</p>
-                    <a href="#" class="social-link">Subscribe</a>
-                </div>
-                <div class="social-card">
-                    <div class="social-icon">💼</div>
-                    <h3>LinkedIn</h3>
-                    <p>Connect with me professionally and explore collaborative opportunities.</p>
-                    <a href="#" class="social-link">Connect</a>
-                </div>
+                <button class="start-button" id="start-button">Enter Site</button>
             </div>
-        </section>
-
-        <!-- About Page -->
-        <section id="about" class="page">
-            <h2 class="page-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-section">
-                    <h2>Who I Am</h2>
-                    <p>Hello! I'm TClaws, a passionate 3D artist and printing enthusiast. I've been immersed in the world of 3D modeling and printing for over 5 years, constantly exploring new techniques and pushing the boundaries of what's possible with this amazing technology.</p>
-                    <p>My journey started with a simple desktop printer and has evolved into a full-fledged passion for creating intricate models, functional prints, and artistic pieces that blend form and function.</p>
-                </div>
-                <div class="about-section">
-                    <h2>My Mission</h2>
-                    <p>I believe that 3D printing is more than just a hobby - it's a gateway to innovation and creativity. My mission is to share my knowledge, inspire others to explore this field, and create unique pieces that showcase the potential of additive manufacturing.</p>
-                    <p>Through my work, I aim to demonstrate how 3D printing can solve real-world problems, create beautiful art, and bring imaginative concepts to life.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3D Prints Page -->
-        <section id="prints" class="page">
-            <h2 class="page-title">3D Prints & Modeling</h2>
-            <div class="prints-container">
-                <div class="print-card">
-                    <div class="print-image">Print Image 1</div>
-                    <div class="print-info">
-                        <h3>Detailed Character Model</h3>
-                        <p>A highly detailed fantasy character created in ZBrush and printed with resin for maximum detail.</p>
-                    </div>
-                </div>
-                <div class="print-card">
-                    <div class="print-image">Print Image 2</div>
-                    <div class="print-info">
-                        <h3>Functional Mechanical Part</h3>
-                        <p>An engineering prototype with moving parts, printed in PETG for durability and precision.</p>
-                    </div>
-                </div>
-                <div class="print-card">
-                    <div class="print-image">Print Image 3</div>
-                    <div class="print-info">
-                        <h3>Architectural Model</h3>
-                        <p>A scaled architectural model showcasing intricate details and precise measurements.</p>
-                    </div>
-                </div>
-                <div class="print-card">
-                    <div class="print-image">Print Image 4</div>
-                    <div class="print-info">
-                        <h3>Artistic Sculpture</h3>
-                        <p>An abstract art piece exploring organic forms and complex geometries.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="process-section">
-                <h2 class="page-title">My 3D Printing Process</h2>
-                <div class="process-steps">
-                    <div class="process-step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Concept & Design</h3>
-                            <p>Every project begins with an idea. I sketch concepts and plan the design before moving to digital modeling. This phase involves considering functionality, aesthetics, and printability.</p>
-                        </div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>3D Modeling</h3>
-                            <p>Using software like Blender, Fusion 360, and ZBrush, I create detailed 3D models. This is where the magic happens - turning concepts into digital reality with precision and creativity.</p>
-                        </div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Slicing & Preparation</h3>
-                            <p>Before printing, models are prepared using slicing software. I optimize settings for layer height, infill, supports, and other parameters to ensure the best possible print quality.</p>
-                        </div>
-                    </div>
-                    <div class="process-step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Printing & Post-Processing</h3>
-                            <p>The actual printing process can take hours or even days. After printing, I carefully remove supports, sand surfaces, and sometimes apply paints or finishes to achieve the desired look.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Page -->
-        <section id="contact" class="page">
-            <h2 class="page-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p>Have a project in mind or want to collaborate? Reach out to me on Discord!</p>
-                <div class="discord-card">
-                    <div class="discord-icon">💬</div>
-                    <h2>Discord</h2>
-                    <p>Connect with me directly for questions, collaborations, or just to chat about 3D printing!</p>
-                    <div class="discord-username">tclawss</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2023 TClaws - 3D Printing & Modeling</p>
         </div>
-    </footer>
+        
+        <!-- Games Category -->
+        <div class="category hidden" id="games-category">
+            <h2 class="category-title">🎮 Games</h2>
+            <div class="instructions">
+                <h3>How to use these bookmarklets:</h3>
+                <ol>
+                    <li>Click on any bookmarklet button below to open the code in Pastebin</li>
+                    <li>Select and copy all the code from Pastebin</li>
+                    <li>Create a new bookmark in your browser</li>
+                    <li>Paste the code as the URL (replace any http:// with javascript:)</li>
+                    <li>Save and click the bookmark when you want to use it</li>
+                </ol>
+            </div>
+            <div class="bookmarklets-grid">
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🏓 PONG</h3>
+                    <p class="bookmarklet-description">Classic Pong game you can play right in your browser.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/dBQZzLja" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+                
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🐍 Snake Game</h3>
+                    <p class="bookmarklet-description">The classic Snake game with modern controls.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/78HnnEZg" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
 
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🕹 TETRIS</h3>
+                    <p class="bookmarklet-description">The classic Tetris game. Credit: BOTWgod</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/R9fgVA4i" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🍓 Pac Man</h3>
+                    <p class="bookmarklet-description">Classic Pac-Man game. Credit: BOTWgod</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/DfPKAtSw" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🚀 Galaga</h3>
+                    <p class="bookmarklet-description">Classic Galaga space shooter. Credit: BOTWgod</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/dvRPH0rg" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tools Category -->
+        <div class="category hidden" id="tools-category">
+            <h2 class="category-title">🔨 Tools</h2>
+            <div class="instructions">
+                <h3>How to use these bookmarklets:</h3>
+                <ol>
+                    <li>Click on any bookmarklet button below to open the code in Pastebin</li>
+                    <li>Select and copy all the code from Pastebin</li>
+                    <li>Create a new bookmark in your browser</li>
+                    <li>Paste the code as the URL (replace any http:// with javascript:)</li>
+                    <li>Save and click the bookmark when you want to use it</li>
+                </ol>
+            </div>
+            <div class="bookmarklets-grid">
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🎭 Tcaw's Tab Cloaker v1.0</h3>
+                    <p class="bookmarklet-description">Discreetly change how your browser tab appears.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/6CiFkkQy" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+                
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🛑 Ad Blocker</h3>
+                    <p class="bookmarklet-description">Block intrusive ads on any website you visit.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/SyKruY8S" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+                
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🖱 Auto Clicker</h3>
+                    <p class="bookmarklet-description">Automatically clicks elements on a page. Note: Only works on certain sites.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/0pYtGVMD" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mods Category -->
+        <div class="category hidden" id="mods-category">
+            <h2 class="category-title">🤩 Mods</h2>
+            <div class="instructions">
+                <h3>How to use these bookmarklets:</h3>
+                <ol>
+                    <li>Click on any bookmarklet button below to open the code in Pastebin</li>
+                    <li>Select and copy all the code from Pastebin</li>
+                    <li>Create a new bookmark in your browser</li>
+                    <li>Paste the code as the URL (replace any http:// with javascript:)</li>
+                    <li>Save and click the bookmark when you want to use it</li>
+                </ol>
+            </div>
+            <div class="bookmarklets-grid">
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">🔎 Tcaw Blooket Pin Guesser (v5 release)</h3>
+                    <p class="bookmarklet-description">Automatically guesses Blooket game pins with advanced algorithms.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/Xj6ihXX0" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+                
+                <div class="bookmarklet-card">
+                    <h3 class="bookmarklet-name">😺 Infinite Craft Mod Menu</h3>
+                    <p class="bookmarklet-description">Unlock powerful mods and cheats for Infinite Craft game.</p>
+                    <div class="tooltip">
+                        <a href="https://pastebin.com/raw/br3XY3iR" target="_blank" class="bookmarklet-btn">
+                            <span>Get Code</span>
+                        </a>
+                        <span class="tooltiptext">Click to view code on Pastebin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 tcaw bookmarks | All bookmarklets are provided as-is</p>
+    </footer>
+    
     <script>
-        // Wait for page to load
-        window.addEventListener('load', function() {
-            // Hide loading screen with fade out
-            const loadingScreen = document.getElementById('loading-screen');
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
+        // Typewriter Effect with Random Message Order
+        const messages = [
+            "tcaw was here hi",
+            "Top quality unblocked bookmarklets",
+            "Welcome to tcaw bookmarks",
+            "made by tcaw in his free time yayy",
+            "patchy and rojo cat are cool"
+        ];
+        
+        // Function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        let shuffledMessages = shuffleArray([...messages]);
+        let messageIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let isEnd = false;
+        
+        function typeWriter() {
+            const currentMessage = shuffledMessages[messageIndex];
+            const typewriterElement = document.getElementById('typewriter');
+            
+            if (isDeleting) {
+                typewriterElement.textContent = currentMessage.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentMessage.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentMessage.length) {
+                isEnd = true;
                 setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 1000);
-            }, 1500);
+                    isDeleting = true;
+                }, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                messageIndex++;
+                if (messageIndex === shuffledMessages.length) {
+                    // Reshuffle messages when we've gone through them all
+                    shuffledMessages = shuffleArray([...messages]);
+                    messageIndex = 0;
+                }
+            }
             
-            // Navigation functionality
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page');
+            const speed = isDeleting ? 50 : isEnd ? 100 : 150;
+            setTimeout(typeWriter, speed);
             
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links and pages
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    pages.forEach(page => page.classList.remove('active'));
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // Show corresponding page
-                    const pageId = this.getAttribute('data-page');
-                    document.getElementById(pageId).classList.add('active');
-                });
+            if (isEnd && !isDeleting) {
+                isEnd = false;
+            }
+        }
+        
+        // Start the typewriter effect when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(typeWriter, 1000);
+            
+            // Make Home the default active category
+            document.querySelector('[data-category="home"]').classList.add('active-category');
+        });
+        
+        // Category switching
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active link
+                document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active-category'));
+                this.classList.add('active-category');
+                
+                // Hide all categories
+                document.querySelectorAll('.category').forEach(cat => cat.classList.add('hidden'));
+                
+                // Show selected category
+                const category = this.getAttribute('data-category');
+                document.getElementById(`${category}-category`).classList.remove('hidden');
             });
+        });
+        
+        // Start button functionality
+        document.getElementById('start-button').addEventListener('click', () => {
+            document.querySelector('[data-category="games"]').click();
         });
     </script>
 </body>
