@@ -1,1 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarklet Maker - Tcaw</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .navbar-title {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: #00ff9d;
+            background: rgba(0, 255, 157, 0.1);
+        }
+        
+        .home-link {
+            color: #00ff9d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+        
+        .home-link:hover {
+            background: rgba(0, 255, 157, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
 
+        /* Content Section */
+        .content-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Bookmarklet Maker Container */
+        .maker-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .code-input, .code-output {
+            width: 100%;
+            min-height: 200px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .code-output {
+            background: #0f0f0f;
+            color: #b0b0b0;
+            cursor: not-allowed;
+        }
+
+        .code-output:focus {
+            outline: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 255, 157, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+
+        .btn-success:hover {
+            background: rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-warning {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid #f59e0b;
+            color: #f59e0b;
+        }
+
+        .btn-warning:hover {
+            background: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Copy Success Popup */
+        .copy-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            border: 1px solid #00ff9d;
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-popup.show {
+            opacity: 1;
+        }
+
+        .check-gif {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .popup-text {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Test Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #00ff9d;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-title {
+            color: #00ff9d;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background: rgba(0, 255, 157, 0.3);
+        }
+
+        /* Instructions */
+        .instructions {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #333;
+            margin-top: 40px;
+        }
+
+        .instructions-title {
+            color: #00ff9d;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .instructions-list {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .instructions-list li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-links {
+                gap: 15px;
+            }
+            
+            .content-section {
+                padding: 40px 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .maker-container {
+                padding: 25px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .navbar-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="Tcaw Logo" class="navbar-logo">
+            <h1 class="navbar-title">Tcaw</h1>
+        </div>
+        <div class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="bookmarks.html" class="nav-link">Bookmarks</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="https://tclaws.xyz" class="home-link">
+                <i class="fas fa-home"></i>
+                <span>Back to tclaws.xyz</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <h2 class="section-title">Bookmarklet Maker</h2>
+        <p class="section-subtitle">Convert your JavaScript code into bookmarklets with one click</p>
+        
+        <div class="maker-container">
+            <div class="input-group">
+                <label class="input-label">Enter JavaScript Code:</label>
+                <textarea class="code-input" id="jsInput" placeholder="Enter your JavaScript code here... Example: alert('Hello World!');"></textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="createBtn">
+                    <i class="fas fa-sparkles"></i>
+                    Create Bookmarklet
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-broom"></i>
+                    Clear Code
+                </button>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Bookmarklet Code:</label>
+                <textarea class="code-output" id="bookmarkletOutput" placeholder="Your formatted bookmarklet code will appear here..." readonly></textarea>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-warning" id="testBtn">
+                    <i class="fas fa-play"></i>
+                    Test Bookmarklet
+                </button>
+                <button class="btn btn-success" id="copyBtn">
+                    <i class="fas fa-copy"></i>
+                    Copy Code
+                </button>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3 class="instructions-title">How to Use:</h3>
+            <ol class="instructions-list">
+                <li>Enter your JavaScript code in the first box</li>
+                <li>Click "Create Bookmarklet" to convert it</li>
+                <li>Test the bookmarklet with the "Test Bookmarklet" button</li>
+                <li>Copy the generated code with the "Copy Code" button</li>
+                <li>Create a new bookmark in your browser and paste the code as the URL</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Copy Success Popup -->
+    <div class="copy-popup" id="copyPopup">
+        <img src="https://i.ibb.co/twj45p14/70a552e8e955049c8587b2d7606cd6a6-ezgif-com-gif-maker.gif" alt="Checkmark" class="check-gif">
+        <span class="popup-text">Bookmarklet code copied!</span>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="modal-overlay" id="testModal">
+        <div class="modal">
+            <h3 class="modal-title">Bookmarklet Test</h3>
+            <p class="modal-text">To stop the test, reload the page or open tclaws.xyz into another tab! 😁🔧</p>
+            <button class="modal-btn" id="closeModal">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 Tcaw. All rights reserved.</p>
+        <p style="margin-top: 10px;">python coder and stuff</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const jsInput = document.getElementById('jsInput');
+        const bookmarkletOutput = document.getElementById('bookmarkletOutput');
+        const createBtn = document.getElementById('createBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const testBtn = document.getElementById('testBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const copyPopup = document.getElementById('copyPopup');
+        const testModal = document.getElementById('testModal');
+        const closeModal = document.getElementById('closeModal');
+
+        // Create Bookmarklet
+        createBtn.addEventListener('click', function() {
+            const jsCode = jsInput.value.trim();
+            
+            if (!jsCode) {
+                alert('Please enter some JavaScript code first!');
+                return;
+            }
+            
+            // Format the code as a bookmarklet
+            const formattedCode = `javascript:(function(){${jsCode.replace(/\n/g, ' ')}})();`;
+            bookmarkletOutput.value = formattedCode;
+        });
+
+        // Clear Code
+        clearBtn.addEventListener('click', function() {
+            jsInput.value = '';
+            bookmarkletOutput.value = '';
+        });
+
+        // Test Bookmarklet
+        testBtn.addEventListener('click', function() {
+            const bookmarkletCode = bookmarkletOutput.value.trim();
+            
+            if (!bookmarkletCode) {
+                alert('Please create a bookmarklet first!');
+                return;
+            }
+            
+            // Show the modal first
+            testModal.classList.add('show');
+            
+            // Execute the bookmarklet code after a short delay
+            setTimeout(() => {
+                try {
+                    // Remove the "javascript:" prefix and execute
+                    const codeToExecute = bookmarkletCode.replace('javascript:', '');
+                    eval(codeToExecute);
+                } catch (error) {
+                    console.error('Error executing bookmarklet:', error);
+                    alert('Error testing bookmarklet: ' + error.message);
+                }
+            }, 500);
+        });
+
+        // Copy Code
+        copyBtn.addEventListener('click', function() {
+            const bookmarkletCode = bookmarkletOutput.value.trim();
+            
+            if (!bookmarkletCode) {
+                alert('Please create a bookmarklet first!');
+                return;
+            }
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(bookmarkletCode).then(() => {
+                // Show success popup
+                copyPopup.classList.add('show');
+                
+                // Hide popup after 5 seconds
+                setTimeout(() => {
+                    copyPopup.classList.remove('show');
+                }, 5000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy code to clipboard');
+            });
+        });
+
+        // Close Modal
+        closeModal.addEventListener('click', function() {
+            testModal.classList.remove('show');
+        });
+
+        // Close modal when clicking outside
+        testModal.addEventListener('click', function(e) {
+            if (e.target === testModal) {
+                testModal.classList.remove('show');
+            }
+        });
+
+        // Example code for user convenience
+        jsInput.value = `// Example: Change background color
+document.body.style.backgroundColor = '#1a1a1a';
+document.body.style.color = '#00ff9d';
+alert('Background changed!');`;
+    </script>
+</body>
+</html>
