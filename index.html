@@ -86,6 +86,22 @@
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
         }
         
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border: 3px solid #00ff9d;
+            box-shadow: 0 0 30px rgba(0, 255, 157, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 255, 157, 0.6);
+        }
+        
         .hero-title {
             font-size: 4rem;
             margin-bottom: 20px;
@@ -163,6 +179,11 @@
                 gap: 15px;
             }
             
+            .hero-image {
+                width: 180px;
+                height: 180px;
+            }
+            
             .hero-title {
                 font-size: 3rem;
             }
@@ -197,6 +218,11 @@
                 flex-wrap: wrap;
             }
             
+            .hero-image {
+                width: 150px;
+                height: 150px;
+            }
+            
             .hero-title {
                 font-size: 2.5rem;
             }
@@ -229,6 +255,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="Cool Tcaw Image" class="hero-image">
         <h1 class="hero-title">Tcaw</h1>
         <p class="hero-subtitle">hi I'm tcaw<br>python coder and stuff</p>
         
