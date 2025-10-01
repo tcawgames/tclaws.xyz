@@ -73,6 +73,7 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
         
         .circle-button {
@@ -96,7 +97,7 @@
             box-shadow: 0 5px 15px rgba(0, 255, 157, 0.3);
         }
         
-        .socials-btn {
+        .home-btn {
             display: inline-block;
             padding: 12px 30px;
             background: transparent;
@@ -107,9 +108,10 @@
             font-weight: 500;
             transition: all 0.3s ease;
             letter-spacing: 1px;
+            margin-top: 10px;
         }
         
-        .socials-btn:hover {
+        .home-btn:hover {
             background: rgba(0, 255, 157, 0.1);
             box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
         }
@@ -122,6 +124,16 @@
             .name {
                 font-size: 2rem;
             }
+            
+            .button-container {
+                gap: 10px;
+            }
+            
+            .circle-button {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -133,13 +145,27 @@
         <p class="bio">python coder and stuff</p>
         
         <div class="button-container">
-            <a href="#" class="circle-button"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="circle-button"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="circle-button"><i class="fab fa-github"></i></a>
-            <a href="#" class="circle-button"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/tclawss/" class="circle-button" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://x.com/TclawsR" class="circle-button" title="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.gg/e53s8XpGKk" class="circle-button" title="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="https://www.youtube.com/@TclawsRBLX" class="circle-button" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.tiktok.com/@tclawsrblx" class="circle-button" title="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
         </div>
         
-        <a href="#" class="socials-btn">SOCIALS</a>
+        <a href="https://tclaws.xyz" class="home-btn">
+            <i class="fas fa-arrow-left"></i>
+            Back to tclaws.xyz
+        </a>
     </div>
 </body>
 </html>
