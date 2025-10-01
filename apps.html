@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tcaw - Apps</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .navbar-title {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: #00ff9d;
+            background: rgba(0, 255, 157, 0.1);
+        }
+        
+        .home-link {
+            color: #00ff9d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+        
+        .home-link:hover {
+            background: rgba(0, 255, 157, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 40vh;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d;
+            letter-spacing: 3px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #b3ffdf;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Apps Grid */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .app-card {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .app-card:hover::before {
+            left: 100%;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff9d;
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.2);
+        }
+        
+        .app-icon {
+            font-size: 3rem;
+            color: #00ff9d;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 50%;
+            background: rgba(0, 255, 157, 0.1);
+        }
+        
+        .app-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .app-description {
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        .app-features {
+            text-align: left;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+        
+        .app-features li {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .app-features li::before {
+            content: '✓';
+            color: #00ff9d;
+            font-weight: bold;
+            position: absolute;
+            left: -20px;
+        }
+        
+        .app-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(0, 255, 157, 0.1);
+            border: 2px solid #00ff9d;
+            color: #00ff9d;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .app-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Ad Space */
+        .ad-space {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 40px 0;
+            color: #b0b0b0;
+        }
+        
+        .ad-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+        }
+        
+        /* Coming Soon Badge */
+        .coming-soon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff6b00;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-links {
+                gap: 15px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .content-section {
+                padding: 40px 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .navbar-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .app-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="Tcaw Logo" class="navbar-logo">
+            <h1 class="navbar-title">Tcaw</h1>
+        </div>
+        <div class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="bookmarks.html" class="nav-link">Bookmarks</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="https://tclaws.xyz" class="home-link">
+                <i class="fas fa-home"></i>
+                <span>Back to tclaws.xyz</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Tcaw Apps</h1>
+        <p class="hero-subtitle">Collection of tools and utilities for browsing, gaming, and productivity</p>
+    </section>
+
+    <!-- Ad Space -->
+    <div class="content-section">
+        <div class="ad-space">
+            <div class="ad-label">Advertisement</div>
+            <p>Ad space optimized for AdSense</p>
+        </div>
+    </div>
+
+    <!-- Apps Section -->
+    <section class="content-section">
+        <h2 class="section-title">Featured Applications</h2>
+        <p class="section-subtitle">Explore our collection of tools designed to enhance your browsing experience</p>
+        
+        <div class="apps-grid">
+            <!-- Bookmarks App Card -->
+            <div class="app-card">
+                <div class="app-icon">📚</div>
+                <h3 class="app-title">Bookmarklets Collection</h3>
+                <p class="app-description">A curated collection of powerful bookmarklets for gaming, tools, and modifications.</p>
+                
+                <ul class="app-features">
+                    <li>Unblocked games and utilities</li>
+                    <li>One-click installation</li>
+                    <li>Regular updates</li>
+                    <li>School/work friendly</li>
+                </ul>
+                
+                <a href="bookmarks.html" class="app-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Explore Bookmarks
+                </a>
+            </div>
+            
+            <!-- Bookmarklet Maker App Card -->
+            <div class="app-card">
+                <div class="coming-soon">Coming Soon</div>
+                <div class="app-icon">⚡</div>
+                <h3 class="app-title">Bookmarklet Maker</h3>
+                <p class="app-description">Create custom bookmarklets with our easy-to-use visual editor. No coding required!</p>
+                
+                <ul class="app-features">
+                    <li>Visual code editor</li>
+                    <li>Pre-built templates</li>
+                    <li>One-click deployment</li>
+                    <li>Export and share</li>
+                </ul>
+                
+                <a href="bookmarklet-maker.html" class="app-btn">
+                    <i class="fas fa-wrench"></i>
+                    Create Bookmarklets
+                </a>
+            </div>
+            
+            <!-- Game Hub App Card -->
+            <div class="app-card">
+                <div class="app-icon">🎮</div>
+                <h3 class="app-title">Game Hub</h3>
+                <p class="app-description">Access a wide variety of unblocked games perfect for school or work environments.</p>
+                
+                <ul class="app-features">
+                    <li>No installation required</li>
+                    <li>Works on restricted networks</li>
+                    <li>Classic and modern games</li>
+                    <li>Mobile friendly</li>
+                </ul>
+                
+                <a href="games.html" class="app-btn">
+                    <i class="fas fa-gamepad"></i>
+                    Play Games
+                </a>
+            </div>
+            
+            <!-- Proxy Browser App Card -->
+            <div class="app-card">
+                <div class="app-icon">🌐</div>
+                <h3 class="app-title">Proxy Browser</h3>
+                <p class="app-description">Browse securely and access restricted content with our built-in proxy solution.</p>
+                
+                <ul class="app-features">
+                    <li>Built-in privacy protection</li>
+                    <li>Bypass network restrictions</li>
+                    <li>Fast connection speeds</li>
+                    <li>No logs kept</li>
+                </ul>
+                
+                <a href="browser.html" class="app-btn">
+                    <i class="fas fa-compass"></i>
+                    Start Browsing
+                </a>
+            </div>
+            
+            <!-- Tool Suite App Card -->
+            <div class="app-card">
+                <div class="app-icon">🔧</div>
+                <h3 class="app-title">Tool Suite</h3>
+                <p class="app-description">Essential tools and utilities for productivity, security, and enhanced browsing.</p>
+                
+                <ul class="app-features">
+                    <li>Ad blocker and privacy tools</li>
+                    <li>Custom tab cloaking</li>
+                    <li>Auto-clicker utilities</li>
+                    <li>Performance boosters</li>
+                </ul>
+                
+                <a href="tools.html" class="app-btn">
+                    <i class="fas fa-tools"></i>
+                    Explore Tools
+                </a>
+            </div>
+            
+            <!-- Python Playground App Card -->
+            <div class="app-card">
+                <div class="app-icon">🐍</div>
+                <h3 class="app-title">Python Playground</h3>
+                <p class="app-description">Run and test Python code directly in your browser with our interactive playground.</p>
+                
+                <ul class="app-features">
+                    <li>Browser-based Python IDE</li>
+                    <li>No setup required</li>
+                    <li>Save and share code</li>
+                    <li>Learning resources</li>
+                </ul>
+                
+                <a href="python.html" class="app-btn">
+                    <i class="fas fa-code"></i>
+                    Start Coding
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Another Ad Space -->
+    <div class="content-section">
+        <div class="ad-space">
+            <div class="ad-label">Advertisement</div>
+            <p>Ad space optimized for AdSense</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 Tcaw. All rights reserved.</p>
+        <p style="margin-top: 10px;">python coder and stuff</p>
+        <p style="margin-top: 10px;">
+            <a href="https://tclaws.xyz" style="color: #00ff9d; text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Back to tclaws.xyz
+            </a>
+        </p>
+    </footer>
+</body>
+</html>
