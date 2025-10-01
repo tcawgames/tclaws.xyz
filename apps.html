@@ -151,6 +151,7 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-bottom: 60px;
+            justify-content: center;
         }
         
         .app-card {
@@ -247,23 +248,6 @@
             transform: translateY(-2px);
         }
         
-        /* Ad Space */
-        .ad-space {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 40px 20px;
-            text-align: center;
-            margin: 40px 0;
-            color: #b0b0b0;
-        }
-        
-        .ad-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
         /* Footer */
         .footer {
             text-align: center;
@@ -272,19 +256,6 @@
             color: #b0b0b0;
             font-size: 0.9rem;
             background: #0a0a0a;
-        }
-        
-        /* Coming Soon Badge */
-        .coming-soon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #ff6b00;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
         }
         
         /* Responsive Design */
@@ -311,6 +282,9 @@
             
             .apps-grid {
                 grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
         
@@ -359,16 +333,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <h1 class="hero-title">Tcaw Apps</h1>
-        <p class="hero-subtitle">Collection of tools and utilities for browsing, gaming, and productivity</p>
+        <p class="hero-subtitle">Collection of tools and utilities for browsing and productivity</p>
     </section>
-
-    <!-- Ad Space -->
-    <div class="content-section">
-        <div class="ad-space">
-            <div class="ad-label">Advertisement</div>
-            <p>Ad space optimized for AdSense</p>
-        </div>
-    </div>
 
     <!-- Apps Section -->
     <section class="content-section">
@@ -397,7 +363,6 @@
             
             <!-- Bookmarklet Maker App Card -->
             <div class="app-card">
-                <div class="coming-soon">Coming Soon</div>
                 <div class="app-icon">⚡</div>
                 <h3 class="app-title">Bookmarklet Maker</h3>
                 <p class="app-description">Create custom bookmarklets with our easy-to-use visual editor. No coding required!</p>
@@ -414,92 +379,8 @@
                     Create Bookmarklets
                 </a>
             </div>
-            
-            <!-- Game Hub App Card -->
-            <div class="app-card">
-                <div class="app-icon">🎮</div>
-                <h3 class="app-title">Game Hub</h3>
-                <p class="app-description">Access a wide variety of unblocked games perfect for school or work environments.</p>
-                
-                <ul class="app-features">
-                    <li>No installation required</li>
-                    <li>Works on restricted networks</li>
-                    <li>Classic and modern games</li>
-                    <li>Mobile friendly</li>
-                </ul>
-                
-                <a href="games.html" class="app-btn">
-                    <i class="fas fa-gamepad"></i>
-                    Play Games
-                </a>
-            </div>
-            
-            <!-- Proxy Browser App Card -->
-            <div class="app-card">
-                <div class="app-icon">🌐</div>
-                <h3 class="app-title">Proxy Browser</h3>
-                <p class="app-description">Browse securely and access restricted content with our built-in proxy solution.</p>
-                
-                <ul class="app-features">
-                    <li>Built-in privacy protection</li>
-                    <li>Bypass network restrictions</li>
-                    <li>Fast connection speeds</li>
-                    <li>No logs kept</li>
-                </ul>
-                
-                <a href="browser.html" class="app-btn">
-                    <i class="fas fa-compass"></i>
-                    Start Browsing
-                </a>
-            </div>
-            
-            <!-- Tool Suite App Card -->
-            <div class="app-card">
-                <div class="app-icon">🔧</div>
-                <h3 class="app-title">Tool Suite</h3>
-                <p class="app-description">Essential tools and utilities for productivity, security, and enhanced browsing.</p>
-                
-                <ul class="app-features">
-                    <li>Ad blocker and privacy tools</li>
-                    <li>Custom tab cloaking</li>
-                    <li>Auto-clicker utilities</li>
-                    <li>Performance boosters</li>
-                </ul>
-                
-                <a href="tools.html" class="app-btn">
-                    <i class="fas fa-tools"></i>
-                    Explore Tools
-                </a>
-            </div>
-            
-            <!-- Python Playground App Card -->
-            <div class="app-card">
-                <div class="app-icon">🐍</div>
-                <h3 class="app-title">Python Playground</h3>
-                <p class="app-description">Run and test Python code directly in your browser with our interactive playground.</p>
-                
-                <ul class="app-features">
-                    <li>Browser-based Python IDE</li>
-                    <li>No setup required</li>
-                    <li>Save and share code</li>
-                    <li>Learning resources</li>
-                </ul>
-                
-                <a href="python.html" class="app-btn">
-                    <i class="fas fa-code"></i>
-                    Start Coding
-                </a>
-            </div>
         </div>
     </section>
-
-    <!-- Another Ad Space -->
-    <div class="content-section">
-        <div class="ad-space">
-            <div class="ad-label">Advertisement</div>
-            <p>Ad space optimized for AdSense</p>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer class="footer">
