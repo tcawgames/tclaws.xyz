@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Launcher - Tcaw</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .navbar-title {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: #00ff9d;
+            background: rgba(0, 255, 157, 0.1);
+        }
+        
+        .home-link {
+            color: #00ff9d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+        
+        .home-link:hover {
+            background: rgba(0, 255, 157, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00ff9d;
+            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Launcher Container */
+        .launcher-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        .url-input::placeholder {
+            color: #666;
+        }
+
+        /* Sample Sites */
+        .sample-sites {
+            margin-bottom: 30px;
+        }
+
+        .sample-sites-title {
+            color: #b0b0b0;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .sample-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .sample-btn {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .sample-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 255, 157, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Iframe Container */
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .iframe-container.active {
+            display: flex;
+        }
+
+        .iframe-header {
+            background: #1a1a1a;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .iframe-title {
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .close-btn {
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 59, 59, 0.3);
+            box-shadow: 0 0 10px rgba(255, 59, 59, 0.3);
+        }
+
+        .iframe-content {
+            flex: 1;
+            position: relative;
+        }
+
+        .site-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* Error Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #ff3b3b;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-title {
+            color: #ff3b3b;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-text {
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            background: rgba(255, 59, 59, 0.2);
+            border: 1px solid #ff3b3b;
+            color: #ff3b3b;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background: rgba(255, 59, 59, 0.3);
+        }
+
+        /* Back to Home Button */
+        .back-home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 255, 157, 0.2);
+            border: 2px solid #00ff9d;
+            color: #00ff9d;
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+            opacity: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-decoration: none;
+        }
+
+        .back-home-btn:hover {
+            background: rgba(0, 255, 157, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .back-home-btn.hidden {
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-links {
+                gap: 15px;
+            }
+            
+            .content-section {
+                padding: 40px 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .launcher-container {
+                padding: 25px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sample-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .sample-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .navbar-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="Tcaw Logo" class="navbar-logo">
+            <h1 class="navbar-title">Tcaw</h1>
+        </div>
+        <div class="navbar-links">
+            <a href="https://tclaws.xyz" class="nav-link">Home</a>
+            <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
+            <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
+            <a href="https://tclaws.xyz/about" class="nav-link">About</a>
+            <a href="https://tclaws.xyz" class="home-link">
+                <i class="fas fa-home"></i>
+                <span>Back to tclaws.xyz</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <h2 class="section-title">Site Launcher</h2>
+        <p class="section-subtitle">Launch any website in a secure iframe with our easy-to-use launcher</p>
+        
+        <div class="launcher-container">
+            <div class="input-group">
+                <label class="input-label">Enter Website URL:</label>
+                <input type="text" class="url-input" id="urlInput" placeholder="https://example.com">
+            </div>
+            
+            <div class="sample-sites">
+                <div class="sample-sites-title">Quick Launch - Sample Sites:</div>
+                <div class="sample-buttons">
+                    <button class="sample-btn" data-url="https://tcawgames.github.io">
+                        <i class="fas fa-gamepad"></i>
+                        Tcaw Games
+                    </button>
+                    <button class="sample-btn" data-url="https://web.skyemu.app">
+                        <i class="fas fa-cloud"></i>
+                        SkyEmu
+                    </button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="launchBtn">
+                    <i class="fas fa-rocket"></i>
+                    Launch Site
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-broom"></i>
+                    Clear URL
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Iframe Container -->
+    <div class="iframe-container" id="iframeContainer">
+        <div class="iframe-header">
+            <div class="iframe-title" id="iframeTitle">Loading Site...</div>
+            <button class="close-btn" id="closeIframe">
+                <i class="fas fa-times"></i>
+                Close
+            </button>
+        </div>
+        <div class="iframe-content">
+            <iframe class="site-iframe" id="siteIframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal">
+            <h3 class="modal-title">Launch Failed</h3>
+            <p class="modal-text" id="errorMessage">This site cannot be loaded in an iframe due to security restrictions.</p>
+            <button class="modal-btn" id="closeModal">OK</button>
+        </div>
+    </div>
+
+    <!-- Back to Home Button -->
+    <a href="https://tclaws.xyz" class="back-home-btn" id="backHomeBtn">
+        <i class="fas fa-home"></i>
+        Back to tclaws.xyz
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 Tcaw. All rights reserved.</p>
+        <p style="margin-top: 10px;">python coder and stuff</p>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const urlInput = document.getElementById('urlInput');
+        const launchBtn = document.getElementById('launchBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const iframeContainer = document.getElementById('iframeContainer');
+        const siteIframe = document.getElementById('siteIframe');
+        const iframeTitle = document.getElementById('iframeTitle');
+        const closeIframe = document.getElementById('closeIframe');
+        const errorModal = document.getElementById('errorModal');
+        const errorMessage = document.getElementById('errorMessage');
+        const closeModal = document.getElementById('closeModal');
+        const backHomeBtn = document.getElementById('backHomeBtn');
+        const sampleButtons = document.querySelectorAll('.sample-btn');
+
+        // Sample site buttons
+        sampleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                urlInput.value = url;
+                launchSite(url);
+            });
+        });
+
+        // Launch site function
+        function launchSite(url) {
+            if (!url) {
+                showError('Please enter a valid URL');
+                return;
+            }
+
+            // Add https if missing
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            try {
+                // Set iframe source
+                siteIframe.src = url;
+                iframeTitle.textContent = `Loading: ${url}`;
+                
+                // Show iframe container
+                iframeContainer.classList.add('active');
+                backHomeBtn.classList.add('hidden');
+
+                // Update title when iframe loads
+                siteIframe.onload = function() {
+                    try {
+                        // Try to get the iframe's document title
+                        const iframeDoc = siteIframe.contentDocument || siteIframe.contentWindow.document;
+                        iframeTitle.textContent = iframeDoc.title || url;
+                    } catch (e) {
+                        // Cross-origin restriction - use URL as title
+                        iframeTitle.textContent = new URL(url).hostname;
+                    }
+                };
+
+                // Handle iframe errors
+                siteIframe.onerror = function() {
+                    showError('Failed to load the website. It may be blocked by the site\'s security settings.');
+                };
+
+            } catch (error) {
+                showError('Invalid URL or security restriction prevented loading.');
+            }
+        }
+
+        // Launch button event
+        launchBtn.addEventListener('click', function() {
+            launchSite(urlInput.value.trim());
+        });
+
+        // Clear button event
+        clearBtn.addEventListener('click', function() {
+            urlInput.value = '';
+            urlInput.focus();
+        });
+
+        // Close iframe event
+        closeIframe.addEventListener('click', function() {
+            iframeContainer.classList.remove('active');
+            siteIframe.src = '';
+            backHomeBtn.classList.remove('hidden');
+        });
+
+        // Close modal event
+        closeModal.addEventListener('click', function() {
+            errorModal.classList.remove('show');
+        });
+
+        // Error handling function
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorModal.classList.add('show');
+        }
+
+        // Close modal when clicking outside
+        errorModal.addEventListener('click', function(e) {
+            if (e.target === errorModal) {
+                errorModal.classList.remove('show');
+            }
+        });
+
+        // Enter key to launch
+        urlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                launchSite(urlInput.value.trim());
+            }
+        });
+
+        // Example URL for user convenience
+        urlInput.value = 'https://example.com';
+    </script>
+</body>
+</html>
