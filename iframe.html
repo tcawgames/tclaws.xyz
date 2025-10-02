@@ -19,7 +19,7 @@
             min-height: 100vh;
             color: white;
         }
-        
+
         /* Navbar Styles */
         .navbar {
             background: rgba(10, 10, 10, 0.95);
@@ -93,29 +93,31 @@
             box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
         }
 
-        /* Content Section */
-        .content-section {
-            padding: 60px 5%;
-            max-width: 1000px;
-            margin: 0 auto;
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 40vh;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
         }
         
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 40px;
-            color: #00ff9d;
-            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d;
+            letter-spacing: 3px;
         }
         
-        .section-subtitle {
-            text-align: center;
-            color: #b0b0b0;
-            margin-bottom: 50px;
+        .hero-subtitle {
             font-size: 1.2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 40px;
+            color: #b3ffdf;
+            max-width: 600px;
+            line-height: 1.6;
         }
 
         /* Launcher Container */
@@ -241,159 +243,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Iframe Container */
-        .iframe-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-        }
-
-        .iframe-container.active {
-            display: flex;
-        }
-
-        .iframe-header {
-            background: #1a1a1a;
-            padding: 15px 20px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .iframe-title {
-            color: #00ff9d;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .close-btn {
-            background: rgba(255, 59, 59, 0.2);
-            border: 1px solid #ff3b3b;
-            color: #ff3b3b;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .close-btn:hover {
-            background: rgba(255, 59, 59, 0.3);
-            box-shadow: 0 0 10px rgba(255, 59, 59, 0.3);
-        }
-
-        .iframe-content {
-            flex: 1;
-            position: relative;
-        }
-
-        .site-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-
-        /* Error Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: #1a1a1a;
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid #ff3b3b;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-        }
-
-        .modal-title {
-            color: #ff3b3b;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .modal-text {
-            color: #b0b0b0;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .modal-btn {
-            background: rgba(255, 59, 59, 0.2);
-            border: 1px solid #ff3b3b;
-            color: #ff3b3b;
-            padding: 10px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .modal-btn:hover {
-            background: rgba(255, 59, 59, 0.3);
-        }
-
-        /* Back to Home Button */
-        .back-home-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 255, 157, 0.2);
-            border: 2px solid #00ff9d;
-            color: #00ff9d;
-            padding: 12px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            z-index: 99;
-            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
-            opacity: 1;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-decoration: none;
-        }
-
-        .back-home-btn:hover {
-            background: rgba(0, 255, 157, 0.3);
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.7);
-            transform: translateY(-3px);
-        }
-
-        .back-home-btn.hidden {
-            display: none;
-        }
-
         /* Footer */
         .footer {
             text-align: center;
@@ -408,14 +257,6 @@
         @media (max-width: 768px) {
             .navbar-links {
                 gap: 15px;
-            }
-            
-            .content-section {
-                padding: 40px 20px;
-            }
-            
-            .section-title {
-                font-size: 2rem;
             }
             
             .launcher-container {
@@ -454,14 +295,11 @@
                 justify-content: space-between;
                 flex-wrap: wrap;
             }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
         }
     </style>
 </head>
 <body>
+
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar-brand">
@@ -473,6 +311,7 @@
             <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
             <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
             <a href="https://tclaws.xyz/about" class="nav-link">About</a>
+            <a href="https://tclaws.xyz/play" class="nav-link">Play</a>
             <a href="https://tclaws.xyz" class="home-link">
                 <i class="fas fa-home"></i>
                 <span>Back to tclaws.xyz</span>
@@ -480,11 +319,14 @@
         </div>
     </nav>
 
-    <!-- Content Section -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Site Launcher</h1>
+        <p class="hero-subtitle">Launch any website in a secure iframe with our easy-to-use launcher</p>
+    </section>
+
+    <!-- Launcher Container -->
     <section class="content-section">
-        <h2 class="section-title">Site Launcher</h2>
-        <p class="section-subtitle">Launch any website in a secure iframe with our easy-to-use launcher</p>
-        
         <div class="launcher-container">
             <div class="input-group">
                 <label class="input-label">Enter Website URL:</label>
@@ -518,35 +360,6 @@
         </div>
     </section>
 
-    <!-- Iframe Container -->
-    <div class="iframe-container" id="iframeContainer">
-        <div class="iframe-header">
-            <div class="iframe-title" id="iframeTitle">Loading Site...</div>
-            <button class="close-btn" id="closeIframe">
-                <i class="fas fa-times"></i>
-                Close
-            </button>
-        </div>
-        <div class="iframe-content">
-            <iframe class="site-iframe" id="siteIframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
-        </div>
-    </div>
-
-    <!-- Error Modal -->
-    <div class="modal-overlay" id="errorModal">
-        <div class="modal">
-            <h3 class="modal-title">Launch Failed</h3>
-            <p class="modal-text" id="errorMessage">This site cannot be loaded in an iframe due to security restrictions.</p>
-            <button class="modal-btn" id="closeModal">OK</button>
-        </div>
-    </div>
-
-    <!-- Back to Home Button -->
-    <a href="https://tclaws.xyz" class="back-home-btn" id="backHomeBtn">
-        <i class="fas fa-home"></i>
-        Back to tclaws.xyz
-    </a>
-
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2023 Tcaw. All rights reserved.</p>
@@ -554,117 +367,20 @@
     </footer>
 
     <script>
-        // DOM Elements
         const urlInput = document.getElementById('urlInput');
         const launchBtn = document.getElementById('launchBtn');
         const clearBtn = document.getElementById('clearBtn');
-        const iframeContainer = document.getElementById('iframeContainer');
-        const siteIframe = document.getElementById('siteIframe');
-        const iframeTitle = document.getElementById('iframeTitle');
-        const closeIframe = document.getElementById('closeIframe');
-        const errorModal = document.getElementById('errorModal');
-        const errorMessage = document.getElementById('errorMessage');
-        const closeModal = document.getElementById('closeModal');
-        const backHomeBtn = document.getElementById('backHomeBtn');
         const sampleButtons = document.querySelectorAll('.sample-btn');
 
-        // Sample site buttons
-        sampleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const url = this.getAttribute('data-url');
-                urlInput.value = url;
-                launchSite(url);
-            });
-        });
-
-        // Launch site function
         function launchSite(url) {
-            if (!url) {
-                showError('Please enter a valid URL');
-                return;
-            }
-
-            // Add https if missing
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-
-            try {
-                // Set iframe source
-                siteIframe.src = url;
-                iframeTitle.textContent = `Loading: ${url}`;
-                
-                // Show iframe container
-                iframeContainer.classList.add('active');
-                backHomeBtn.classList.add('hidden');
-
-                // Update title when iframe loads
-                siteIframe.onload = function() {
-                    try {
-                        // Try to get the iframe's document title
-                        const iframeDoc = siteIframe.contentDocument || siteIframe.contentWindow.document;
-                        iframeTitle.textContent = iframeDoc.title || url;
-                    } catch (e) {
-                        // Cross-origin restriction - use URL as title
-                        iframeTitle.textContent = new URL(url).hostname;
-                    }
-                };
-
-                // Handle iframe errors
-                siteIframe.onerror = function() {
-                    showError('Failed to load the website. It may be blocked by the site\'s security settings.');
-                };
-
-            } catch (error) {
-                showError('Invalid URL or security restriction prevented loading.');
-            }
+            if (!url) return alert('Please enter a valid URL');
+            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+            window.open(url, '_blank');
         }
 
-        // Launch button event
-        launchBtn.addEventListener('click', function() {
-            launchSite(urlInput.value.trim());
-        });
-
-        // Clear button event
-        clearBtn.addEventListener('click', function() {
-            urlInput.value = '';
-            urlInput.focus();
-        });
-
-        // Close iframe event
-        closeIframe.addEventListener('click', function() {
-            iframeContainer.classList.remove('active');
-            siteIframe.src = '';
-            backHomeBtn.classList.remove('hidden');
-        });
-
-        // Close modal event
-        closeModal.addEventListener('click', function() {
-            errorModal.classList.remove('show');
-        });
-
-        // Error handling function
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorModal.classList.add('show');
-        }
-
-        // Close modal when clicking outside
-        errorModal.addEventListener('click', function(e) {
-            if (e.target === errorModal) {
-                errorModal.classList.remove('show');
-            }
-        });
-
-        // Enter key to launch
-        urlInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                launchSite(urlInput.value.trim());
-            }
-        });
-
-        // Example URL for user convenience
-        urlInput.value = 'https://example.com';
+        launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
+        clearBtn.addEventListener('click', () => urlInput.value = '');
+        sampleButtons.forEach(btn => btn.addEventListener('click', () => launchSite(btn.dataset.url)));
     </script>
 </body>
-</html>
+</
