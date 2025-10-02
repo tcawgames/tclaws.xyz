@@ -7,42 +7,49 @@
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- Styles unchanged from your previous code --- */
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-        body {background:#0a0a0a; min-height:100vh; color:white;}
-        .navbar {background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);padding:15px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #333;}
-        .navbar-brand {display:flex;align-items:center;gap:15px;}
-        .navbar-logo {width:40px;height:40px;border-radius:50%;object-fit:cover;}
-        .navbar-title {font-size:1.8rem;text-shadow:0 0 10px #00ff9d,0 0 20px #00ff9d;color:#fff;letter-spacing:2px;}
-        .navbar-links {display:flex;gap:25px;align-items:center;}
-        .nav-link {color:#e0e0e0;text-decoration:none;font-weight:500;transition:all 0.3s ease;padding:8px 15px;border-radius:5px;}
-        .nav-link:hover {color:#00ff9d;background:rgba(0,255,157,0.1);}
-        .home-link {color:#00ff9d;text-decoration:none;font-weight:600;font-size:1rem;display:flex;align-items:center;gap:0.5rem;transition:all 0.3s;padding:8px 15px;border-radius:6px;border:1px solid rgba(0,255,157,0.3);}
-        .home-link:hover {background:rgba(0,255,157,0.1);box-shadow:0 0 10px rgba(0,255,157,0.3);}
-        .hero {display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:40vh;padding:60px 20px;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);}
-        .hero-title {font-size:3.5rem;margin-bottom:20px;text-shadow:0 0 10px #00ff9d,0 0 20px #00ff9d,0 0 30px #00ff9d;letter-spacing:3px;}
-        .hero-subtitle {font-size:1.3rem;margin-bottom:40px;color:#b3ffdf;max-width:600px;line-height:1.6;}
-        .content-section {padding:60px 5%;max-width:1200px;margin:0 auto;}
-        .section-title {font-size:2.5rem;text-align:center;margin-bottom:40px;color:#00ff9d;text-shadow:0 0 10px rgba(0,255,157,0.3);}
-        .games-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;margin-bottom:60px;}
-        .game-card {background:#1a1a1a;border-radius:15px;padding:25px;border:1px solid #333;transition:all 0.3s ease;text-align:center;position:relative;overflow:hidden;}
-        .game-card::before {content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,255,157,0.1),transparent);transition:left 0.5s;}
-        .game-card:hover::before {left:100%;}
-        .game-card:hover {transform:translateY(-5px);border-color:#00ff9d;box-shadow:0 10px 30px rgba(0,255,157,0.2);}
-        .game-icon {width:80px;height:80px;border-radius:15px;object-fit:cover;margin:0 auto 15px;border:2px solid #333;transition:all 0.3s ease;}
-        .game-card:hover .game-icon {border-color:#00ff9d;transform:scale(1.1);}
-        .game-name {font-size:1.5rem;margin-bottom:10px;color:white;font-weight:600;}
-        .game-description {color:#b0b0b0;margin-bottom:20px;line-height:1.5;font-size:0.95rem;}
-        .game-category {display:inline-block;background:rgba(0,255,157,0.1);color:#00ff9d;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:500;margin-bottom:15px;}
-        .game-btn {display:inline-block;padding:10px 25px;background:rgba(0,255,157,0.1);border:2px solid #00ff9d;color:#00ff9d;text-decoration:none;border-radius:25px;font-weight:600;transition:all 0.3s ease;font-size:1rem;}
-        .game-btn:hover {background:rgba(0,255,157,0.2);box-shadow:0 0 15px rgba(0,255,157,0.4);transform:translateY(-2px);}
-        .loading {text-align:center;color:#b0b0b0;font-size:1.2rem;padding:60px 0;}
-        .loading-spinner {border:3px solid #333;border-top:3px solid #00ff9d;border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:0 auto 20px;}
-        @keyframes spin {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-        .error {text-align:center;color:#ff6b6b;font-size:1.2rem;padding:60px 0;background:#1a1a1a;border-radius:15px;border:1px solid #ff6b6b;}
-        .footer {text-align:center;padding:40px 20px;border-top:1px solid #333;color:#b0b0b0;font-size:0.9rem;background:#0a0a0a;}
-        @media (max-width:768px) {.navbar-links {gap:15px;} .hero-title{font-size:2.5rem;} .hero-subtitle{font-size:1.1rem;} .content-section{padding:40px 20px;} .section-title{font-size:2rem;} .games-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}}
-        @media (max-width:480px) {.navbar{flex-direction:column;gap:15px;padding:15px;} .navbar-links{width:100%;justify-content:space-between;flex-wrap:wrap;} .hero-title{font-size:2rem;} .game-card{padding:20px;} .games-grid{grid-template-columns:1fr;}}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0a0a0a; min-height: 100vh; color: white; }
+
+        .navbar { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
+        .navbar-brand { display: flex; align-items: center; gap: 15px; }
+        .navbar-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
+        .navbar-links { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 15px; border-radius: 5px; }
+        .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
+        .home-link { color: #00ff9d; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; padding: 8px 15px; border-radius: 6px; border: 1px solid rgba(0, 255, 157, 0.3); }
+        .home-link:hover { background: rgba(0, 255, 157, 0.1); box-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
+
+        .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 40vh; padding: 60px 20px; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+        .hero-title { font-size: 3.5rem; margin-bottom: 20px; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d; letter-spacing: 3px; }
+        .hero-subtitle { font-size: 1.3rem; margin-bottom: 40px; color: #b3ffdf; max-width: 600px; line-height: 1.6; }
+
+        .content-section { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 40px; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
+
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-bottom: 60px; }
+        .game-card { background: #1a1a1a; border-radius: 15px; padding: 25px; border: 1px solid #333; transition: all 0.3s ease; text-align: center; position: relative; overflow: hidden; }
+        .game-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent); transition: left 0.5s; }
+        .game-card:hover::before { left: 100%; }
+        .game-card:hover { transform: translateY(-5px); border-color: #00ff9d; box-shadow: 0 10px 30px rgba(0, 255, 157, 0.2); }
+        .game-icon { width: 80px; height: 80px; border-radius: 15px; object-fit: cover; margin: 0 auto 15px; border: 2px solid #333; transition: all 0.3s ease; }
+        .game-card:hover .game-icon { border-color: #00ff9d; transform: scale(1.1); }
+        .game-name { font-size: 1.5rem; margin-bottom: 10px; color: white; font-weight: 600; }
+        .game-description { color: #b0b0b0; margin-bottom: 20px; line-height: 1.5; font-size: 0.95rem; }
+        .game-category { display: inline-block; background: rgba(0, 255, 157, 0.1); color: #00ff9d; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 15px; }
+        .game-btn { display: inline-block; padding: 10px 25px; background: rgba(0, 255, 157, 0.1); border: 2px solid #00ff9d; color: #00ff9d; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; font-size: 1rem; }
+        .game-btn:hover { background: rgba(0, 255, 157, 0.2); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); transform: translateY(-2px); }
+
+        .loading { text-align: center; color: #b0b0b0; font-size: 1.2rem; padding: 60px 0; }
+        .loading-spinner { border: 3px solid #333; border-top: 3px solid #00ff9d; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .error { text-align: center; color: #ff6b6b; font-size: 1.2rem; padding: 60px 0; background: #1a1a1a; border-radius: 15px; border: 1px solid #ff6b6b; }
+
+        .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: #0a0a0a; }
+
+        @media (max-width: 768px) { .navbar-links { gap: 15px; } .hero-title { font-size: 2.5rem; } .hero-subtitle { font-size: 1.1rem; } .content-section { padding: 40px 20px; } .section-title { font-size: 2rem; } .games-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; } }
+        @media (max-width: 480px) { .navbar { flex-direction: column; gap: 15px; padding: 15px; } .navbar-links { width: 100%; justify-content: space-between; flex-wrap: wrap; } .hero-title { font-size: 2rem; } .game-card { padding: 20px; } .games-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -58,10 +65,7 @@
             <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
             <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
             <a href="https://tclaws.xyz/about" class="nav-link">About</a>
-            <a href="https://tclaws.xyz" class="home-link">
-                <i class="fas fa-home"></i>
-                <span>Back to tclaws.xyz</span>
-            </a>
+            <a href="https://tclaws.xyz" class="home-link"><i class="fas fa-home"></i> Back to tclaws.xyz</a>
         </div>
     </nav>
 
@@ -74,7 +78,7 @@
     <!-- Games Section -->
     <section class="content-section">
         <h2 class="section-title">Featured Games</h2>
-        
+
         <div class="loading" id="loadingState">
             <div class="loading-spinner"></div>
             Loading games...
@@ -89,6 +93,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2023 TcawPlay. All rights reserved.</p>
         <p style="margin-top: 10px;">python coder and stuff</p>
@@ -106,7 +111,7 @@
 
         async function loadGames() {
             try {
-                const response = await fetch('games.json'); // no leading slash
+                const response = await fetch('games.json');
                 if (!response.ok) throw new Error('Failed to load games');
                 const data = await response.json();
                 displayGames(data.games);
@@ -114,6 +119,10 @@
                 console.error('Error loading games:', error);
                 showError();
             }
+        }
+
+        function titleCase(str) {
+            return str.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
 
         function displayGames(games) {
@@ -125,13 +134,12 @@
                 gameCard.className = 'game-card';
 
                 gameCard.innerHTML = `
-                    <img src="${game.icon}" alt="${game.displayName}" class="game-icon" onerror="this.src='https://via.placeholder.com/80/1a1a1a/00ff9d?text=🎮'">
-                    <h3 class="game-name">${game.displayName}</h3>
+                    <img src="${game.icon}" alt="${titleCase(game.name)}" class="game-icon" onerror="this.src='https://via.placeholder.com/80/1a1a1a/00ff9d?text=🎮'">
+                    <h3 class="game-name">${titleCase(game.name)}</h3>
                     <span class="game-category">${game.category}</span>
                     <p class="game-description">${game.description}</p>
                     <a href="https://tclaws.xyz/${game.url}" class="game-btn">
-                        <i class="fas fa-play"></i>
-                        Play Now
+                        <i class="fas fa-play"></i> Play Now
                     </a>
                 `;
                 gamesGrid.appendChild(gameCard);
