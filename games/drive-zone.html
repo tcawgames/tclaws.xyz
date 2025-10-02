@@ -1,0 +1,247 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Zone - TcawPlay</title>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* (same CSS as before) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0a0a0a; min-height: 100vh; color: white; }
+        .navbar { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
+        .navbar-brand { display: flex; align-items: center; gap: 15px; }
+        .navbar-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
+        .navbar-links { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 15px; border-radius: 5px; }
+        .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
+        .home-link { color: #00ff9d; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; padding: 8px 15px; border-radius: 6px; border: 1px solid rgba(0, 255, 157, 0.3); }
+        .home-link:hover { background: rgba(0, 255, 157, 0.1); box-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
+        .game-container { background: rgba(26, 26, 26, 0.9); border-radius: 15px; padding: 25px; margin: 30px auto; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); max-width: 1200px; }
+        .game-content { position: relative; margin-bottom: 25px; }
+        .game-iframe-container { position: relative; width: 100%; height: 70vh; border-radius: 15px; overflow: hidden; border: 1px solid #333; background: #1a1a1a; transition: all 0.3s ease; }
+        .game-iframe { width: 100%; height: 100%; border: none; background: white; }
+        .game-iframe-container.fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; border-radius: 0; }
+        .game-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .single-title { font-size: 2.5rem; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); margin: 0; }
+        .btn-capsule { background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; color: #00ff9d; padding: 10px 20px; border-radius: 25px; transition: all 0.3s ease; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-capsule:hover { background: rgba(0, 255, 157, 0.2); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); }
+        .b-icon { font-size: 1.2rem; }
+        .game-controls { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
+        .control-btn { background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; color: #00ff9d; padding: 10px 20px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-weight: 600; }
+        .control-btn:hover { background: rgba(0, 255, 157, 0.2); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); }
+        .control-btn.active { background: rgba(0, 255, 157, 0.3); }
+        .control-btn.like.active { color: #00ff9d; }
+        .control-btn.dislike.active { color: #ff6b6b; }
+        .game-details { background: rgba(10, 10, 10, 0.7); border-radius: 15px; padding: 25px; margin-top: 25px; border: 1px solid #333; }
+        .game-details h3 { color: #00ff9d; margin-bottom: 15px; font-size: 1.5rem; }
+        .game-description { color: #b0b0b0; line-height: 1.6; margin-bottom: 20px; }
+        .game-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+        .meta-item { display: flex; align-items: center; gap: 8px; color: #b0b0b0; }
+        .meta-item i { color: #00ff9d; }
+        .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: rgba(10, 10, 10, 0.9); margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="TcawPlay Logo" class="navbar-logo">
+            <h1 class="navbar-title">TcawPlay</h1>
+        </div>
+        <div class="navbar-links">
+            <a href="https://tclaws.xyz" class="nav-link">Home</a>
+            <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
+            <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
+            <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
+            <a href="https://tclaws.xyz/about" class="nav-link">About</a>
+            <a href="https://tclaws.xyz" class="home-link">
+                <i class="fas fa-home"></i>
+                <span>Back to tclaws.xyz</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="game-container">
+                    <div class="game-content">
+                        <div class="game-iframe-container" id="game-player">
+                            <iframe class="game-iframe" id="game-area" src="https://html5.gamemonetize.co/preebt8pchos3u8ul57dozj2gulh46ms/" scrolling="none" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="game-info">
+                        <div class="header-left">
+                            <h1 class="single-title">Drive Zone</h1>
+                        </div>
+                        <div class="header-right">
+                            <div class="b-action2">
+                                <a href="#" onclick="toggleFullscreen()" class="btn btn-capsule" id="fullscreenBtn">
+                                    <i class="fas fa-expand b-icon"></i>Fullscreen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-controls">
+                        <button class="control-btn like" id="likeBtn">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span id="likeCount">100</span>
+                        </button>
+                        <button class="control-btn dislike" id="dislikeBtn">
+                            <i class="fas fa-thumbs-down"></i>
+                            <span id="dislikeCount">5</span>
+                        </button>
+                    </div>
+                    
+                    <div class="game-details">
+                        <h3>About Drive Zone</h3>
+                        <p class="game-description">
+                            Drive Zone is an exciting driving game that challenges your reflexes and control. Drive along tracks, dodge obstacles, and try to reach the finish line without crashing. The controls are smooth, the pace is fast, and each round is a new challenge.
+                        </p>
+                        <div class="game-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-car"></i>
+                                <span>Racing</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-road"></i>
+                                <span>Track</span>
+                            </div>
+                            <div class in="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>4.6/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div align="center">
+                    <div style="background: rgba(26, 26, 26, 0.7); border-radius: 10px; padding: 15px; margin-bottom: 20px; border: 1px solid #333;">
+                        <p style="color: #b0b0b0; font-size: 0.9rem;">Advertisement</p>
+                        <div style="width: 100%; height: 250px; background: rgba(0, 255, 157, 0.1); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #00ff9d;">
+                            Ad Space
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 TcawPlay. All rights reserved.</p>
+        <p style="margin-top: 10px;">python coder and stuff</p>
+        <p style="margin-top: 10px;">
+            <a href="https://tclaws.xyz" style="color: #00ff9d; text-decoration: none;">
+                <i class="fas fa-arrow-left"></i> Back to tclaws.xyz
+            </a>
+        </p>
+    </footer>
+
+    <script>
+        const likeBtn = document.getElementById('likeBtn');
+        const dislikeBtn = document.getElementById('dislikeBtn');
+        const likeCount = document.getElementById('likeCount');
+        const dislikeCount = document.getElementById('dislikeCount');
+        const gamePlayer = document.getElementById('game-player');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        let currentGame = {
+            id: 9,
+            title: "Drive Zone",
+            url: "https://html5.gamemonetize.co/preebt8pchos3u8ul57dozj2gulh46ms/",
+            likes: 100,
+            dislikes: 5
+        };
+
+        function initPage() {
+            likeBtn.addEventListener('click', handleLike);
+            dislikeBtn.addEventListener('click', handleDislike);
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+        }
+
+        function handleLike() {
+            const userVote = localStorage.getItem(`vote_${currentGame.id}`);
+            if (userVote === 'like') {
+                currentGame.likes--;
+                localStorage.removeItem(`vote_${currentGame.id}`);
+                likeBtn.classList.remove('active');
+            } else {
+                if (userVote === 'dislike') currentGame.dislikes--;
+                currentGame.likes++;
+                localStorage.setItem(`vote_${currentGame.id}`, 'like');
+                likeBtn.classList.add('active');
+                dislikeBtn.classList.remove('active');
+            }
+            updateCounts();
+        }
+
+        function handleDislike() {
+            const userVote = localStorage.getItem(`vote_${currentGame.id}`);
+            if (userVote === 'dislike') {
+                currentGame.dislikes--;
+                localStorage.removeItem(`vote_${currentGame.id}`);
+                dislikeBtn.classList.remove('active');
+            } else {
+                if (userVote === 'like') currentGame.likes--;
+                currentGame.dislikes++;
+                localStorage.setItem(`vote_${currentGame.id}`, 'dislike');
+                dislikeBtn.classList.add('active');
+                likeBtn.classList.remove('active');
+            }
+            updateCounts();
+        }
+
+        function updateCounts() {
+            likeCount.textContent = currentGame.likes;
+            dislikeCount.textContent = currentGame.dislikes;
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                if (gamePlayer.requestFullscreen) {
+                    gamePlayer.requestFullscreen();
+                } else if (gamePlayer.webkitRequestFullscreen) {
+                    gamePlayer.webkitRequestFullscreen();
+                } else if (gamePlayer.mozRequestFullScreen) {
+                    gamePlayer.mozRequestFullScreen();
+                } else if (gamePlayer.msRequestFullscreen) {
+                    gamePlayer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
+        function handleFullscreenChange() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                gamePlayer.classList.add('fullscreen');
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress b-icon"></i>Exit Fullscreen';
+            } else {
+                gamePlayer.classList.remove('fullscreen');
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand b-icon"></i>Fullscreen';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
