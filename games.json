@@ -2,100 +2,114 @@
   "games": [
     {
       "name": "stack-master",
+      "displayName": "Stack Master",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/a0f6e5a23df649a16b9589d750b45f74/wgplayground/82587b62247b3ee56c9c300b16cc2d0b.jpg",
       "description": "Stack blocks as high as possible",
-      "url": "/games/stack-master",
+      "url": "games/stack-master",
       "category": "casual"
     },
     {
       "name": "basket-random",
+      "displayName": "Basket Random",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/43105ae03bf75070f5e80a76bb59ac6e/wgplayground/c8a520f67cc563041d2a75bd8223939e.jpg",
       "description": "Random basketball challenge game",
-      "url": "/games/basket-random",
+      "url": "games/basket-random",
       "category": "sports"
     },
     {
       "name": "boxing-random",
-      "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/6855106681935877ef8e937426c3d083/wgplayground/76e061c19b18bbc9f83ac7070cf0940a.jpg",
+      "displayName": "Boxing Random",
+      "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/6855106681935877ef8e937426c3d083/wgplayground/76e061c19b18bbc9f83ac7070cf0940b.jpg",
       "description": "Random boxing matches with fun controls",
-      "url": "/games/boxing-random",
+      "url": "games/boxing-random",
       "category": "fighting"
     },
     {
       "name": "brawl-hero",
+      "displayName": "Brawl Hero",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/4953183a2e7f8fe377d02578f1d04d6e/wgplayground/f1c537e16e1ff932c094ad9efcbe3efe.jpeg",
       "description": "Fast-paced brawler with heroes",
-      "url": "/games/brawl-hero",
+      "url": "games/brawl-hero",
       "category": "fighting"
     },
     {
       "name": "drift-boss",
+      "displayName": "Drift Boss",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/559c2625fa8c452ce1cbd663f25e17ad/wgplayground/9f9d287cdbf98342e0a4dfa5ef09c75c.jpg",
       "description": "Drifting racing challenges",
-      "url": "/games/drift-boss",
+      "url": "games/drift-boss",
       "category": "racing"
     },
     {
       "name": "drive-zone",
+      "displayName": "Drive Zone",
       "icon": "https://img.gamemonetize.com/preebt8pchos3u8ul57dozj2gulh46ms/512x512.jpg",
       "description": "Driving challenges and obstacle courses",
-      "url": "/games/drive-zone",
+      "url": "games/drive-zone",
       "category": "racing"
     },
     {
       "name": "ducklings-io",
+      "displayName": "Ducklings.io",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/2aa628667b1cbafec726ee738c4a37cc/wgplayground/9495b2b60c93baef5cc896805fe8a8fb.jpg",
       "description": "Collect and grow your duck army",
-      "url": "/games/ducklings-io",
+      "url": "games/ducklings-io",
       "category": "io"
     },
     {
       "name": "flappy-dunk",
+      "displayName": "Flappy Dunk",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/ca6237f9e3c4a3f09548077dabd41cc7/wgplayground/59189bfae9b59e9b7e8cb266e7f67658.png",
       "description": "Flappy-style basketball dunking game",
-      "url": "/games/flappy-dunk",
+      "url": "games/flappy-dunk",
       "category": "sports"
     },
     {
       "name": "gladiator-fights",
+      "displayName": "Gladiator Fights",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/3e8fd3bb3f05ab466e932e8adc4121e5/wgplayground/509dab8d4c2f67174a8ff1fd45063de7.jpg",
       "description": "Arena combat with gladiators",
-      "url": "/games/gladiator-fights",
+      "url": "games/gladiator-fights",
       "category": "fighting"
     },
     {
       "name": "golf-mini",
+      "displayName": "Golf Mini",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/d7a909a564adcb2d9902380a53176241/wgplayground/3884458e0ec48aa12277e5d9d6dc8960.jpg",
       "description": "Mini-golf fun with creative courses",
-      "url": "/games/golf-mini",
+      "url": "games/golf-mini",
       "category": "sports"
     },
     {
       "name": "raccoon-retail",
+      "displayName": "Raccoon Retail",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/97f93d42cb2c227f25661b72fe22055b/wgplayground/11ecc85f5f0a6268f854b5de1c67605a.jpg",
       "description": "Manage your raccoon store efficiently",
-      "url": "/games/raccoon-retail",
+      "url": "games/raccoon-retail",
       "category": "strategy"
     },
     {
       "name": "soccer-random",
+      "displayName": "Soccer Random",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/e9797f4b38be6e209ecd5560c97cde0f/wgplayground/5341045ce43f5ff52bbc768555babb47.jpg",
       "description": "Randomized soccer mini-games",
-      "url": "/games/soccer-random",
+      "url": "games/soccer-random",
       "category": "sports"
     },
     {
       "name": "super-bowmasters",
+      "displayName": "Super Bowmasters",
       "icon": "https://img.gamemonetize.com/5mkmynq4be442ueej5j4l6pommnieubj/512x512.jpg",
       "description": "Arcade shooting with bowmasters",
-      "url": "/games/super-bowmasters",
+      "url": "games/super-bowmasters",
       "category": "arcade"
     },
     {
       "name": "volley-random",
+      "displayName": "Volley Random",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/759df58c48c52d9ec5692531607df6d6/wgplayground/ef27e9f2407a0e086cd29a604e83a66f.jpg",
       "description": "Random volleyball matches",
-      "url": "/games/volley-random",
+      "url": "games/volley-random",
       "category": "sports"
     }
   ]
