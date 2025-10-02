@@ -7,235 +7,48 @@
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: #0a0a0a;
-            min-height: 100vh;
-            color: white;
-        }
-        
-        /* Navbar Styles */
-        .navbar {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #333;
-        }
-        
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .navbar-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .navbar-title {
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
-            color: #ffffff;
-            letter-spacing: 2px;
-        }
-        
-        .navbar-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-        
-        .nav-link {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 5px;
-        }
-        
-        .nav-link:hover {
-            color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
-        }
-        
-        /* Hero Section */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            min-height: 80vh;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        }
-        
-        .hero-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 20px;
-            object-fit: cover;
-            margin-bottom: 30px;
-            border: 3px solid #00ff9d;
-            box-shadow: 0 0 30px rgba(0, 255, 157, 0.4);
-            transition: all 0.3s ease;
-        }
-        
-        .hero-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 255, 157, 0.6);
-        }
-        
-        .hero-title {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d;
-            letter-spacing: 3px;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 60px;
-            color: #b3ffdf;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-        
-        /* Button Styles */
-        .hero-buttons {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn {
-            padding: 16px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 2px solid transparent;
-        }
-        
-        .btn-primary {
-            background: rgba(0, 255, 157, 0.2);
-            border-color: #00ff9d;
-            color: #00ff9d;
-        }
-        
-        .btn-primary:hover {
-            background: rgba(0, 255, 157, 0.3);
-            box-shadow: 0 0 25px rgba(0, 255, 157, 0.5);
-            transform: translateY(-3px);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #333;
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            background: #0a0a0a;
-        }
-        
-        /* Responsive Design */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0a0a0a; min-height: 100vh; color: white; }
+
+        .navbar { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
+        .navbar-brand { display: flex; align-items: center; gap: 15px; }
+        .navbar-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+        .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
+        .navbar-links { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 15px; border-radius: 5px; }
+        .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
+
+        .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 80vh; padding: 60px 20px; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+        .hero-image { width: 200px; height: 200px; border-radius: 20px; object-fit: cover; margin-bottom: 30px; border: 3px solid #00ff9d; box-shadow: 0 0 30px rgba(0, 255, 157, 0.4); transition: all 0.3s ease; }
+        .hero-image:hover { transform: scale(1.05); box-shadow: 0 0 40px rgba(0, 255, 157, 0.6); }
+        .hero-title { font-size: 4rem; margin-bottom: 20px; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d; letter-spacing: 3px; }
+        .hero-subtitle { font-size: 1.5rem; margin-bottom: 30px; color: #b3ffdf; max-width: 600px; line-height: 1.6; }
+
+        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+        .btn { padding: 16px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; letter-spacing: 1px; font-size: 1.1rem; display: flex; align-items: center; gap: 12px; border: 2px solid transparent; }
+        .btn-primary { background: rgba(0, 255, 157, 0.2); border-color: #00ff9d; color: #00ff9d; }
+        .btn-primary:hover { background: rgba(0, 255, 157, 0.3); box-shadow: 0 0 25px rgba(0, 255, 157, 0.5); transform: translateY(-3px); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); color: white; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); box-shadow: 0 0 25px rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
+
+        .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: #0a0a0a; }
+
         @media (max-width: 768px) {
-            .navbar-links {
-                gap: 15px;
-            }
-            
-            .hero-image {
-                width: 180px;
-                height: 180px;
-            }
-            
-            .hero-title {
-                font-size: 3rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-                margin-bottom: 50px;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-            
-            .btn {
-                padding: 14px 35px;
-                font-size: 1rem;
-            }
+            .navbar-links { gap: 15px; }
+            .hero-image { width: 180px; height: 180px; }
+            .hero-title { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; margin-bottom: 20px; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 15px; }
+            .btn { padding: 14px 35px; font-size: 1rem; }
         }
-        
+
         @media (max-width: 480px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            .navbar-links {
-                width: 100%;
-                justify-content: space-between;
-                flex-wrap: wrap;
-            }
-            
-            .hero-image {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-                margin-bottom: 40px;
-            }
-            
-            .btn {
-                padding: 12px 30px;
-                font-size: 0.95rem;
-            }
+            .navbar { flex-direction: column; gap: 15px; padding: 15px; }
+            .navbar-links { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+            .hero-image { width: 150px; height: 150px; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; margin-bottom: 15px; }
+            .btn { padding: 12px 30px; font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -247,6 +60,7 @@
             <h1 class="navbar-title">Tcaw</h1>
         </div>
         <div class="navbar-links">
+            <a href="play" class="nav-link">Play</a>
             <a href="apps" class="nav-link">Apps</a>
             <a href="bookmarks" class="nav-link">Bookmarks</a>
             <a href="about" class="nav-link">About</a>
@@ -267,6 +81,10 @@
             <a href="about" class="btn btn-secondary">
                 <i class="fas fa-user"></i>
                 About the Developer
+            </a>
+            <a href="play" class="btn btn-primary">
+                <i class="fas fa-gamepad"></i>
+                TcawPlay v2
             </a>
         </div>
     </section>
