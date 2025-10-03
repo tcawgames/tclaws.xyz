@@ -23,6 +23,7 @@
       display: flex;
       flex-wrap: wrap;
       margin: 20px;
+      justify-content: center;
     }
     .col-md-2 {
       flex: 1;
@@ -40,34 +41,6 @@
       height: 600px;
       border: none;
       border-radius: 10px;
-    }
-    .game-list {
-      background: rgba(26, 26, 26, 0.7);
-      border-radius: 10px;
-      padding: 15px;
-      border: 1px solid #333;
-      max-height: 600px;
-      overflow-y: auto;
-    }
-    .game-list h2 {
-      margin-top: 0;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-    .game-list ul {
-      list-style: none;
-      padding: 0;
-    }
-    .game-list ul li {
-      margin: 8px 0;
-    }
-    .game-list ul li a {
-      text-decoration: none;
-      color: #0f9d58;
-      font-weight: bold;
-    }
-    .game-list ul li a:hover {
-      text-decoration: underline;
     }
     /* Ad box styling */
     .ad-box {
@@ -128,28 +101,8 @@
 
     <!-- Main Game Player -->
     <div class="col-md-8">
-      <iframe id="gameFrame" src=""></iframe>
-    </div>
-
-    <!-- Right Sidebar with Game List -->
-    <div class="col-md-2">
-      <div class="game-list">
-        <h2>Games</h2>
-        <ul>
-          <li><a href="#" onclick="loadGame('https://funhtml5games.com?embed=2048')">2048</a></li>
-          <li><a href="#" onclick="loadGame('https://funhtml5games.com?embed=flappy')">Flappy Bird</a></li>
-          <li><a href="#" onclick="loadGame('https://funhtml5games.com?embed=snake')">Snake</a></li>
-          <li><a href="#" onclick="loadGame('https://funhtml5games.com?embed=tetris')">Tetris</a></li>
-          <li><a href="#" onclick="loadGame('https://funhtml5games.com?embed=minesweeper')">Minesweeper</a></li>
-        </ul>
-      </div>
+      <iframe src="https://funhtml5games.com?embed=2048"></iframe>
     </div>
   </div>
-
-  <script>
-    function loadGame(url) {
-      document.getElementById("gameFrame").src = url;
-    }
-  </script>
 </body>
 </html>
