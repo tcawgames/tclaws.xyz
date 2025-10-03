@@ -12,6 +12,7 @@
       background: #0a0a0a;
       min-height: 100vh;
       color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .game-container {
       background: rgba(26, 26, 26, 0.9);
@@ -37,15 +38,28 @@
       border: none;
       background: white;
     }
-    /* Ad box styling */
+    .single-title {
+      font-size: 2.5rem;
+      color: #00ff9d;
+      text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+      margin: 20px 0;
+      text-align: center;
+    }
+    /* Ads */
+    .ads-wrapper {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+    }
     .ad-box {
       background: rgba(26, 26, 26, 0.7);
       border-radius: 10px;
       padding: 15px;
-      margin: 20px auto;
       border: 1px solid #333;
-      max-width: 330px;
       text-align: center;
+      width: 300px;
     }
     .ad-box p {
       color: #b0b0b0;
@@ -64,10 +78,11 @@
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
+  <!-- Navbar -->
   <nav class="navbar navbar-dark bg-dark px-3">
     <div class="navbar-brand d-flex align-items-center gap-2">
-      <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="TcawPlay Logo" style="width:40px;height:40px;border-radius:50%">
+      <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" 
+           alt="TcawPlay Logo" style="width:40px;height:40px;border-radius:50%">
       <h1 class="h4 mb-0 text-success">TcawPlay</h1>
     </div>
     <div>
@@ -78,19 +93,19 @@
   <div class="container">
     <div class="game-container">
       <div class="game-iframe-container" id="game-player">
-        <iframe class="game-iframe" id="game-area" 
+        <iframe class="game-iframe" 
           src="https://play.wgplayground.com/ifr/ca6237f9e3c4a3f09548077dabd41cc7" 
           scrolling="no" frameborder="0" allowfullscreen=""></iframe>
       </div>
 
-      <h1 class="text-success mt-3">Flappy Dunk</h1>
-      
-      <!-- Ads under the game -->
-      <div class="d-flex flex-wrap justify-content-center">
+      <h1 class="single-title">Flappy Dunk</h1>
+
+      <!-- Ads under game -->
+      <div class="ads-wrapper">
         <div class="ad-box">
           <p>Advertisement</p>
           <script type="text/javascript">
-            atOptions = {
+            var atOptions1 = {
               'key' : 'ce06bcbbfd7748c3aaa05194927540eb',
               'format' : 'iframe',
               'height' : 250,
@@ -103,7 +118,7 @@
         <div class="ad-box">
           <p>Advertisement</p>
           <script type="text/javascript">
-            atOptions = {
+            var atOptions2 = {
               'key' : 'ce06bcbbfd7748c3aaa05194927540eb',
               'format' : 'iframe',
               'height' : 250,
@@ -117,7 +132,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="footer">
     <p>&copy; 2025 TcawPlay. All rights reserved.</p>
   </footer>
