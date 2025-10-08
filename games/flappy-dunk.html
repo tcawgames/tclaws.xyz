@@ -1,224 +1,733 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flappy Dunk - TcawPlay</title>
-  <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0a0a0a; min-height: 100vh; color: white; }
-    /* Navbar Styles */
-    .navbar { background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #333; }
-    .navbar-brand { display: flex; align-items: center; gap: 15px; }
-    .navbar-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-    .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
-    .navbar-links { display: flex; gap: 25px; align-items: center; }
-    .nav-link { color: #e0e0e0; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 15px; border-radius: 5px; }
-    .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
-    .home-link { color: #00ff9d; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; padding: 8px 15px; border-radius: 6px; border: 1px solid rgba(0, 255, 157, 0.3); }
-    .home-link:hover { background: rgba(0, 255, 157, 0.1); box-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
-    /* Game Container */
-    .game-container { background: rgba(26, 26, 26, 0.9); border-radius: 15px; padding: 25px; margin: 30px auto; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); max-width: 1200px; }
-    .game-content { position: relative; margin-bottom: 25px; }
-    .game-iframe-container { position: relative; width: 100%; height: 70vh; border-radius: 15px; overflow: hidden; border: 1px solid #333; background: #1a1a1a; transition: all 0.3s ease; }
-    .game-iframe { width: 100%; height: 100%; border: none; background: white; }
-    .game-iframe-container.fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; border-radius: 0; }
-    .game-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
-    .single-title { font-size: 2.5rem; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); margin: 0; }
-    .btn-capsule { background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; color: #00ff9d; padding: 10px 20px; border-radius: 25px; transition: all 0.3s ease; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-    .btn-capsule:hover { background: rgba(0, 255, 157, 0.2); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); color: #00ff9d; }
-    .b-icon { font-size: 1.2rem; }
-    /* Game Controls */
-    .game-controls { display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; }
-    .control-btn { background: rgba(0, 255, 157, 0.1); border: 1px solid #00ff9d; color: #00ff9d; padding: 10px 20px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-weight: 600; }
-    .control-btn:hover { background: rgba(0, 255, 157, 0.2); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); }
-    .control-btn.active { background: rgba(0, 255, 157, 0.3); }
-    .control-btn.like.active { color: #00ff9d; }
-    .control-btn.dislike.active { color: #ff6b6b; }
-    /* Game Details */
-    .game-details { background: rgba(10, 10, 10, 0.7); border-radius: 15px; padding: 25px; margin-top: 25px; border: 1px solid #333; }
-    .game-details h3 { color: #00ff9d; margin-bottom: 15px; font-size: 1.5rem; }
-    .game-description { color: #b0b0b0; line-height: 1.6; margin-bottom: 20px; }
-    .game-meta { display: flex; gap: 20px; flex-wrap: wrap; }
-    .meta-item { display: flex; align-items: center; gap: 8px; color: #b0b0b0; }
-    .meta-item i { color: #00ff9d; }
-    /* Footer */
-    .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: rgba(10, 10, 10, 0.9); margin-top: 50px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Launcher - Tcaw</title>
+    <meta name="description" content="Launch any website in a secure iframe with Tcaw's easy-to-use launcher">
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            color: white;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #333;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .navbar-title {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: #00ff9d;
+            background: rgba(0, 255, 157, 0.1);
+        }
+        
+        .home-link {
+            color: #00ff9d;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+        }
+        
+        .home-link:hover {
+            background: rgba(0, 255, 157, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 40vh;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d, 0 0 30px #00ff9d;
+            letter-spacing: 3px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: #b3ffdf;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Main Content */
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Ad Container */
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        /* Launcher Container */
+        .launcher-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        .url-input::placeholder {
+            color: #666;
+        }
+
+        /* Sample Sites */
+        .sample-sites {
+            margin-bottom: 30px;
+        }
+
+        .sample-sites-title {
+            color: #b0b0b0;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .sample-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .sample-btn {
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .sample-btn:hover {
+            background: rgba(0, 255, 157, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+        }
+
+        .btn-primary:hover {
+            background: rgba(0, 255, 157, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Iframe Container */
+        .iframe-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .iframe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .iframe-title {
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .iframe-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .iframe-control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .iframe-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        #siteFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #00ff9d;
+            font-size: 1.2rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(0, 255, 157, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #00ff9d;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fullscreen Mode */
+        .fullscreen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: #0a0a0a;
+            display: none;
+            flex-direction: column;
+        }
+
+        .fullscreen-header {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .fullscreen-title {
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .fullscreen-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .fullscreen-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .fullscreen-iframe-wrapper {
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #fullscreenFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-links {
+                gap: 15px;
+            }
+            
+            .launcher-container, .iframe-container {
+                padding: 25px;
+            }
+            
+            .action-buttons, .iframe-controls {
+                flex-direction: column;
+            }
+            
+            .btn, .iframe-control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sample-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .sample-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .iframe-wrapper {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .navbar-links {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .iframe-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="TcawPlay Logo" class="navbar-logo">
-      <h1 class="navbar-title">TcawPlay</h1>
-    </div>
-    <div class="navbar-links">
-      <a href="https://tclaws.xyz" class="nav-link">Home</a>
-      <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
-      <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
-      <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
-      <a href="https://tclaws.xyz/about" class="nav-link">About</a>
-      <a href="https://tclaws.xyz" class="home-link">
-        <i class="fas fa-home"></i> <span>Back to tclaws.xyz</span>
-      </a>
-    </div>
-  </nav>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10">
-        <div class="game-container">
-          <div class="game-content">
-            <div class="game-iframe-container" id="game-player">
-              <iframe class="game-iframe" id="game-area" src="https://play.wgplayground.com/ifr/ca6237f9e3c4a3f09548077dabd41cc7" frameborder="0" allowfullscreen></iframe>
-            </div>
-          </div>
-          <div class="game-info">
-            <div class="header-left">
-              <h1 class="single-title">Flappy Dunk</h1>
-            </div>
-            <div class="header-right">
-              <a href="#" onclick="toggleFullscreen()" class="btn btn-capsule" id="fullscreenBtn">
-                <i class="fas fa-expand b-icon"></i>Fullscreen
-              </a>
-            </div>
-          </div>
-          <div class="game-controls">
-            <button class="control-btn like" id="likeBtn">
-              <i class="fas fa-thumbs-up"></i> <span id="likeCount">245</span>
-            </button>
-            <button class="control-btn dislike" id="dislikeBtn">
-              <i class="fas fa-thumbs-down"></i> <span id="dislikeCount">12</span>
-            </button>
-          </div>
-          <div class="game-details">
-            <h3>About Flappy Dunk</h3>
-            <p class="game-description">
-              Flappy Dunk is an exciting basketball game that combines the addictive gameplay of Flappy Bird with basketball dunking action!
-            </p>
-            <div class="game-meta">
-              <div class="meta-item"><i class="fas fa-basketball-ball"></i> <span>Basketball</span></div>
-              <div class="meta-item"><i class="fas fa-gamepad"></i> <span>Arcade</span></div>
-              <div class="meta-item"><i class="fas fa-star"></i> <span>4.9/5</span></div>
-              <div class="meta-item"><i class="fas fa-bird"></i> <span>Flappy-Style</span></div>
-            </div>
-          </div>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/ef/aa/85/efaa85262c2979c0bce49d0dc643d49e.jpg" alt="Tcaw Logo" class="navbar-logo">
+            <h1 class="navbar-title">Tcaw</h1>
         </div>
-      </div>
-
-      <!-- ✅ Sidebar Ads -->
-      <div class="col-md-2">
-        <div align="center">
-          <div style="background: rgba(26,26,26,0.7); border-radius: 10px; padding: 15px; margin-bottom: 20px; border: 1px solid #333;">
-            <p style="color: #b0b0b0; font-size: 0.9rem;">Advertisement</p>
-            <div style="width: 100%; max-width: 300px; margin: auto;">
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'ce06bcbbfd7748c3aaa05194927540eb',
-                  'format' : 'iframe',
-                  'height' : 250,
-                  'width' : 300,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/ce06bcbbfd7748c3aaa05194927540eb/invoke.js"></script>
-            </div>
-          </div>
-
-          <div style="background: rgba(26,26,26,0.7); border-radius: 10px; padding: 15px; margin-bottom: 20px; border: 1px solid #333;">
-            <p style="color: #b0b0b0; font-size: 0.9rem;">Advertisement</p>
-            <div style="width: 100%; max-width: 300px; margin: auto;">
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'ce06bcbbfd7748c3aaa05194927540eb',
-                  'format' : 'iframe',
-                  'height' : 250,
-                  'width' : 300,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/ce06bcbbfd7748c3aaa05194927540eb/invoke.js"></script>
-            </div>
-          </div>
+        <div class="navbar-links">
+            <a href="https://tclaws.xyz" class="nav-link">Home</a>
+            <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
+            <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
+            <a href="https://tclaws.xyz/about" class="nav-link">About</a>
+            <a href="https://tclaws.xyz/play" class="nav-link">Play</a>
+            <a href="https://tclaws.xyz" class="home-link">
+                <i class="fas fa-home"></i>
+                <span>Back to tclaws.xyz</span>
+            </a>
         </div>
-      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Site Launcher</h1>
+        <p class="hero-subtitle">Launch any website in a secure iframe with our easy-to-use launcher</p>
+    </section>
+
+    <!-- Ad Container -->
+    <div class="ad-container">
+        <div id="container-ecbf85b5e94568f350e318ba1a6050ff"></div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2023 TcawPlay. All rights reserved.</p>
-    <p style="margin-top: 10px;">python coder and stuff</p>
-    <p style="margin-top: 10px;">
-      <a href="https://tclaws.xyz" style="color: #00ff9d; text-decoration: none;">
-        <i class="fas fa-arrow-left"></i> Back to tclaws.xyz
-      </a>
-    </p>
-  </footer>
+    <!-- Launcher Container -->
+    <section class="content-section">
+        <div class="launcher-container">
+            <div class="input-group">
+                <label class="input-label" for="urlInput">Enter Website URL:</label>
+                <input type="text" class="url-input" id="urlInput" placeholder="https://example.com">
+            </div>
+            
+            <div class="sample-sites">
+                <div class="sample-sites-title">Quick Launch - Sample Sites:</div>
+                <div class="sample-buttons">
+                    <button class="sample-btn" data-url="https://tcawgames.github.io">
+                        <i class="fas fa-gamepad"></i>
+                        Tcaw Games
+                    </button>
+                    <button class="sample-btn" data-url="https://web.skyemu.app">
+                        <i class="fas fa-cloud"></i>
+                        SkyEmu
+                    </button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="launchBtn">
+                    <i class="fas fa-rocket"></i>
+                    Launch Site
+                </button>
+                <button class="btn btn-secondary" id="clearBtn">
+                    <i class="fas fa-broom"></i>
+                    Clear URL
+                </button>
+            </div>
+        </div>
 
-  <script>
-    // DOM Elements
-    const likeBtn = document.getElementById('likeBtn');
-    const dislikeBtn = document.getElementById('dislikeBtn');
-    const likeCount = document.getElementById('likeCount');
-    const dislikeCount = document.getElementById('dislikeCount');
-    const gamePlayer = document.getElementById('game-player');
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
+        <!-- Iframe Container -->
+        <div class="iframe-container" id="iframeContainer">
+            <div class="iframe-header">
+                <div class="iframe-title" id="iframeTitle">Site Preview</div>
+                <div class="iframe-controls">
+                    <button class="iframe-control-btn" id="refreshBtn">
+                        <i class="fas fa-redo"></i>
+                        Refresh
+                    </button>
+                    <button class="iframe-control-btn" id="fullscreenBtn">
+                        <i class="fas fa-expand"></i>
+                        Fullscreen
+                    </button>
+                    <button class="iframe-control-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+            <div class="iframe-wrapper">
+                <iframe id="siteFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+            </div>
+        </div>
+    </section>
 
-    let currentGame = { id: 8, title: "Flappy Dunk", likes: 245, dislikes: 12 };
+    <!-- Fullscreen Mode -->
+    <div class="fullscreen-mode" id="fullscreenMode">
+        <div class="fullscreen-header">
+            <div class="fullscreen-title" id="fullscreenTitle">Site Preview</div>
+            <div class="fullscreen-controls">
+                <button class="fullscreen-btn" id="fullscreenRefreshBtn">
+                    <i class="fas fa-redo"></i>
+                    Refresh
+                </button>
+                <button class="fullscreen-btn" id="exitFullscreenBtn">
+                    <i class="fas fa-compress"></i>
+                    Exit Fullscreen
+                </button>
+            </div>
+        </div>
+        <div class="fullscreen-iframe-wrapper">
+            <iframe id="fullscreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        </div>
+    </div>
 
-    function initPage() {
-      likeBtn.addEventListener('click', handleLike);
-      dislikeBtn.addEventListener('click', handleDislike);
-      document.addEventListener('fullscreenchange', handleFullscreenChange);
-      const userVote = localStorage.getItem(`vote_${currentGame.id}`);
-      if (userVote === 'like') likeBtn.classList.add('active');
-      if (userVote === 'dislike') dislikeBtn.classList.add('active');
-    }
-    function handleLike() {
-      const userVote = localStorage.getItem(`vote_${currentGame.id}`);
-      if (userVote === 'like') {
-        currentGame.likes--; localStorage.removeItem(`vote_${currentGame.id}`); likeBtn.classList.remove('active');
-      } else {
-        if (userVote === 'dislike') currentGame.dislikes--;
-        currentGame.likes++; localStorage.setItem(`vote_${currentGame.id}`, 'like');
-        likeBtn.classList.add('active'); dislikeBtn.classList.remove('active');
-      }
-      updateCounts();
-    }
-    function handleDislike() {
-      const userVote = localStorage.getItem(`vote_${currentGame.id}`);
-      if (userVote === 'dislike') {
-        currentGame.dislikes--; localStorage.removeItem(`vote_${currentGame.id}`); dislikeBtn.classList.remove('active');
-      } else {
-        if (userVote === 'like') currentGame.likes--;
-        currentGame.dislikes++; localStorage.setItem(`vote_${currentGame.id}`, 'dislike');
-        dislikeBtn.classList.add('active'); likeBtn.classList.remove('active');
-      }
-      updateCounts();
-    }
-    function updateCounts() {
-      likeCount.textContent = currentGame.likes;
-      dislikeCount.textContent = currentGame.dislikes;
-    }
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) gamePlayer.requestFullscreen();
-      else document.exitFullscreen();
-    }
-    function handleFullscreenChange() {
-      if (document.fullscreenElement) {
-        gamePlayer.classList.add('fullscreen');
-        fullscreenBtn.innerHTML = '<i class="fas fa-compress b-icon"></i>Exit Fullscreen';
-      } else {
-        gamePlayer.classList.remove('fullscreen');
-        fullscreenBtn.innerHTML = '<i class="fas fa-expand b-icon"></i>Fullscreen';
-      }
-    }
-    document.addEventListener('DOMContentLoaded', initPage);
-  </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2023 Tcaw. All rights reserved.</p>
+        <p style="margin-top: 10px;">python coder and stuff</p>
+    </footer>
+
+    <!-- Adsterra Script -->
+    <script async="async" data-cfasync="false" src="//pl27776470.revenuecpmgate.com/ecbf85b5e94568f350e318ba1a6050ff/invoke.js"></script>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const launchBtn = document.getElementById('launchBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const sampleButtons = document.querySelectorAll('.sample-btn');
+        const iframeContainer = document.getElementById('iframeContainer');
+        const siteFrame = document.getElementById('siteFrame');
+        const iframeTitle = document.getElementById('iframeTitle');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const fullscreenMode = document.getElementById('fullscreenMode');
+        const fullscreenFrame = document.getElementById('fullscreenFrame');
+        const fullscreenTitle = document.getElementById('fullscreenTitle');
+        const fullscreenRefreshBtn = document.getElementById('fullscreenRefreshBtn');
+        const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+
+        let currentUrl = '';
+
+        // Show loading state
+        function showLoading(frame) {
+            frame.style.display = 'none';
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
+            frame.parentNode.appendChild(loadingDiv);
+        }
+
+        // Hide loading state
+        function hideLoading(frame) {
+            const loadingDiv = frame.parentNode.querySelector('.loading');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+            frame.style.display = 'block';
+        }
+
+        // Launch site in iframe
+        function launchSite(url) {
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
+            }
+            
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            
+            currentUrl = url;
+            
+            // Show iframe container
+            iframeContainer.style.display = 'block';
+            
+            // Update iframe title
+            iframeTitle.textContent = `Preview: ${url}`;
+            fullscreenTitle.textContent = `Preview: ${url}`;
+            
+            // Show loading state
+            showLoading(siteFrame);
+            
+            // Load the site in iframe
+            siteFrame.src = url;
+            fullscreenFrame.src = url;
+            
+            // Scroll to iframe
+            iframeContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Clear URL input
+        function clearUrl() {
+            urlInput.value = '';
+            urlInput.focus();
+        }
+
+        // Refresh iframe
+        function refreshIframe() {
+            if (currentUrl) {
+                showLoading(siteFrame);
+                siteFrame.src = currentUrl;
+                fullscreenFrame.src = currentUrl;
+            }
+        }
+
+        // Enter fullscreen mode
+        function enterFullscreen() {
+            if (currentUrl) {
+                fullscreenMode.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Exit fullscreen mode
+        function exitFullscreen() {
+            fullscreenMode.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close iframe
+        function closeIframe() {
+            iframeContainer.style.display = 'none';
+            siteFrame.src = 'about:blank';
+            fullscreenFrame.src = 'about:blank';
+            currentUrl = '';
+        }
+
+        // Event listeners
+        launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
+        clearBtn.addEventListener('click', clearUrl);
+        sampleButtons.forEach(btn => btn.addEventListener('click', () => launchSite(btn.dataset.url)));
+        refreshBtn.addEventListener('click', refreshIframe);
+        fullscreenBtn.addEventListener('click', enterFullscreen);
+        closeBtn.addEventListener('click', closeIframe);
+        fullscreenRefreshBtn.addEventListener('click', refreshIframe);
+        exitFullscreenBtn.addEventListener('click', exitFullscreen);
+        
+        // Handle Enter key in URL input
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                launchSite(urlInput.value.trim());
+            }
+        });
+        
+        // Handle iframe load events
+        siteFrame.addEventListener('load', () => hideLoading(siteFrame));
+        fullscreenFrame.addEventListener('load', () => hideLoading(fullscreenFrame));
+        
+        // Handle iframe errors
+        siteFrame.addEventListener('error', () => {
+            hideLoading(siteFrame);
+            alert('Failed to load the website. Please check the URL and try again.');
+        });
+        
+        fullscreenFrame.addEventListener('error', () => {
+            hideLoading(fullscreenFrame);
+            alert('Failed to load the website. Please check the URL and try again.');
+        });
+    </script>
 </body>
 </html>
