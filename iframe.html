@@ -128,6 +128,13 @@
             padding: 0 20px;
         }
 
+        /* Ad Container */
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
         /* Launcher Container */
         .launcher-container {
             background: #1a1a1a;
@@ -337,6 +344,45 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Widescreen Mode */
+        .widescreen-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: #0a0a0a;
+            display: none;
+        }
+
+        #widescreenFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* Exit Widescreen Button */
+        .exit-widescreen {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: none;
+            transition: all 0.3s;
+        }
+
+        .exit-widescreen:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -431,6 +477,11 @@
         <p class="hero-subtitle">Launch any website in a secure iframe with our easy-to-use launcher</p>
     </section>
 
+    <!-- Ad Container -->
+    <div class="ad-container">
+        <div id="container-ecbf85b5e94568f350e318ba1a6050ff"></div>
+    </div>
+
     <!-- Launcher Container -->
     <section class="content-section">
         <div class="launcher-container">
@@ -462,6 +513,10 @@
                     <i class="fas fa-broom"></i>
                     Clear URL
                 </button>
+                <button class="btn btn-primary" id="widescreenBtn">
+                    <i class="fas fa-expand"></i>
+                    Widescreen
+                </button>
             </div>
         </div>
 
@@ -490,16 +545,30 @@
         </div>
     </section>
 
+    <!-- Widescreen Mode -->
+    <div class="widescreen-mode" id="widescreenMode">
+        <iframe id="widescreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+
+    <!-- Exit Widescreen Button -->
+    <button class="exit-widescreen" id="exitWidescreenBtn">
+        <i class="fas fa-compress"></i> Exit Widescreen
+    </button>
+
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2023 Tcaw. All rights reserved.</p>
         <p style="margin-top: 10px;">python coder and stuff</p>
     </footer>
 
+    <!-- Adsterra Script -->
+    <script async="async" data-cfasync="false" src="//pl27776470.revenuecpmgate.com/ecbf85b5e94568f350e318ba1a6050ff/invoke.js"></script>
+
     <script>
         const urlInput = document.getElementById('urlInput');
         const launchBtn = document.getElementById('launchBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const widescreenBtn = document.getElementById('widescreenBtn');
         const sampleButtons = document.querySelectorAll('.sample-btn');
         const iframeContainer = document.getElementById('iframeContainer');
         const siteFrame = document.getElementById('siteFrame');
@@ -507,23 +576,28 @@
         const refreshBtn = document.getElementById('refreshBtn');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const closeBtn = document.getElementById('closeBtn');
+        const widescreenMode = document.getElementById('widescreenMode');
+        const widescreenFrame = document.getElementById('widescreenFrame');
+        const exitWidescreenBtn = document.getElementById('exitWidescreenBtn');
+
+        let currentUrl = '';
 
         // Show loading state
-        function showLoading() {
-            siteFrame.style.display = 'none';
+        function showLoading(frame) {
+            frame.style.display = 'none';
             const loadingDiv = document.createElement('div');
             loadingDiv.className = 'loading';
             loadingDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
-            siteFrame.parentNode.appendChild(loadingDiv);
+            frame.parentNode.appendChild(loadingDiv);
         }
 
         // Hide loading state
-        function hideLoading() {
-            const loadingDiv = siteFrame.parentNode.querySelector('.loading');
+        function hideLoading(frame) {
+            const loadingDiv = frame.parentNode.querySelector('.loading');
             if (loadingDiv) {
                 loadingDiv.remove();
             }
-            siteFrame.style.display = 'block';
+            frame.style.display = 'block';
         }
 
         // Launch site in iframe
@@ -537,6 +611,8 @@
                 url = 'https://' + url;
             }
             
+            currentUrl = url;
+            
             // Show iframe container
             iframeContainer.style.display = 'block';
             
@@ -544,10 +620,11 @@
             iframeTitle.textContent = `Preview: ${url}`;
             
             // Show loading state
-            showLoading();
+            showLoading(siteFrame);
             
             // Load the site in iframe
             siteFrame.src = url;
+            widescreenFrame.src = url;
             
             // Scroll to iframe
             iframeContainer.scrollIntoView({ behavior: 'smooth' });
@@ -561,36 +638,46 @@
 
         // Refresh iframe
         function refreshIframe() {
-            if (siteFrame.src && siteFrame.src !== 'about:blank') {
-                showLoading();
-                siteFrame.src = siteFrame.src;
+            if (currentUrl) {
+                showLoading(siteFrame);
+                siteFrame.src = currentUrl;
+                widescreenFrame.src = currentUrl;
             }
         }
 
-        // Toggle fullscreen
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                iframeContainer.requestFullscreen().catch(err => {
-                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
+        // Enter widescreen mode
+        function enterWidescreen() {
+            if (currentUrl) {
+                widescreenMode.style.display = 'block';
+                exitWidescreenBtn.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             }
+        }
+
+        // Exit widescreen mode
+        function exitWidescreen() {
+            widescreenMode.style.display = 'none';
+            exitWidescreenBtn.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // Close iframe
         function closeIframe() {
             iframeContainer.style.display = 'none';
             siteFrame.src = 'about:blank';
+            widescreenFrame.src = 'about:blank';
+            currentUrl = '';
         }
 
         // Event listeners
         launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
         clearBtn.addEventListener('click', clearUrl);
+        widescreenBtn.addEventListener('click', enterWidescreen);
         sampleButtons.forEach(btn => btn.addEventListener('click', () => launchSite(btn.dataset.url)));
         refreshBtn.addEventListener('click', refreshIframe);
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        fullscreenBtn.addEventListener('click', enterWidescreen);
         closeBtn.addEventListener('click', closeIframe);
+        exitWidescreenBtn.addEventListener('click', exitWidescreen);
         
         // Handle Enter key in URL input
         urlInput.addEventListener('keypress', (e) => {
@@ -599,12 +686,18 @@
             }
         });
         
-        // Handle iframe load event
-        siteFrame.addEventListener('load', hideLoading);
+        // Handle iframe load events
+        siteFrame.addEventListener('load', () => hideLoading(siteFrame));
+        widescreenFrame.addEventListener('load', () => hideLoading(widescreenFrame));
         
-        // Handle iframe error
+        // Handle iframe errors
         siteFrame.addEventListener('error', () => {
-            hideLoading();
+            hideLoading(siteFrame);
+            alert('Failed to load the website. Please check the URL and try again.');
+        });
+        
+        widescreenFrame.addEventListener('error', () => {
+            hideLoading(widescreenFrame);
             alert('Failed to load the website. Please check the URL and try again.');
         });
     </script>
