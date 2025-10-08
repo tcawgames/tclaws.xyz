@@ -311,6 +311,7 @@
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid #333;
+            position: relative;
         }
 
         #siteFrame {
@@ -318,6 +319,35 @@
             height: 100%;
             border: none;
             background: white;
+        }
+
+        .focus-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 157, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00ff9d;
+            font-size: 1.5rem;
+            font-weight: bold;
+            backdrop-filter: blur(2px);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .focus-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .focus-overlay:hover {
+            background: rgba(0, 255, 157, 0.15);
         }
 
         .loading {
@@ -540,14 +570,17 @@
                 </div>
             </div>
             <div class="iframe-wrapper">
-                <iframe id="siteFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+                <div class="focus-overlay" id="focusOverlay">
+                    <div>Click to Enable Keyboard Controls</div>
+                </div>
+                <iframe id="siteFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
             </div>
         </div>
     </section>
 
     <!-- Widescreen Mode -->
     <div class="widescreen-mode" id="widescreenMode">
-        <iframe id="widescreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+        <iframe id="widescreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
     </div>
 
     <!-- Exit Widescreen Button -->
@@ -572,6 +605,7 @@
         const sampleButtons = document.querySelectorAll('.sample-btn');
         const iframeContainer = document.getElementById('iframeContainer');
         const siteFrame = document.getElementById('siteFrame');
+        const focusOverlay = document.getElementById('focusOverlay');
         const iframeTitle = document.getElementById('iframeTitle');
         const refreshBtn = document.getElementById('refreshBtn');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
@@ -581,6 +615,7 @@
         const exitWidescreenBtn = document.getElementById('exitWidescreenBtn');
 
         let currentUrl = '';
+        let hasFocus = false;
 
         // Show loading state
         function showLoading(frame) {
@@ -598,6 +633,28 @@
                 loadingDiv.remove();
             }
             frame.style.display = 'block';
+            
+            // Show focus overlay for regular iframe
+            if (frame === siteFrame) {
+                focusOverlay.classList.add('active');
+                hasFocus = false;
+            }
+        }
+
+        // Focus the iframe for keyboard input
+        function focusIframe(frame) {
+            try {
+                frame.contentWindow.focus();
+                hasFocus = true;
+                focusOverlay.classList.remove('active');
+                
+                // For widescreen mode, ensure it has focus
+                if (frame === widescreenFrame) {
+                    frame.focus();
+                }
+            } catch (e) {
+                console.log('Could not focus iframe:', e);
+            }
         }
 
         // Launch site in iframe
@@ -642,6 +699,8 @@
                 showLoading(siteFrame);
                 siteFrame.src = currentUrl;
                 widescreenFrame.src = currentUrl;
+                hasFocus = false;
+                focusOverlay.classList.add('active');
             }
         }
 
@@ -651,6 +710,11 @@
                 widescreenMode.style.display = 'block';
                 exitWidescreenBtn.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                
+                // Focus the widescreen iframe immediately
+                setTimeout(() => {
+                    focusIframe(widescreenFrame);
+                }, 500);
             }
         }
 
@@ -667,6 +731,8 @@
             siteFrame.src = 'about:blank';
             widescreenFrame.src = 'about:blank';
             currentUrl = '';
+            hasFocus = false;
+            focusOverlay.classList.remove('active');
         }
 
         // Event listeners
@@ -679,6 +745,11 @@
         closeBtn.addEventListener('click', closeIframe);
         exitWidescreenBtn.addEventListener('click', exitWidescreen);
         
+        // Focus overlay click handler
+        focusOverlay.addEventListener('click', () => {
+            focusIframe(siteFrame);
+        });
+        
         // Handle Enter key in URL input
         urlInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -688,7 +759,13 @@
         
         // Handle iframe load events
         siteFrame.addEventListener('load', () => hideLoading(siteFrame));
-        widescreenFrame.addEventListener('load', () => hideLoading(widescreenFrame));
+        widescreenFrame.addEventListener('load', () => {
+            hideLoading(widescreenFrame);
+            // Auto-focus widescreen iframe
+            setTimeout(() => {
+                focusIframe(widescreenFrame);
+            }, 500);
+        });
         
         // Handle iframe errors
         siteFrame.addEventListener('error', () => {
@@ -699,6 +776,14 @@
         widescreenFrame.addEventListener('error', () => {
             hideLoading(widescreenFrame);
             alert('Failed to load the website. Please check the URL and try again.');
+        });
+        
+        // Handle clicks outside iframe to show focus overlay again
+        document.addEventListener('click', (e) => {
+            if (!siteFrame.contains(e.target) && !focusOverlay.contains(e.target) && hasFocus) {
+                hasFocus = false;
+                focusOverlay.classList.add('active');
+            }
         });
     </script>
 </body>
