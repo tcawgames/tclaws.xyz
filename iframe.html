@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Launcher - Tcaw</title>
+    <meta name="description" content="Launch any website in a secure iframe with Tcaw's easy-to-use launcher">
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/vCRtSQDP/image-removebg-preview-7.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -120,6 +121,13 @@
             line-height: 1.6;
         }
 
+        /* Main Content */
+        .content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         /* Launcher Container */
         .launcher-container {
             background: #1a1a1a;
@@ -127,6 +135,7 @@
             padding: 40px;
             border: 1px solid #333;
             margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .input-group {
@@ -243,6 +252,91 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
+        /* Iframe Container */
+        .iframe-container {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid #333;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: none;
+        }
+
+        .iframe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .iframe-title {
+            color: #00ff9d;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .iframe-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .iframe-control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .iframe-control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        #siteFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #00ff9d;
+            font-size: 1.2rem;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(0, 255, 157, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #00ff9d;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Footer */
         .footer {
             text-align: center;
@@ -259,15 +353,15 @@
                 gap: 15px;
             }
             
-            .launcher-container {
+            .launcher-container, .iframe-container {
                 padding: 25px;
             }
             
-            .action-buttons {
+            .action-buttons, .iframe-controls {
                 flex-direction: column;
             }
             
-            .btn {
+            .btn, .iframe-control-btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -280,6 +374,10 @@
             .sample-btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .iframe-wrapper {
+                height: 400px;
             }
         }
         
@@ -294,6 +392,14 @@
                 width: 100%;
                 justify-content: space-between;
                 flex-wrap: wrap;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .iframe-wrapper {
+                height: 300px;
             }
         }
     </style>
@@ -329,7 +435,7 @@
     <section class="content-section">
         <div class="launcher-container">
             <div class="input-group">
-                <label class="input-label">Enter Website URL:</label>
+                <label class="input-label" for="urlInput">Enter Website URL:</label>
                 <input type="text" class="url-input" id="urlInput" placeholder="https://example.com">
             </div>
             
@@ -358,6 +464,30 @@
                 </button>
             </div>
         </div>
+
+        <!-- Iframe Container -->
+        <div class="iframe-container" id="iframeContainer">
+            <div class="iframe-header">
+                <div class="iframe-title" id="iframeTitle">Site Preview</div>
+                <div class="iframe-controls">
+                    <button class="iframe-control-btn" id="refreshBtn">
+                        <i class="fas fa-redo"></i>
+                        Refresh
+                    </button>
+                    <button class="iframe-control-btn" id="fullscreenBtn">
+                        <i class="fas fa-expand"></i>
+                        Fullscreen
+                    </button>
+                    <button class="iframe-control-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                        Close
+                    </button>
+                </div>
+            </div>
+            <div class="iframe-wrapper">
+                <iframe id="siteFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -371,16 +501,112 @@
         const launchBtn = document.getElementById('launchBtn');
         const clearBtn = document.getElementById('clearBtn');
         const sampleButtons = document.querySelectorAll('.sample-btn');
+        const iframeContainer = document.getElementById('iframeContainer');
+        const siteFrame = document.getElementById('siteFrame');
+        const iframeTitle = document.getElementById('iframeTitle');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const closeBtn = document.getElementById('closeBtn');
 
-        function launchSite(url) {
-            if (!url) return alert('Please enter a valid URL');
-            if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
-            window.open(url, '_blank');
+        // Show loading state
+        function showLoading() {
+            siteFrame.style.display = 'none';
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
+            siteFrame.parentNode.appendChild(loadingDiv);
         }
 
+        // Hide loading state
+        function hideLoading() {
+            const loadingDiv = siteFrame.parentNode.querySelector('.loading');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+            siteFrame.style.display = 'block';
+        }
+
+        // Launch site in iframe
+        function launchSite(url) {
+            if (!url) {
+                alert('Please enter a valid URL');
+                return;
+            }
+            
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            
+            // Show iframe container
+            iframeContainer.style.display = 'block';
+            
+            // Update iframe title
+            iframeTitle.textContent = `Preview: ${url}`;
+            
+            // Show loading state
+            showLoading();
+            
+            // Load the site in iframe
+            siteFrame.src = url;
+            
+            // Scroll to iframe
+            iframeContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Clear URL input
+        function clearUrl() {
+            urlInput.value = '';
+            urlInput.focus();
+        }
+
+        // Refresh iframe
+        function refreshIframe() {
+            if (siteFrame.src && siteFrame.src !== 'about:blank') {
+                showLoading();
+                siteFrame.src = siteFrame.src;
+            }
+        }
+
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                iframeContainer.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Close iframe
+        function closeIframe() {
+            iframeContainer.style.display = 'none';
+            siteFrame.src = 'about:blank';
+        }
+
+        // Event listeners
         launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
-        clearBtn.addEventListener('click', () => urlInput.value = '');
+        clearBtn.addEventListener('click', clearUrl);
         sampleButtons.forEach(btn => btn.addEventListener('click', () => launchSite(btn.dataset.url)));
+        refreshBtn.addEventListener('click', refreshIframe);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        closeBtn.addEventListener('click', closeIframe);
+        
+        // Handle Enter key in URL input
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                launchSite(urlInput.value.trim());
+            }
+        });
+        
+        // Handle iframe load event
+        siteFrame.addEventListener('load', hideLoading);
+        
+        // Handle iframe error
+        siteFrame.addEventListener('error', () => {
+            hideLoading();
+            alert('Failed to load the website. Please check the URL and try again.');
+        });
     </script>
 </body>
-</
+</html>
