@@ -393,6 +393,117 @@
             background: white;
         }
 
+        /* Watermark - Larger text only, no box */
+        .watermark {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 28px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s ease;
+            display: none;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .watermark:hover {
+            color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Code Entry Modal */
+        .code-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1003;
+        }
+
+        .code-modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .code-modal h3 {
+            color: #00ff9d;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .code-modal p {
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: #00ff9d;
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+        }
+
+        .modal-btn-primary:hover {
+            background: rgba(0, 255, 157, 0.3);
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .modal-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         /* Exit Widescreen Button */
         .exit-widescreen {
             position: fixed;
@@ -455,6 +566,12 @@
             .iframe-wrapper {
                 height: 400px;
             }
+            
+            .watermark {
+                font-size: 22px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -476,6 +593,12 @@
             
             .iframe-wrapper {
                 height: 300px;
+            }
+            
+            .watermark {
+                font-size: 18px;
+                bottom: 15px;
+                right: 15px;
             }
         }
     </style>
@@ -583,6 +706,22 @@
         <iframe id="widescreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
     </div>
 
+    <!-- Watermark -->
+    <div class="watermark" id="watermark">tclaws.xyz</div>
+
+    <!-- Code Entry Modal -->
+    <div class="code-modal" id="codeModal">
+        <div class="code-modal-content">
+            <h3>Remove Watermark</h3>
+            <p>Enter the code to remove the watermark from widescreen mode:</p>
+            <input type="text" class="code-input" id="codeInput" placeholder="Enter code..." maxlength="8">
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-primary" id="submitCode">Submit</button>
+                <button class="modal-btn modal-btn-secondary" id="cancelCode">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Exit Widescreen Button -->
     <button class="exit-widescreen" id="exitWidescreenBtn">
         <i class="fas fa-compress"></i> Exit Widescreen
@@ -613,9 +752,15 @@
         const widescreenMode = document.getElementById('widescreenMode');
         const widescreenFrame = document.getElementById('widescreenFrame');
         const exitWidescreenBtn = document.getElementById('exitWidescreenBtn');
+        const watermark = document.getElementById('watermark');
+        const codeModal = document.getElementById('codeModal');
+        const codeInput = document.getElementById('codeInput');
+        const submitCode = document.getElementById('submitCode');
+        const cancelCode = document.getElementById('cancelCode');
 
         let currentUrl = '';
         let hasFocus = false;
+        let watermarkRemoved = false;
 
         // Show loading state
         function showLoading(frame) {
@@ -711,6 +856,11 @@
                 exitWidescreenBtn.style.display = 'block';
                 document.body.style.overflow = 'hidden';
                 
+                // Show watermark if not removed
+                if (!watermarkRemoved) {
+                    watermark.style.display = 'block';
+                }
+                
                 // Focus the widescreen iframe immediately
                 setTimeout(() => {
                     focusIframe(widescreenFrame);
@@ -722,6 +872,7 @@
         function exitWidescreen() {
             widescreenMode.style.display = 'none';
             exitWidescreenBtn.style.display = 'none';
+            watermark.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
@@ -735,6 +886,32 @@
             focusOverlay.classList.remove('active');
         }
 
+        // Show code modal
+        function showCodeModal() {
+            codeModal.style.display = 'flex';
+            codeInput.value = '';
+            codeInput.focus();
+        }
+
+        // Hide code modal
+        function hideCodeModal() {
+            codeModal.style.display = 'none';
+        }
+
+        // Validate code
+        function validateCode() {
+            const code = codeInput.value.trim().toUpperCase();
+            if (code === 'TCAW2025') {
+                watermarkRemoved = true;
+                watermark.style.display = 'none';
+                hideCodeModal();
+            } else {
+                alert('Invalid code. Please try again.');
+                codeInput.value = '';
+                codeInput.focus();
+            }
+        }
+
         // Event listeners
         launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
         clearBtn.addEventListener('click', clearUrl);
@@ -744,6 +921,18 @@
         fullscreenBtn.addEventListener('click', enterWidescreen);
         closeBtn.addEventListener('click', closeIframe);
         exitWidescreenBtn.addEventListener('click', exitWidescreen);
+        
+        // Watermark events
+        watermark.addEventListener('click', showCodeModal);
+        submitCode.addEventListener('click', validateCode);
+        cancelCode.addEventListener('click', hideCodeModal);
+        
+        // Handle Enter key in code input
+        codeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                validateCode();
+            }
+        });
         
         // Focus overlay click handler
         focusOverlay.addEventListener('click', () => {
