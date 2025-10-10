@@ -1,16 +1,15 @@
 {
   "messages": {
-    "secret123": {
-      "message": "Our secret meeting place",
+    "123456": {
+      "message": "Hello world",
       "timestamp": 1635781234567,
       "expires": 1635783034567
     },
-    "784512": {
-      "message": "Auto-generated code message",
+    "789012": {
+      "message": "Meeting at 3pm",
       "timestamp": 1635781300000,
       "expires": 1635783100000
     }
   },
-  "exportedAt": 1635781234567,
-  "version": "1.0"
+  "lastCleanup": 1635781234567
 }
