@@ -22,7 +22,7 @@
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
@@ -117,6 +117,7 @@
             font-weight: 600;
             width: 100%;
             transition: background-color 0.3s;
+            margin-bottom: 10px;
         }
 
         .btn:hover {
@@ -129,6 +130,14 @@
 
         .btn-secondary:hover {
             background-color: #5a6268;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
         }
 
         .message-box {
@@ -235,6 +244,41 @@
             color: #0066cc;
         }
 
+        .storage-info {
+            margin-top: 15px;
+            padding: 8px;
+            background-color: #fff3cd;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #856404;
+            text-align: center;
+        }
+
+        .transfer-section {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .transfer-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .transfer-buttons .btn {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .json-data {
+            width: 100%;
+            height: 100px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -243,17 +287,22 @@
             h1 {
                 font-size: 24px;
             }
+            
+            .transfer-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Secure Message Transfer</h1>
-        <p class="description">Send messages securely between devices using 6-digit codes. Generate a code to send a message or enter a code to receive one.</p>
+        <p class="description">Send messages securely between devices using 6-digit codes. Works completely in your browser!</p>
         
         <div class="tabs">
             <div class="tab active" data-tab="send">Send Message</div>
             <div class="tab" data-tab="receive">Receive Message</div>
+            <div class="tab" data-tab="transfer">Data Transfer</div>
         </div>
         
         <div class="panel active" id="send-panel">
@@ -280,7 +329,7 @@
                 <div class="message-content" id="send-message-content">
                     Your message will appear here after generation.
                 </div>
-                <button class="copy-btn" id="send-copy-btn">Copy</button>
+                <button class="copy-btn" id="send-copy-btn">Copy Message</button>
             </div>
         </div>
         
@@ -300,21 +349,168 @@
                 <div class="message-content" id="receive-message-content">
                     Enter a code to retrieve a message.
                 </div>
-                <button class="copy-btn" id="receive-copy-btn">Copy</button>
+                <button class="copy-btn" id="receive-copy-btn">Copy Message</button>
             </div>
         </div>
         
+        <div class="panel" id="transfer-panel">
+            <div class="transfer-section">
+                <h3>Export Messages</h3>
+                <p>Export your messages to transfer them to another device:</p>
+                <button class="btn btn-success" id="export-btn">Export All Messages</button>
+                <textarea class="json-data" id="export-data" placeholder="Exported messages will appear here..." readonly></textarea>
+                <button class="btn" id="copy-export-btn">Copy Export Data</button>
+            </div>
+            
+            <div class="transfer-section">
+                <h3>Import Messages</h3>
+                <p>Paste exported messages from another device:</p>
+                <textarea class="json-data" id="import-data" placeholder="Paste exported messages here..."></textarea>
+                <div class="transfer-buttons">
+                    <button class="btn btn-success" id="import-btn">Import Messages</button>
+                    <button class="btn btn-secondary" id="clear-all-btn">Clear All Messages</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="storage-info" id="storage-info">
+            Messages are stored in your browser and auto-delete after 30 minutes
+        </div>
+        
         <div class="security-note">
-            <strong>Security Note:</strong> Messages are encrypted and stored temporarily. They are automatically deleted after retrieval or after 24 hours.
+            <strong>How it works:</strong> 
+            <ol style="margin-left: 20px; margin-top: 5px;">
+                <li>Create a message with a 6-digit code on Device A</li>
+                <li>Export messages and transfer to Device B</li>
+                <li>Import messages on Device B and enter the code to read</li>
+                <li>Messages auto-delete after 30 minutes or when read</li>
+            </ol>
         </div>
     </div>
     
     <div class="notification" id="notification">Copied to clipboard!</div>
 
     <script>
-        // Simple in-memory storage for messages (in a real app, this would be a secure server)
-        const messageStore = {};
-        
+        // Message storage with automatic cleanup every 30 minutes
+        const STORAGE_KEY = 'secure_messages';
+        const MESSAGE_TTL = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+        // Initialize message storage
+        function initializeStorage() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    messages: {},
+                    lastCleanup: Date.now()
+                }));
+            }
+            cleanupExpiredMessages();
+        }
+
+        // Get all messages from storage
+        function getMessages() {
+            const storage = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"messages":{}}');
+            return storage.messages;
+        }
+
+        // Save a message to storage
+        function saveMessage(code, message) {
+            const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            storage.messages[code] = {
+                message: message,
+                timestamp: Date.now(),
+                expires: Date.now() + MESSAGE_TTL
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+            updateStorageInfo();
+        }
+
+        // Get a specific message by code
+        function getMessage(code) {
+            const messages = getMessages();
+            return messages[code];
+        }
+
+        // Delete a message by code
+        function deleteMessage(code) {
+            const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (storage.messages[code]) {
+                delete storage.messages[code];
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+                updateStorageInfo();
+                return true;
+            }
+            return false;
+        }
+
+        // Clean up expired messages
+        function cleanupExpiredMessages() {
+            const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            const now = Date.now();
+            let cleaned = false;
+            
+            for (const code in storage.messages) {
+                if (storage.messages[code].expires < now) {
+                    delete storage.messages[code];
+                    cleaned = true;
+                }
+            }
+            
+            storage.lastCleanup = now;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+            
+            if (cleaned) {
+                console.log('Cleaned up expired messages');
+            }
+            updateStorageInfo();
+        }
+
+        // Export all messages as JSON
+        function exportMessages() {
+            const messages = getMessages();
+            const exportData = {
+                messages: messages,
+                exportedAt: Date.now(),
+                version: '1.0'
+            };
+            return JSON.stringify(exportData, null, 2);
+        }
+
+        // Import messages from JSON
+        function importMessages(jsonData) {
+            try {
+                const importData = JSON.parse(jsonData);
+                if (importData.messages && typeof importData.messages === 'object') {
+                    const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                    
+                    // Merge messages (new ones overwrite old ones with same code)
+                    Object.assign(storage.messages, importData.messages);
+                    
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+                    updateStorageInfo();
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Clear all messages
+        function clearAllMessages() {
+            const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            storage.messages = {};
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+            updateStorageInfo();
+        }
+
+        // Update storage info display
+        function updateStorageInfo() {
+            const messages = getMessages();
+            const count = Object.keys(messages).length;
+            const infoElement = document.getElementById('storage-info');
+            infoElement.textContent = `${count} messages in storage (auto-delete after 30 minutes)`;
+        }
+
         // DOM Elements
         const tabs = document.querySelectorAll('.tab');
         const panels = document.querySelectorAll('.panel');
@@ -334,6 +530,13 @@
         const receiveCopyBtn = document.getElementById('receive-copy-btn');
         const receiveExpandBtn = document.getElementById('receive-expand-btn');
         
+        const exportBtn = document.getElementById('export-btn');
+        const exportDataElement = document.getElementById('export-data');
+        const copyExportBtn = document.getElementById('copy-export-btn');
+        const importBtn = document.getElementById('import-btn');
+        const importDataElement = document.getElementById('import-data');
+        const clearAllBtn = document.getElementById('clear-all-btn');
+        
         const notification = document.getElementById('notification');
         
         // Generate a random 6-digit code
@@ -341,9 +544,14 @@
             return Math.floor(100000 + Math.random() * 900000).toString();
         }
         
-        // Initialize with a random code
+        // Initialize with a random code and storage
         sendCodeElement.textContent = generateCode();
+        initializeStorage();
+        updateStorageInfo();
         
+        // Set up periodic cleanup (every 5 minutes)
+        setInterval(cleanupExpiredMessages, 5 * 60 * 1000);
+
         // Tab switching
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -379,16 +587,13 @@
             }
             
             // Store message with code as key
-            messageStore[code] = {
-                message: message,
-                timestamp: Date.now()
-            };
+            saveMessage(code, message);
             
             // Update message box
             sendMessageContent.textContent = message;
             sendMessageBox.classList.add('expanded');
             
-            showNotification('Message code generated! Share this code to send your message.');
+            showNotification('Message code generated! Export your messages to transfer to another device.');
         });
         
         // Receive message
@@ -400,17 +605,25 @@
                 return;
             }
             
-            if (messageStore[code]) {
-                const messageData = messageStore[code];
-                receiveMessageContent.textContent = messageData.message;
-                receiveMessageBox.classList.add('expanded');
-                
-                // Delete the message after retrieval (in a real app, this would be server-side)
-                delete messageStore[code];
-                
-                showNotification('Message retrieved successfully!');
+            const messageData = getMessage(code);
+            
+            if (messageData) {
+                // Check if message is expired
+                if (messageData.expires < Date.now()) {
+                    deleteMessage(code);
+                    receiveMessageContent.textContent = 'This message has expired.';
+                    showNotification('Message has expired', 'error');
+                } else {
+                    receiveMessageContent.textContent = messageData.message;
+                    receiveMessageBox.classList.add('expanded');
+                    
+                    // Delete the message after retrieval
+                    deleteMessage(code);
+                    
+                    showNotification('Message retrieved successfully!');
+                }
             } else {
-                receiveMessageContent.textContent = 'No message found for this code. It may have expired or been already retrieved.';
+                receiveMessageContent.textContent = 'No message found for this code. It may have expired, been already retrieved, or not imported yet.';
                 showNotification('No message found for this code', 'error');
             }
         });
@@ -435,6 +648,43 @@
         receiveExpandBtn.addEventListener('click', () => {
             receiveMessageBox.classList.toggle('expanded');
             receiveExpandBtn.textContent = receiveMessageBox.classList.contains('expanded') ? '▲' : '▼';
+        });
+        
+        // Export messages
+        exportBtn.addEventListener('click', () => {
+            const exportData = exportMessages();
+            exportDataElement.value = exportData;
+            showNotification('Messages exported! Copy the data to transfer.');
+        });
+        
+        // Copy export data
+        copyExportBtn.addEventListener('click', () => {
+            copyToClipboard(exportDataElement.value);
+            showNotification('Export data copied to clipboard!');
+        });
+        
+        // Import messages
+        importBtn.addEventListener('click', () => {
+            const importData = importDataElement.value.trim();
+            if (!importData) {
+                showNotification('Please enter export data to import', 'error');
+                return;
+            }
+            
+            if (importMessages(importData)) {
+                showNotification('Messages imported successfully!');
+                importDataElement.value = '';
+            } else {
+                showNotification('Invalid export data format', 'error');
+            }
+        });
+        
+        // Clear all messages
+        clearAllBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all messages? This cannot be undone.')) {
+                clearAllMessages();
+                showNotification('All messages cleared!');
+            }
         });
         
         // Helper function to copy text to clipboard
