@@ -1,0 +1,32 @@
+{
+  "inboxCode": "784512",
+  "messages": {
+    "1635781234567": {
+      "sender": "John",
+      "message": "Hey, want to meet for coffee?",
+      "timestamp": 1635781234567,
+      "expires": 1635867634567,
+      "read": false
+    },
+    "1635781300000": {
+      "sender": "Sarah",
+      "message": "Don't forget the meeting tomorrow!",
+      "timestamp": 1635781300000,
+      "expires": 1635867700000,
+      "read": true
+    }
+  },
+  "sentMessages": {
+    "1635781400000": {
+      "recipient": "963852",
+      "sender": "You",
+      "message": "Thanks for the help!",
+      "timestamp": 1635781400000,
+      "expires": 1635867800000
+    }
+  },
+  "settings": {
+    "createdAt": 1635781000000,
+    "lastCleanup": 1635781234567
+  }
+}
