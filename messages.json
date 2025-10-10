@@ -1,9 +1,14 @@
 {
   "messages": {
-    "459237": {
-      "message": "Your secret message here",
+    "secret123": {
+      "message": "Our secret meeting place",
       "timestamp": 1635781234567,
       "expires": 1635783034567
+    },
+    "784512": {
+      "message": "Auto-generated code message",
+      "timestamp": 1635781300000,
+      "expires": 1635783100000
     }
   },
   "exportedAt": 1635781234567,
