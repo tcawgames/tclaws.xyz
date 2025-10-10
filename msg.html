@@ -100,9 +100,9 @@
         }
 
         .code-input {
-            letter-spacing: 8px;
+            letter-spacing: 4px;
             text-align: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
@@ -138,6 +138,15 @@
 
         .btn-success:hover {
             background-color: #218838;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
         }
 
         .message-box {
@@ -219,9 +228,9 @@
             background-color: #f8f9fa;
             padding: 12px;
             border-radius: 8px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             text-align: center;
             border: 2px dashed #ddd;
         }
@@ -287,6 +296,22 @@
             border-radius: 4px;
         }
 
+        .code-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .code-options .btn {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .custom-code-input {
+            display: none;
+            margin-top: 10px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -296,7 +321,7 @@
                 font-size: 24px;
             }
             
-            .transfer-buttons {
+            .transfer-buttons, .code-options {
                 flex-direction: column;
             }
         }
@@ -305,7 +330,7 @@
 <body>
     <div class="container">
         <h1>Secure Message Transfer</h1>
-        <p class="description">Send messages securely between devices using 6-digit codes. Works completely in your browser!</p>
+        <p class="description">Send messages securely between devices using codes. Works completely in your browser!</p>
         
         <div class="tabs">
             <div class="tab active" data-tab="send">Send Message</div>
@@ -315,7 +340,17 @@
         
         <div class="panel active" id="send-panel">
             <div class="instruction-box">
-                <strong>Step 1:</strong> Write your message and use the 6-digit code (or generate a new one)
+                <strong>Step 1:</strong> Choose a code type and write your message
+            </div>
+            
+            <div class="code-options">
+                <button class="btn btn-success" id="auto-code-btn">Auto 6-Digit Code</button>
+                <button class="btn btn-warning" id="custom-code-btn">Custom Code</button>
+            </div>
+            
+            <div class="custom-code-input" id="custom-code-input">
+                <label for="custom-code">Your Custom Code:</label>
+                <input type="text" id="custom-code" class="code-input" placeholder="Enter any code (letters/numbers)" maxlength="20">
             </div>
             
             <div class="form-group">
@@ -324,7 +359,7 @@
             </div>
             
             <div class="form-group">
-                <label>Your 6-Digit Code:</label>
+                <label>Your Code:</label>
                 <div class="code-display">
                     <div class="code-value" id="send-code">123456</div>
                     <button class="regenerate-btn" id="regenerate-code" title="Generate new code">↻</button>
@@ -351,12 +386,12 @@
         
         <div class="panel" id="receive-panel">
             <div class="instruction-box">
-                <strong>Step 3:</strong> After importing messages, enter the 6-digit code to read the message
+                <strong>Step 3:</strong> After importing messages, enter the code to read the message
             </div>
             
             <div class="form-group">
-                <label for="receive-code">Enter 6-Digit Code:</label>
-                <input type="text" id="receive-code" class="code-input" maxlength="6" placeholder="000000">
+                <label for="receive-code">Enter Code:</label>
+                <input type="text" id="receive-code" class="code-input" placeholder="Enter the code (any length)" maxlength="20">
             </div>
             
             <button class="btn" id="receive-btn">Retrieve Message</button>
@@ -377,10 +412,10 @@
             <div class="instruction-box">
                 <strong>How it works:</strong> 
                 <ol style="margin-left: 20px; margin-top: 5px;">
-                    <li>Create message with 6-digit code on Device A</li>
+                    <li>Create message with code on Device A</li>
                     <li>Export messages from Device A</li>
                     <li>Import messages on Device B</li>
-                    <li>Enter same 6-digit code on Device B to read</li>
+                    <li>Enter same code on Device B to read</li>
                 </ol>
             </div>
             
@@ -499,22 +534,33 @@
             return JSON.stringify(exportData, null, 2);
         }
 
-        // Import messages from JSON
+        // Import messages from JSON - FIXED for cross-device transfer
         function importMessages(jsonData) {
             try {
                 const importData = JSON.parse(jsonData);
                 if (importData.messages && typeof importData.messages === 'object') {
-                    const storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                    const currentStorage = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"messages":{}}');
                     
-                    // Merge messages (new ones overwrite old ones with same code)
-                    Object.assign(storage.messages, importData.messages);
+                    // Merge imported messages with existing ones
+                    // Imported messages will overwrite existing ones with same codes
+                    const mergedMessages = {
+                        ...currentStorage.messages,
+                        ...importData.messages
+                    };
                     
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+                    // Create new storage with merged messages
+                    const newStorage = {
+                        messages: mergedMessages,
+                        lastCleanup: Date.now()
+                    };
+                    
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(newStorage));
                     updateStorageInfo();
                     return true;
                 }
                 return false;
             } catch (e) {
+                console.error('Import error:', e);
                 return false;
             }
         }
@@ -552,6 +598,11 @@
         const sendCopyBtn = document.getElementById('send-copy-btn');
         const sendExpandBtn = document.getElementById('send-expand-btn');
         
+        const autoCodeBtn = document.getElementById('auto-code-btn');
+        const customCodeBtn = document.getElementById('custom-code-btn');
+        const customCodeInput = document.getElementById('custom-code-input');
+        const customCodeField = document.getElementById('custom-code');
+        
         const receiveCodeInput = document.getElementById('receive-code');
         const receiveBtn = document.getElementById('receive-btn');
         const receiveMessageBox = document.getElementById('receive-message-box');
@@ -567,6 +618,9 @@
         const clearAllBtn = document.getElementById('clear-all-btn');
         
         const notification = document.getElementById('notification');
+        
+        // Current code type (auto or custom)
+        let currentCodeType = 'auto';
         
         // Initialize with a random code and storage
         sendCodeElement.textContent = generateCode();
@@ -595,18 +649,62 @@
             });
         });
         
-        // Regenerate code
-        regenerateCodeBtn.addEventListener('click', () => {
+        // Auto code button
+        autoCodeBtn.addEventListener('click', () => {
+            currentCodeType = 'auto';
+            customCodeInput.style.display = 'none';
             sendCodeElement.textContent = generateCode();
+            autoCodeBtn.style.backgroundColor = '#28a745';
+            customCodeBtn.style.backgroundColor = '#ffc107';
+            showNotification('Using auto-generated 6-digit codes');
+        });
+        
+        // Custom code button
+        customCodeBtn.addEventListener('click', () => {
+            currentCodeType = 'custom';
+            customCodeInput.style.display = 'block';
+            customCodeField.value = '';
+            sendCodeElement.textContent = 'Enter custom code below';
+            autoCodeBtn.style.backgroundColor = '#6c757d';
+            customCodeBtn.style.backgroundColor = '#e0a800';
+            showNotification('Using custom codes - enter any code you want');
+        });
+        
+        // Update code display when custom code is entered
+        customCodeField.addEventListener('input', () => {
+            if (currentCodeType === 'custom') {
+                sendCodeElement.textContent = customCodeField.value || 'Enter custom code below';
+            }
+        });
+        
+        // Regenerate code (only for auto codes)
+        regenerateCodeBtn.addEventListener('click', () => {
+            if (currentCodeType === 'auto') {
+                sendCodeElement.textContent = generateCode();
+                showNotification('New 6-digit code generated');
+            } else {
+                showNotification('Clear the custom code field to enter a new one', 'error');
+            }
         });
         
         // Send message
         sendBtn.addEventListener('click', () => {
             const message = messageInput.value.trim();
-            const code = sendCodeElement.textContent;
+            let code;
+            
+            if (currentCodeType === 'auto') {
+                code = sendCodeElement.textContent;
+            } else {
+                code = customCodeField.value.trim();
+            }
             
             if (!message) {
                 showNotification('Please enter a message', 'error');
+                return;
+            }
+            
+            if (!code || code === 'Enter custom code below') {
+                showNotification('Please enter a valid code', 'error');
                 return;
             }
             
@@ -618,14 +716,23 @@
             sendMessageBox.classList.add('expanded');
             
             showNotification(`Message saved with code: ${code}! Now export your messages.`);
+            
+            // Clear inputs
+            messageInput.value = '';
+            if (currentCodeType === 'auto') {
+                sendCodeElement.textContent = generateCode();
+            } else {
+                customCodeField.value = '';
+                sendCodeElement.textContent = 'Enter custom code below';
+            }
         });
         
         // Receive message
         receiveBtn.addEventListener('click', () => {
             const code = receiveCodeInput.value.trim();
             
-            if (code.length !== 6) {
-                showNotification('Please enter a valid 6-digit code', 'error');
+            if (!code) {
+                showNotification('Please enter a code', 'error');
                 return;
             }
             
@@ -647,7 +754,7 @@
                     showNotification('Message retrieved successfully!');
                 }
             } else {
-                receiveMessageContent.textContent = 'No message found for this code. Make sure you have imported the messages and entered the correct 6-digit code.';
+                receiveMessageContent.textContent = 'No message found for this code. Make sure you have imported the messages and entered the correct code.';
                 showNotification('No message found for this code', 'error');
             }
         });
@@ -687,7 +794,7 @@
             showNotification('Export data copied to clipboard!');
         });
         
-        // Import messages
+        // Import messages - FIXED for cross-device
         importBtn.addEventListener('click', () => {
             const importData = importDataElement.value.trim();
             if (!importData) {
@@ -696,10 +803,12 @@
             }
             
             if (importMessages(importData)) {
-                showNotification('Messages imported successfully! You can now retrieve messages using their codes.');
+                const importedData = JSON.parse(importData);
+                const messageCount = Object.keys(importedData.messages || {}).length;
+                showNotification(`${messageCount} messages imported successfully! You can now retrieve messages using their codes.`);
                 importDataElement.value = '';
             } else {
-                showNotification('Invalid export data format', 'error');
+                showNotification('Invalid export data format. Make sure you copied the complete JSON.', 'error');
             }
         });
         
@@ -732,19 +841,15 @@
             }, 4000);
         }
         
-        // Format code input (auto-tab and formatting)
-        receiveCodeInput.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 6) value = value.substring(0, 6);
-            e.target.value = value;
-        });
-        
         // Auto-focus on code input when switching to receive tab
         document.querySelector('.tab[data-tab="receive"]').addEventListener('click', () => {
             setTimeout(() => {
                 receiveCodeInput.focus();
             }, 100);
         });
+        
+        // Initialize with auto code mode
+        autoCodeBtn.click();
     </script>
 </body>
 </html>
