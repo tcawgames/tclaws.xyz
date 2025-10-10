@@ -1,0 +1,11 @@
+{
+  "messages": {
+    "459237": {
+      "message": "Your secret message here",
+      "timestamp": 1635781234567,
+      "expires": 1635783034567
+    }
+  },
+  "exportedAt": 1635781234567,
+  "version": "1.0"
+}
