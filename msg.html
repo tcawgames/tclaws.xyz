@@ -279,6 +279,14 @@
             resize: vertical;
         }
 
+        .instruction-box {
+            background: #f8f9fa;
+            border-left: 4px solid #1a2a6c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -306,6 +314,10 @@
         </div>
         
         <div class="panel active" id="send-panel">
+            <div class="instruction-box">
+                <strong>Step 1:</strong> Write your message and use the 6-digit code (or generate a new one)
+            </div>
+            
             <div class="form-group">
                 <label for="message">Your Message:</label>
                 <textarea id="message" rows="5" placeholder="Type your message here..."></textarea>
@@ -319,21 +331,29 @@
                 </div>
             </div>
             
-            <button class="btn" id="send-btn">Generate Message Code</button>
+            <button class="btn" id="send-btn">Save Message with This Code</button>
+            
+            <div class="instruction-box">
+                <strong>Step 2:</strong> Go to "Data Transfer" tab to export your messages
+            </div>
             
             <div class="message-box" id="send-message-box">
                 <div class="message-header">
-                    <span>Message to Share</span>
+                    <span>Message Saved</span>
                     <button class="expand-btn" id="send-expand-btn">▼</button>
                 </div>
                 <div class="message-content" id="send-message-content">
-                    Your message will appear here after generation.
+                    Your message will appear here after saving.
                 </div>
                 <button class="copy-btn" id="send-copy-btn">Copy Message</button>
             </div>
         </div>
         
         <div class="panel" id="receive-panel">
+            <div class="instruction-box">
+                <strong>Step 3:</strong> After importing messages, enter the 6-digit code to read the message
+            </div>
+            
             <div class="form-group">
                 <label for="receive-code">Enter 6-Digit Code:</label>
                 <input type="text" id="receive-code" class="code-input" maxlength="6" placeholder="000000">
@@ -354,16 +374,26 @@
         </div>
         
         <div class="panel" id="transfer-panel">
+            <div class="instruction-box">
+                <strong>How it works:</strong> 
+                <ol style="margin-left: 20px; margin-top: 5px;">
+                    <li>Create message with 6-digit code on Device A</li>
+                    <li>Export messages from Device A</li>
+                    <li>Import messages on Device B</li>
+                    <li>Enter same 6-digit code on Device B to read</li>
+                </ol>
+            </div>
+            
             <div class="transfer-section">
-                <h3>Export Messages</h3>
-                <p>Export your messages to transfer them to another device:</p>
+                <h3>📤 Export Messages (Device A)</h3>
+                <p>After creating messages, export them to transfer to another device:</p>
                 <button class="btn btn-success" id="export-btn">Export All Messages</button>
                 <textarea class="json-data" id="export-data" placeholder="Exported messages will appear here..." readonly></textarea>
                 <button class="btn" id="copy-export-btn">Copy Export Data</button>
             </div>
             
             <div class="transfer-section">
-                <h3>Import Messages</h3>
+                <h3>📥 Import Messages (Device B)</h3>
                 <p>Paste exported messages from another device:</p>
                 <textarea class="json-data" id="import-data" placeholder="Paste exported messages here..."></textarea>
                 <div class="transfer-buttons">
@@ -378,13 +408,7 @@
         </div>
         
         <div class="security-note">
-            <strong>How it works:</strong> 
-            <ol style="margin-left: 20px; margin-top: 5px;">
-                <li>Create a message with a 6-digit code on Device A</li>
-                <li>Export messages and transfer to Device B</li>
-                <li>Import messages on Device B and enter the code to read</li>
-                <li>Messages auto-delete after 30 minutes or when read</li>
-            </ol>
+            <strong>Security Note:</strong> Messages are stored locally in your browser. They are automatically deleted after retrieval or after 30 minutes.
         </div>
     </div>
     
@@ -511,6 +535,11 @@
             infoElement.textContent = `${count} messages in storage (auto-delete after 30 minutes)`;
         }
 
+        // Generate a random 6-digit code
+        function generateCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
         // DOM Elements
         const tabs = document.querySelectorAll('.tab');
         const panels = document.querySelectorAll('.panel');
@@ -538,11 +567,6 @@
         const clearAllBtn = document.getElementById('clear-all-btn');
         
         const notification = document.getElementById('notification');
-        
-        // Generate a random 6-digit code
-        function generateCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
         
         // Initialize with a random code and storage
         sendCodeElement.textContent = generateCode();
@@ -590,10 +614,10 @@
             saveMessage(code, message);
             
             // Update message box
-            sendMessageContent.textContent = message;
+            sendMessageContent.textContent = `Message saved with code: ${code}\n\n${message}`;
             sendMessageBox.classList.add('expanded');
             
-            showNotification('Message code generated! Export your messages to transfer to another device.');
+            showNotification(`Message saved with code: ${code}! Now export your messages.`);
         });
         
         // Receive message
@@ -623,7 +647,7 @@
                     showNotification('Message retrieved successfully!');
                 }
             } else {
-                receiveMessageContent.textContent = 'No message found for this code. It may have expired, been already retrieved, or not imported yet.';
+                receiveMessageContent.textContent = 'No message found for this code. Make sure you have imported the messages and entered the correct 6-digit code.';
                 showNotification('No message found for this code', 'error');
             }
         });
@@ -654,7 +678,7 @@
         exportBtn.addEventListener('click', () => {
             const exportData = exportMessages();
             exportDataElement.value = exportData;
-            showNotification('Messages exported! Copy the data to transfer.');
+            showNotification('Messages exported! Copy this data and send it to the other device.');
         });
         
         // Copy export data
@@ -672,7 +696,7 @@
             }
             
             if (importMessages(importData)) {
-                showNotification('Messages imported successfully!');
+                showNotification('Messages imported successfully! You can now retrieve messages using their codes.');
                 importDataElement.value = '';
             } else {
                 showNotification('Invalid export data format', 'error');
@@ -705,7 +729,7 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
         
         // Format code input (auto-tab and formatting)
