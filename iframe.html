@@ -350,28 +350,147 @@
             background: rgba(0, 255, 157, 0.15);
         }
 
-        .loading {
+        /* Loading Screen */
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
-            color: #00ff9d;
-            font-size: 1.2rem;
+            z-index: 10;
+        }
+
+        .loading-animation {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
         .loading-spinner {
             border: 3px solid rgba(0, 255, 157, 0.3);
             border-radius: 50%;
             border-top: 3px solid #00ff9d;
-            width: 30px;
-            height: 30px;
+            width: 100%;
+            height: 100%;
             animation: spin 1s linear infinite;
-            margin-right: 10px;
+        }
+
+        .loading-spinner-inner {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 255, 157, 0.5);
+            border-radius: 50%;
+            border-top: 3px solid #00ff9d;
+            animation: spin 0.7s linear infinite reverse;
+        }
+
+        .loading-messages {
+            text-align: center;
+            height: 60px;
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .loading-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            color: #00ff9d;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+            transition: opacity 1s ease;
+        }
+
+        .loading-message.active {
+            opacity: 1;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Download Handler */
+        .download-handler {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            z-index: 20;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .download-message {
+            color: #ff5555;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .download-link-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .download-link {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 8px 12px;
+            color: #00ff9d;
+            font-family: monospace;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .copy-btn {
+            background: rgba(0, 255, 157, 0.2);
+            border: 1px solid #00ff9d;
+            color: #00ff9d;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 255, 157, 0.3);
+        }
+
+        .close-download-btn {
+            background: rgba(255, 85, 85, 0.2);
+            border: 1px solid #ff5555;
+            color: #ff5555;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            align-self: flex-end;
+        }
+
+        .close-download-btn:hover {
+            background: rgba(255, 85, 85, 0.3);
         }
 
         /* Widescreen Mode */
@@ -399,7 +518,7 @@
             bottom: 30px;
             right: 30px;
             color: rgba(255, 255, 255, 0.25);
-            font-size: 28px;
+            font-size: 36px;
             font-weight: 600;
             cursor: pointer;
             z-index: 1002;
@@ -568,7 +687,7 @@
             }
             
             .watermark {
-                font-size: 22px;
+                font-size: 28px;
                 bottom: 20px;
                 right: 20px;
             }
@@ -596,7 +715,7 @@
             }
             
             .watermark {
-                font-size: 18px;
+                font-size: 22px;
                 bottom: 15px;
                 right: 15px;
             }
@@ -693,6 +812,28 @@
                 </div>
             </div>
             <div class="iframe-wrapper">
+                <div class="loading-screen" id="loadingScreen">
+                    <div class="loading-animation">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-spinner-inner"></div>
+                    </div>
+                    <div class="loading-messages" id="loadingMessages">
+                        <div class="loading-message" id="message1">Loading your site!</div>
+                        <div class="loading-message" id="message2">This should only take less than 15 seconds!</div>
+                        <div class="loading-message" id="message3">Patchy and Rojo are kewl</div>
+                        <div class="loading-message" id="message4">Helloooooooooo</div>
+                        <div class="loading-message" id="message5">Keybinds in SkyEmu have been fixed!</div>
+                        <div class="loading-message" id="message6">All sites that allow iframes of their site should work here!</div>
+                    </div>
+                </div>
+                <div class="download-handler" id="downloadHandler">
+                    <div class="download-message">The site tried to download something but downloads are disabled on iframes. Here's the link to download from your browser:</div>
+                    <div class="download-link-container">
+                        <div class="download-link" id="downloadLink"></div>
+                        <button class="copy-btn" id="copyDownloadBtn">Copy</button>
+                    </div>
+                    <button class="close-download-btn" id="closeDownloadBtn">Close</button>
+                </div>
                 <div class="focus-overlay" id="focusOverlay">
                     <div>Click to Enable Keyboard Controls</div>
                 </div>
@@ -703,6 +844,20 @@
 
     <!-- Widescreen Mode -->
     <div class="widescreen-mode" id="widescreenMode">
+        <div class="loading-screen" id="widescreenLoadingScreen">
+            <div class="loading-animation">
+                <div class="loading-spinner"></div>
+                <div class="loading-spinner-inner"></div>
+            </div>
+            <div class="loading-messages" id="widescreenLoadingMessages">
+                <div class="loading-message" id="widescreenMessage1">Loading your site!</div>
+                <div class="loading-message" id="widescreenMessage2">This should only take less than 15 seconds!</div>
+                <div class="loading-message" id="widescreenMessage3">Patchy and Rojo are kewl</div>
+                <div class="loading-message" id="widescreenMessage4">Helloooooooooo</div>
+                <div class="loading-message" id="widescreenMessage5">Keybinds in SkyEmu have been fixed!</div>
+                <div class="loading-message" id="widescreenMessage6">All sites that allow iframes of their site should work here!</div>
+            </div>
+        </div>
         <iframe id="widescreenFrame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock"></iframe>
     </div>
 
@@ -757,27 +912,79 @@
         const codeInput = document.getElementById('codeInput');
         const submitCode = document.getElementById('submitCode');
         const cancelCode = document.getElementById('cancelCode');
+        const loadingScreen = document.getElementById('loadingScreen');
+        const widescreenLoadingScreen = document.getElementById('widescreenLoadingScreen');
+        const downloadHandler = document.getElementById('downloadHandler');
+        const downloadLink = document.getElementById('downloadLink');
+        const copyDownloadBtn = document.getElementById('copyDownloadBtn');
+        const closeDownloadBtn = document.getElementById('closeDownloadBtn');
 
         let currentUrl = '';
         let hasFocus = false;
         let watermarkRemoved = false;
+        let loadingInterval;
+        let widescreenLoadingInterval;
+
+        // Loading messages array
+        const loadingMessages = [
+            "Loading your site!",
+            "This should only take less than 15 seconds!",
+            "Patchy and Rojo are kewl",
+            "Helloooooooooo",
+            "Keybinds in SkyEmu have been fixed!",
+            "All sites that allow iframes of their site should work here!"
+        ];
+
+        // Start loading animation
+        function startLoadingAnimation(loadingScreenElement, messagesElement) {
+            const messages = messagesElement.querySelectorAll('.loading-message');
+            let currentIndex = 0;
+            
+            // Show first message
+            messages[currentIndex].classList.add('active');
+            
+            // Cycle through messages
+            return setInterval(() => {
+                // Hide current message
+                messages[currentIndex].classList.remove('active');
+                
+                // Move to next message
+                currentIndex = (currentIndex + 1) % messages.length;
+                
+                // Show next message
+                messages[currentIndex].classList.add('active');
+            }, 3000); // Change message every 3 seconds
+        }
+
+        // Stop loading animation
+        function stopLoadingAnimation(intervalId) {
+            clearInterval(intervalId);
+        }
 
         // Show loading state
-        function showLoading(frame) {
+        function showLoading(frame, loadingScreenElement, messagesElement) {
             frame.style.display = 'none';
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'loading';
-            loadingDiv.innerHTML = '<div class="loading-spinner"></div>Loading...';
-            frame.parentNode.appendChild(loadingDiv);
+            loadingScreenElement.style.display = 'flex';
+            
+            // Start the loading animation
+            if (frame === siteFrame) {
+                loadingInterval = startLoadingAnimation(loadingScreenElement, messagesElement);
+            } else if (frame === widescreenFrame) {
+                widescreenLoadingInterval = startLoadingAnimation(loadingScreenElement, messagesElement);
+            }
         }
 
         // Hide loading state
-        function hideLoading(frame) {
-            const loadingDiv = frame.parentNode.querySelector('.loading');
-            if (loadingDiv) {
-                loadingDiv.remove();
-            }
+        function hideLoading(frame, loadingScreenElement) {
+            loadingScreenElement.style.display = 'none';
             frame.style.display = 'block';
+            
+            // Stop the loading animation
+            if (frame === siteFrame) {
+                stopLoadingAnimation(loadingInterval);
+            } else if (frame === widescreenFrame) {
+                stopLoadingAnimation(widescreenLoadingInterval);
+            }
             
             // Show focus overlay for regular iframe
             if (frame === siteFrame) {
@@ -822,7 +1029,8 @@
             iframeTitle.textContent = `Preview: ${url}`;
             
             // Show loading state
-            showLoading(siteFrame);
+            showLoading(siteFrame, loadingScreen, document.getElementById('loadingMessages'));
+            showLoading(widescreenFrame, widescreenLoadingScreen, document.getElementById('widescreenLoadingMessages'));
             
             // Load the site in iframe
             siteFrame.src = url;
@@ -841,7 +1049,8 @@
         // Refresh iframe
         function refreshIframe() {
             if (currentUrl) {
-                showLoading(siteFrame);
+                showLoading(siteFrame, loadingScreen, document.getElementById('loadingMessages'));
+                showLoading(widescreenFrame, widescreenLoadingScreen, document.getElementById('widescreenLoadingMessages'));
                 siteFrame.src = currentUrl;
                 widescreenFrame.src = currentUrl;
                 hasFocus = false;
@@ -912,6 +1121,32 @@
             }
         }
 
+        // Handle download attempts
+        function handleDownload(downloadUrl) {
+            downloadLink.textContent = downloadUrl;
+            downloadHandler.style.display = 'flex';
+        }
+
+        // Copy download link to clipboard
+        function copyDownloadLink() {
+            navigator.clipboard.writeText(downloadLink.textContent)
+                .then(() => {
+                    const originalText = copyDownloadBtn.textContent;
+                    copyDownloadBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyDownloadBtn.textContent = originalText;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+        }
+
+        // Close download handler
+        function closeDownloadHandler() {
+            downloadHandler.style.display = 'none';
+        }
+
         // Event listeners
         launchBtn.addEventListener('click', () => launchSite(urlInput.value.trim()));
         clearBtn.addEventListener('click', clearUrl);
@@ -926,6 +1161,10 @@
         watermark.addEventListener('click', showCodeModal);
         submitCode.addEventListener('click', validateCode);
         cancelCode.addEventListener('click', hideCodeModal);
+        
+        // Download handler events
+        copyDownloadBtn.addEventListener('click', copyDownloadLink);
+        closeDownloadBtn.addEventListener('click', closeDownloadHandler);
         
         // Handle Enter key in code input
         codeInput.addEventListener('keypress', (e) => {
@@ -947,9 +1186,9 @@
         });
         
         // Handle iframe load events
-        siteFrame.addEventListener('load', () => hideLoading(siteFrame));
+        siteFrame.addEventListener('load', () => hideLoading(siteFrame, loadingScreen));
         widescreenFrame.addEventListener('load', () => {
-            hideLoading(widescreenFrame);
+            hideLoading(widescreenFrame, widescreenLoadingScreen);
             // Auto-focus widescreen iframe
             setTimeout(() => {
                 focusIframe(widescreenFrame);
@@ -958,12 +1197,12 @@
         
         // Handle iframe errors
         siteFrame.addEventListener('error', () => {
-            hideLoading(siteFrame);
+            hideLoading(siteFrame, loadingScreen);
             alert('Failed to load the website. Please check the URL and try again.');
         });
         
         widescreenFrame.addEventListener('error', () => {
-            hideLoading(widescreenFrame);
+            hideLoading(widescreenFrame, widescreenLoadingScreen);
             alert('Failed to load the website. Please check the URL and try again.');
         });
         
@@ -973,6 +1212,39 @@
                 hasFocus = false;
                 focusOverlay.classList.add('active');
             }
+        });
+
+        // Intercept download attempts in iframe
+        siteFrame.addEventListener('load', function() {
+            try {
+                // This is a simple approach - for a more robust solution, 
+                // you would need to use a service worker or proxy
+                const iframeDoc = siteFrame.contentDocument || siteFrame.contentWindow.document;
+                const links = iframeDoc.querySelectorAll('a[download], a[href*=".exe"], a[href*=".zip"], a[href*=".rar"]');
+                
+                links.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleDownload(this.href);
+                    });
+                });
+            } catch (e) {
+                // Cross-origin restrictions may prevent this from working
+                console.log('Cannot access iframe content due to cross-origin restrictions');
+            }
+        });
+
+        // Auto-hide loading screen after 5 seconds as a fallback
+        siteFrame.addEventListener('load', function() {
+            setTimeout(() => {
+                hideLoading(siteFrame, loadingScreen);
+            }, 5000);
+        });
+
+        widescreenFrame.addEventListener('load', function() {
+            setTimeout(() => {
+                hideLoading(widescreenFrame, widescreenLoadingScreen);
+            }, 5000);
         });
     </script>
 </body>
