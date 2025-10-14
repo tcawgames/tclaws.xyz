@@ -924,6 +924,7 @@
         let watermarkRemoved = false;
         let loadingInterval;
         let widescreenLoadingInterval;
+        let loadingTimeout;
 
         // Loading messages array
         const loadingMessages = [
@@ -972,10 +973,16 @@
             } else if (frame === widescreenFrame) {
                 widescreenLoadingInterval = startLoadingAnimation(loadingScreenElement, messagesElement);
             }
+            
+            // Set timeout to hide loading screen after 10 seconds (extended from 5)
+            loadingTimeout = setTimeout(() => {
+                hideLoading(frame, loadingScreenElement);
+            }, 10000);
         }
 
         // Hide loading state
         function hideLoading(frame, loadingScreenElement) {
+            clearTimeout(loadingTimeout);
             loadingScreenElement.style.display = 'none';
             frame.style.display = 'block';
             
@@ -1234,17 +1241,17 @@
             }
         });
 
-        // Auto-hide loading screen after 5 seconds as a fallback
+        // Auto-hide loading screen after 10 seconds as a fallback
         siteFrame.addEventListener('load', function() {
             setTimeout(() => {
                 hideLoading(siteFrame, loadingScreen);
-            }, 5000);
+            }, 10000); // Extended to 10 seconds
         });
 
         widescreenFrame.addEventListener('load', function() {
             setTimeout(() => {
                 hideLoading(widescreenFrame, widescreenLoadingScreen);
-            }, 5000);
+            }, 10000); // Extended to 10 seconds
         });
     </script>
 </body>
