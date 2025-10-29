@@ -37,12 +37,20 @@
 <div class="game-container">
 <div class="game-content">
 <div class="game-iframe-container" id="game-player">
-<iframe class="game-iframe" id="game-area" src="https://mukeshkmr776.github.io/super-mario/" scrolling="none" frameborder="0" allowfullscreen=""></iframe>
+<iframe 
+    class="game-iframe" 
+    id="game-area" 
+    src="https://emulator-site.com/snes-embed?rom=YOUR_SUPER_MARIO_WORLD_ROM_URL.smc" 
+    scrolling="no" 
+    frameborder="0" 
+    allowfullscreen=""
+    allow="autoplay; fullscreen; gyroscope; accelerometer"
+></iframe>
 </div>
 </div>
 <div class="game-info">
 <div class="header-left">
-<h1 class="single-title">Super Mario World</h1>
+<h1 class="single-title">Super Mario World (SNES)</h1>
 </div>
 <div class="header-right">
 <div class="b-action2">
@@ -61,14 +69,14 @@
 </button>
 </div>
 <div class="game-details">
-<h3>About Super Mario World</h3>
+<h3>About Super Mario World (Emulator)</h3>
 <p class="game-description">
-**Super Mario World** is the classic 1990 platform game for the Super Nintendo Entertainment System (SNES). Join Mario and Luigi on a quest to save Princess Toadstool and the Dinosaur Land from Bowser. This game introduced Yoshi as a friendly companion! Explore a massive world map with hidden paths and over 70 levels.
+**Super Mario World** is the classic 1990 platform game for the Super Nintendo Entertainment System (SNES). This embedded window is using a web-based emulator to run the game from your provided ROM file. Please ensure your ROM file is hosted correctly and the emulator link is valid for the game to load.
 </p>
 <div class="game-meta">
 <div class="meta-item">
 <i class="fas fa-gamepad"></i>
-<span>Platformer</span>
+<span>Emulator / Platformer</span>
 </div>
 <div class="meta-item">
 <i class="fas fa-users"></i>
@@ -124,7 +132,7 @@ const gameArea = document.getElementById('game-area');
 let currentGame = {
 id: 3, // New ID for Super Mario World
 title: "Super Mario World",
-url: "https://mukeshkmr776.github.io/super-mario/", // Placeholder Super Mario URL
+url: "https://emulator-site.com/snes-embed?rom=YOUR_SUPER_MARIO_WORLD_ROM_URL.smc", // Updated placeholder for emulator/ROM
 likes: 155, // Updated counts
 dislikes: 5
 };
