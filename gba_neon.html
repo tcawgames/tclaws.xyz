@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Skyemu-inspired GBA — Neon</title>
+  <link rel="stylesheet" href="style_neon.css">
+</head>
+<body>
+  <div id="neon-app">
+    <header class="top">
+      <h1>Skyemu · GBA (Neon)</h1>
+      <div class="header-controls">
+        <button id="btnLibrary">Library</button>
+        <label class="file-btn">
+          + Add ROM
+          <input id="romFile" type="file" accept=".gba" />
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section class="left">
+        <div class="screen-wrap">
+          <canvas id="screen" width="240" height="160"></canvas>
+          <div class="overlay-controls">
+            <button id="btnPause">❚❚</button>
+            <button id="btnPlay">▶</button>
+            <button id="btnStep">⤷</button>
+            <button id="btnFF">>> x<span id="ffFactor">2</span></button>
+            <button id="btnRev">⟲</button>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <select id="scaleSelect"><option>2</option><option selected>3</option><option>4</option></select>
+          <button id="btnExportSave">Download .sav</button>
+          <button id="btnImportSave">Import .sav</button>
+        </div>
+
+        <div class="small-note">Tip: Fast-forward uses CPU speed multiplier. Reverse restores recent savestates.</div>
+      </section>
+
+      <aside class="right">
+        <div class="panel">
+          <h3>ROM Library</h3>
+          <div id="romList" class="rom-list">No ROMs yet</div>
+        </div>
+
+        <div class="panel">
+          <h3>Controls</h3>
+          <div id="controlMap"></div>
+          <button id="btnRemap">Remap Controls</button>
+        </div>
+
+        <div class="panel">
+          <h3>Session</h3>
+          <div id="sessionInfo">Idle</div>
+          <button id="btnClearAll">Clear all data</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <small>Neon GBA starter — implement CPU/PPU/core or plug-in a WASM core at the hook. Autosaves stored locally.</small>
+    </footer>
+  </div>
+
+  <script type="module">
+    import Emulator from './js/emu_neon.js';
+    import { setupLoaderUI } from './js/loader_neon.js';
+    import { setupInput } from './js/input_neon.js';
+
+    const canvas = document.getElementById('screen');
+    const emu = new Emulator({ canvas, autoSaveInterval: 5000 }); // autosave every 5s
+
+    // wire UI parts
+    setupInput(emu);
+    setupLoaderUI(emu);
+    
+    // basic UI buttons
+    document.getElementById('btnPlay').onclick  = () => emu.start();
+    document.getElementById('btnPause').onclick = () => emu.pause();
+    document.getElementById('btnStep').onclick  = async () => { await emu.stepInstruction(); };
+    document.getElementById('btnFF').onclick    = () => { emu.toggleFastForward(); document.getElementById('ffFactor').textContent = emu.ffFactor; };
+    document.getElementById('btnRev').onclick   = () => emu.restorePreviousSavestate();
+    document.getElementById('scaleSelect').onchange = (e) => {
+      const s = Number(e.target.value) || 3;
+      canvas.style.width = `${240 * s}px`;
+      canvas.style.height = `${160 * s}px`;
+    };
+
+    // export/import savestate buttons
+    document.getElementById('btnExportSave').onclick = () => emu.exportCurrentSave();
+    document.getElementById('btnImportSave').onclick = async () => {
+      const f = document.createElement('input');
+      f.type = 'file';
+      f.accept = '.sav';
+      f.onchange = async (ev) => {
+        const file = ev.target.files[0];
+        if (!file) return;
+        const buf = await file.arrayBuffer();
+        await emu.importSave(new Uint8Array(buf));
+        alert('Imported save (applied as current state).');
+      }
+      f.click();
+    };
+
+    // keep canvas scale default
+    canvas.style.width = `${240 * 3}px`;
+    canvas.style.height = `${160 * 3}px`;
+
+    // resume last session automatically if present (emu handles restore)
+    emu.restoreLastSession().then(ok => {
+      if (ok) {
+        console.log('Session restored — ready.');
+      }
+    });
+  </script>
+</body>
+</html>
