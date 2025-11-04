@@ -1,0 +1,34 @@
+:root{
+  --bg:#070707;
+  --panel:#0b0b0b;
+  --neon:#00ff7a; /* glowing neon green */
+  --muted:#9aa39a;
+  --accent:#0fffa0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#050505,#0b0b0d);color:#dffbe6;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
+#neon-app{padding:18px;max-width:1200px;margin:6px auto;}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top h1{font-weight:600;color:var(--neon);text-shadow:0 0 8px rgba(0,255,122,0.15)}
+.header-controls{display:flex;gap:8px;align-items:center}
+button, .file-btn{background:transparent;border:1px solid rgba(0,255,122,0.12);color:var(--neon);padding:8px 10px;border-radius:8px;cursor:pointer}
+.file-btn input{display:none}
+main{display:flex;gap:18px;margin-top:18px;align-items:flex-start}
+.left{flex:1}
+.right{width:320px}
+.screen-wrap{background:#050505;padding:12px;border-radius:12px;border:1px solid rgba(0,255,122,0.06);box-shadow: 0 10px 30px rgba(0,255,122,0.03) inset}
+canvas{background:#000;border-radius:6px;display:block;image-rendering:pixelated}
+.overlay-controls{display:flex;gap:8px;margin-top:10px}
+.overlay-controls button{padding:6px 8px;font-size:14px}
+.controls-row{display:flex;gap:8px;margin-top:10px;align-items:center}
+.small-note{color:var(--muted);font-size:12px;margin-top:6px}
+
+.panel{background:linear-gradient(180deg,#07100a,#050705);border-radius:10px;padding:12px;margin-bottom:12px;border:1px solid rgba(0,255,122,0.06)}
+.panel h3{margin:0 0 8px 0;color:var(--neon)}
+.rom-list{max-height:260px;overflow:auto}
+.rom-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;margin-bottom:6px;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.02)}
+.rom-item:hover{border-color:rgba(0,255,122,0.06);box-shadow:0 6px 14px rgba(0,255,122,0.02)}
+.rom-item .title{font-weight:600}
+.control-entry{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed rgba(0,255,122,0.03)}
+.small{font-size:13px;color:var(--muted)}
+footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
