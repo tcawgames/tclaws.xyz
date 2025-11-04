@@ -1,121 +1,173 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TcawEMU</title>
-  <link rel="stylesheet" href="style_neon.css">
+<meta charset="UTF-8">
+<title>Neon GBA Emulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* MATRIX NEON THEME — ALL SCOPED TO #gba_ wrapper */
+body {
+    background: #000;
+    margin: 0;
+    font-family: Consolas, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#gba_wrapper {
+    text-align: center;
+    color: #00ff88;
+    text-shadow: 0 0 8px #00ff55;
+}
+
+#gba_screen {
+    width: 720px;
+    height: 480px;
+    background: #001100;
+    border: 4px solid #00ff55;
+    box-shadow: 0 0 20px #00ff55, inset 0 0 20px #003300;
+    image-rendering: pixelated;
+}
+
+.gba_button {
+    background: transparent;
+    border: 1px solid #00ff55;
+    padding: 8px 14px;
+    margin: 4px;
+    cursor: pointer;
+    color: #00ff55;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+.gba_button:hover { box-shadow: 0 0 10px #00ff55; }
+
+#gba_controls {
+    margin-top: 12px;
+}
+
+/* Modal for key remapping */
+#gba_keymap_modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: #001800;
+    padding: 20px;
+    border: 2px solid #00ff55;
+    box-shadow: 0 0 20px #00ff55;
+    display: none;
+}
+</style>
 </head>
+
 <body>
-  <div id="neon-app">
-    <header class="top">
-      <h1>Skyemu · GBA (Neon)</h1>
-      <div class="header-controls">
-        <button id="btnLibrary">Library</button>
-        <label class="file-btn">
-          + Add ROM
-          <input id="romFile" type="file" accept=".gba" />
-        </label>
-      </div>
-    </header>
+<div id="gba_wrapper">
 
-    <main>
-      <section class="left">
-        <div class="screen-wrap">
-          <canvas id="screen" width="240" height="160"></canvas>
-          <div class="overlay-controls">
-            <button id="btnPause">❚❚</button>
-            <button id="btnPlay">▶</button>
-            <button id="btnStep">⤷</button>
-            <button id="btnFF">>> x<span id="ffFactor">2</span></button>
-            <button id="btnRev">⟲</button>
-          </div>
-        </div>
+    <canvas id="gba_screen"></canvas>
 
-        <div class="controls-row">
-          <select id="scaleSelect"><option>2</option><option selected>3</option><option>4</option></select>
-          <button id="btnExportSave">Download .sav</button>
-          <button id="btnImportSave">Import .sav</button>
-        </div>
+    <div id="gba_controls">
+        <button class="gba_button" id="gba_load_bios">Load BIOS</button>
+        <button class="gba_button" id="gba_load_rom">Load ROM</button>
+        <button class="gba_button" id="gba_pause">Pause</button>
+        <button class="gba_button" id="gba_ff">Fast Forward</button>
+        <button class="gba_button" id="gba_rewind">Rewind</button>
+        <button class="gba_button" id="gba_save_export">Download Save</button>
+        <button class="gba_button" id="gba_controls_edit">Edit Controls</button>
+    </div>
 
-        <div class="small-note">Tip: Fast-forward uses CPU speed multiplier. Reverse restores recent savestates.</div>
-      </section>
+    <input type="file" id="gba_fileinput" style="display:none" />
+    <input type="file" id="gba_biosinput" style="display:none" />
 
-      <aside class="right">
-        <div class="panel">
-          <h3>ROM Library</h3>
-          <div id="romList" class="rom-list">No ROMs yet</div>
-        </div>
+    <div id="gba_keymap_modal">
+        <h3>Remap Controls</h3>
+        <div id="gba_keymap_list"></div>
+        <button class="gba_button" onclick="document.getElementById('gba_keymap_modal').style.display='none'">Close</button>
+    </div>
 
-        <div class="panel">
-          <h3>Controls</h3>
-          <div id="controlMap"></div>
-          <button id="btnRemap">Remap Controls</button>
-        </div>
+</div>
 
-        <div class="panel">
-          <h3>Session</h3>
-          <div id="sessionInfo">Idle</div>
-          <button id="btnClearAll">Clear all data</button>
-        </div>
-      </aside>
-    </main>
+<script>
+// ======================
+// LOAD mGBA CORE
+// ======================
+let gba = null;
+let biosLoaded = false;
+let romLoaded = false;
+let fastForward = false;
+let rewinding = false;
+let rewindBuffer = [];
 
-    <footer>
-      <small>Neon GBA starter — implement CPU/PPU/core or plug-in a WASM core at the hook. Autosaves stored locally.</small>
-    </footer>
-  </div>
-
-  <script type="module">
-    import Emulator from './js/emu_neon.js';
-    import { setupLoaderUI } from './js/loader_neon.js';
-    import { setupInput } from './js/input_neon.js';
-
-    const canvas = document.getElementById('screen');
-    const emu = new Emulator({ canvas, autoSaveInterval: 5000 }); // autosave every 5s
-
-    // wire UI parts
-    setupInput(emu);
-    setupLoaderUI(emu);
-    
-    // basic UI buttons
-    document.getElementById('btnPlay').onclick  = () => emu.start();
-    document.getElementById('btnPause').onclick = () => emu.pause();
-    document.getElementById('btnStep').onclick  = async () => { await emu.stepInstruction(); };
-    document.getElementById('btnFF').onclick    = () => { emu.toggleFastForward(); document.getElementById('ffFactor').textContent = emu.ffFactor; };
-    document.getElementById('btnRev').onclick   = () => emu.restorePreviousSavestate();
-    document.getElementById('scaleSelect').onchange = (e) => {
-      const s = Number(e.target.value) || 3;
-      canvas.style.width = `${240 * s}px`;
-      canvas.style.height = `${160 * s}px`;
-    };
-
-    // export/import savestate buttons
-    document.getElementById('btnExportSave').onclick = () => emu.exportCurrentSave();
-    document.getElementById('btnImportSave').onclick = async () => {
-      const f = document.createElement('input');
-      f.type = 'file';
-      f.accept = '.sav';
-      f.onchange = async (ev) => {
-        const file = ev.target.files[0];
-        if (!file) return;
-        const buf = await file.arrayBuffer();
-        await emu.importSave(new Uint8Array(buf));
-        alert('Imported save (applied as current state).');
-      }
-      f.click();
-    };
-
-    // keep canvas scale default
-    canvas.style.width = `${240 * 3}px`;
-    canvas.style.height = `${160 * 3}px`;
-
-    // resume last session automatically if present (emu handles restore)
-    emu.restoreLastSession().then(ok => {
-      if (ok) {
-        console.log('Session restored — ready.');
-      }
+(async () => {
+    const module = await import("./js/mgba.js");
+    gba = await module.default({
+        wasmPath: "./js/mgba.wasm",
+        canvas: document.getElementById("gba_screen")
     });
-  </script>
+})();
+
+// ======================
+// FILE LOADERS
+// ======================
+document.getElementById("gba_load_bios").onclick = () =>
+    document.getElementById("gba_biosinput").click();
+
+document.getElementById("gba_biosinput").onchange = async (e) => {
+    const data = new Uint8Array(await e.target.files[0].arrayBuffer());
+    gba.setBIOS(data);
+    biosLoaded = true;
+};
+
+document.getElementById("gba_load_rom").onclick = () =>
+    document.getElementById("gba_fileinput").click();
+
+document.getElementById("gba_fileinput").onchange = async (e) => {
+    const data = new Uint8Array(await e.target.files[0].arrayBuffer());
+    gba.loadROM(data);
+    romLoaded = true;
+    gba.run();
+};
+
+// ======================
+// BASIC CONTROLS
+// ======================
+document.getElementById("gba_pause").onclick = () => {
+    if (!romLoaded) return;
+    if (gba.running) gba.pause();
+    else gba.run();
+};
+
+document.getElementById("gba_ff").onclick = () => {
+    fastForward = !fastForward;
+    gba.setSpeed(fastForward ? 2.5 : 1.0);
+};
+
+document.getElementById("gba_rewind").onclick = () => {
+    rewinding = !rewinding;
+    // TODO: store / replay rewindBuffer frames here
+};
+
+// ======================
+// SAVE EXPORT
+// ======================
+document.getElementById("gba_save_export").onclick = () => {
+    const sav = gba.getSaveFile();
+    const blob = new Blob([sav], {type: "application/octet-stream"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "game.sav";
+    a.click();
+};
+
+// ======================
+// CONTROL REMAPPING UI
+// ======================
+document.getElementById("gba_controls_edit").onclick = () => {
+    document.getElementById("gba_keymap_modal").style.display = "block";
+};
+</script>
+
 </body>
 </html>
