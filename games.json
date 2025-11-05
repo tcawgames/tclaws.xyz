@@ -24,6 +24,14 @@
       "url": "games/boxing-random",
       "category": "fighting"
     },
+        {
+      "name": "volley-random",
+      "displayName": "Volley Random",
+      "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/759df58c48c52d9ec5692531607df6d6/wgplayground/ef27e9f2407a0e086cd29a604e83a66f.jpg",
+      "description": "Volleyball matches unblocked!",
+      "url": "games/volley-random",
+      "category": "arcade"
+    },
     {
       "name": "brawl-hero",
       "displayName": "Brawl Hero",
