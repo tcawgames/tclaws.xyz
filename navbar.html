@@ -14,15 +14,25 @@
     border-bottom: 1px solid #333;
   }
 
-  .navbar-brand { display: flex; align-items: center; gap: 15px; }
   .navbar-logo {
-    width: 150px;       /* bigger logo */
-    height: 150px;      /* bigger logo */
+    width: 150px;       /* big logo */
+    height: 150px;      /* big logo */
     object-fit: contain; /* prevent squishing */
     border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
   }
-  .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
-  .navbar-links { display: flex; gap: 25px; align-items: center; }
+
+  .navbar-logo:hover {
+    transform: scale(1.05);
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+  }
+
   .nav-link {
     color: #e0e0e0;
     text-decoration: none;
@@ -31,14 +41,17 @@
     padding: 8px 15px;
     border-radius: 5px;
   }
-  .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
+
+  .nav-link:hover {
+    color: #00ff9d;
+    background: rgba(0, 255, 157, 0.1);
+  }
 </style>
 
 <nav class="navbar">
-  <div class="navbar-brand">
+  <a href="https://tclaws.xyz">
     <img src="https://i.ibb.co/ccKKCM55/aaaa.png" class="navbar-logo" />
-    <h1 class="navbar-title">Tcaw Games</h1>
-  </div>
+  </a>
   <div class="navbar-links">
     <a href="https://tclaws.xyz" class="nav-link">Home</a>
     <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
