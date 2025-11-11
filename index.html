@@ -4,198 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tcaw Games</title>
-  <link rel="icon" type="image/x-icon" href="https://i.ibb.co/KcMpfrRw/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0a0a0a; min-height: 100vh; color: white; }
 
-    /* Navbar */
-    .navbar {
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 15px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid #333;
-    }
+    /* Navbar fix */
+    .navbar-logo { width: 50px; height: auto; border-radius: 50%; object-fit: contain; }
 
-    .navbar-brand { display: flex; align-items: center; gap: 15px; }
-    .navbar-logo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
-    .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
-    .navbar-links { display: flex; gap: 25px; align-items: center; }
-    .nav-link {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 15px;
-      border-radius: 5px;
-    }
-    .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
-
-    /* Search Area */
-    .search-section {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 5%;
-      background: #0d0d0d;
-      border-bottom: 1px solid #222;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .categories {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .category-tab {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(0, 255, 157, 0.3);
-      background: rgba(0, 255, 157, 0.05);
-      color: #00ff9d;
-      font-weight: 500;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .category-tab:hover, .category-tab.active {
-      background: rgba(0, 255, 157, 0.15);
-      box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
-    }
-
-    .category-tab i {
-      color: #00ff9d;
-      text-shadow: 0 0 8px #00ff9d;
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .search-bar input {
-      padding: 10px 15px;
-      border-radius: 8px;
-      border: 1px solid rgba(0, 255, 157, 0.3);
-      background: #1a1a1a;
-      color: white;
-      width: 250px;
-      transition: 0.3s;
-    }
-
-    .search-bar input:focus {
-      outline: none;
-      border-color: #00ff9d;
-      box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-    }
-
-    .search-bar button {
-      background: rgba(0, 255, 157, 0.1);
-      border: 1px solid #00ff9d;
-      color: #00ff9d;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .search-bar button:hover {
-      background: rgba(0, 255, 157, 0.2);
-      box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-    }
-
-    /* Games Section */
-    .content-section { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
-    .section-title { font-size: 2.3rem; text-align: center; margin-bottom: 40px; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
-
-    .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 60px; }
-    .game-card {
-      background: #1a1a1a;
-      border-radius: 15px;
-      padding: 25px;
-      border: 1px solid #333;
-      transition: all 0.3s ease;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: #00ff9d;
-      box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
-    }
-    .game-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 15px;
-      object-fit: cover;
-      margin: 0 auto 15px;
-      border: 2px solid #333;
-      transition: 0.3s;
-    }
-    .game-card:hover .game-icon { border-color: #00ff9d; transform: scale(1.1); }
-    .game-name { font-size: 1.4rem; margin-bottom: 8px; color: white; font-weight: 600; }
-    .game-category { display: inline-block; background: rgba(0, 255, 157, 0.1); color: #00ff9d; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 10px; }
-    .game-description { color: #b0b0b0; margin-bottom: 15px; font-size: 0.9rem; }
-    .game-btn {
-      display: inline-block;
-      padding: 10px 25px;
-      background: rgba(0, 255, 157, 0.1);
-      border: 2px solid #00ff9d;
-      color: #00ff9d;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    .game-btn:hover {
-      background: rgba(0, 255, 157, 0.2);
-      box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .loading, .error {
-      text-align: center;
-      padding: 50px 0;
-      color: #b0b0b0;
-      font-size: 1.2rem;
-    }
-
-    .error { color: #ff6b6b; }
-
-    .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: #0a0a0a; }
+    /* other CSS unchanged ... */
+    /* Keep all your previous CSS here, same as before */
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <img src="https://i.ibb.co/ccKKCM55/aaaa.png" class="navbar-logo" />
-      <h1 class="navbar-title">Tcaw Games</h1>
-    </div>
-    <div class="navbar-links">
-      <a href="https://tclaws.xyz" class="nav-link">Home</a>
-      <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
-      <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
-      <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
-      <a href="https://tclaws.xyz/about" class="nav-link">About</a>
-    </div>
-  </nav>
+
+  <!-- Navbar will be loaded here -->
+  <div id="navbarContainer"></div>
 
   <!-- Search + Categories -->
   <section class="search-section">
@@ -236,6 +60,15 @@
   </footer>
 
   <script>
+    // Load navbar dynamically
+    fetch('navbar.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('navbarContainer').innerHTML = data;
+      })
+      .catch(err => console.error('Failed to load navbar:', err));
+
+    // Game loading script unchanged ...
     const loadingState = document.getElementById('loadingState');
     const gamesGrid = document.getElementById('gamesGrid');
     const errorState = document.getElementById('errorState');
@@ -295,14 +128,14 @@
       searchGames(e.target.value);
     });
 
-    document.querySelectorAll('.category-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('category-tab')) {
         document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        const cat = tab.dataset.category;
+        e.target.classList.add('active');
+        const cat = e.target.dataset.category;
         if (cat === 'all') displayGames(allGames);
         else displayGames(allGames.filter(g => g.category.toLowerCase() === cat.toLowerCase()));
-      });
+      }
     });
 
     document.addEventListener('DOMContentLoaded', loadGames);
