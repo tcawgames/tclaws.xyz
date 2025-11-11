@@ -9,17 +9,137 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0a0a0a; min-height: 100vh; color: white; }
 
-    /* Navbar fix */
-    .navbar-logo { width: 50px; height: auto; border-radius: 50%; object-fit: contain; }
+    /* Search Area */
+    .search-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 5%;
+      background: #0d0d0d;
+      border-bottom: 1px solid #222;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .categories {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .category-tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 157, 0.3);
+      background: rgba(0, 255, 157, 0.05);
+      color: #00ff9d;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .category-tab:hover, .category-tab.active {
+      background: rgba(0, 255, 157, 0.15);
+      box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
+    }
+    .category-tab i { color: #00ff9d; text-shadow: 0 0 8px #00ff9d; }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-bar input {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 255, 157, 0.3);
+      background: #1a1a1a;
+      color: white;
+      width: 250px;
+      transition: 0.3s;
+    }
+    .search-bar input:focus {
+      outline: none;
+      border-color: #00ff9d;
+      box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+    }
+    .search-bar button {
+      background: rgba(0, 255, 157, 0.1);
+      border: 1px solid #00ff9d;
+      color: #00ff9d;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .search-bar button:hover {
+      background: rgba(0, 255, 157, 0.2);
+      box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+    }
 
-    /* other CSS unchanged ... */
-    /* Keep all your previous CSS here, same as before */
+    /* Games Section */
+    .content-section { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 2.3rem; text-align: center; margin-bottom: 40px; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
+    .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 60px; }
+    .game-card {
+      background: #1a1a1a;
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid #333;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #00ff9d;
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+    }
+    .game-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      object-fit: cover;
+      margin: 0 auto 15px;
+      border: 2px solid #333;
+      transition: 0.3s;
+    }
+    .game-card:hover .game-icon { border-color: #00ff9d; transform: scale(1.1); }
+    .game-name { font-size: 1.4rem; margin-bottom: 8px; color: white; font-weight: 600; }
+    .game-category { display: inline-block; background: rgba(0, 255, 157, 0.1); color: #00ff9d; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 10px; }
+    .game-description { color: #b0b0b0; margin-bottom: 15px; font-size: 0.9rem; }
+    .game-btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background: rgba(0, 255, 157, 0.1);
+      border: 2px solid #00ff9d;
+      color: #00ff9d;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .game-btn:hover {
+      background: rgba(0, 255, 157, 0.2);
+      box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .loading, .error {
+      text-align: center;
+      padding: 50px 0;
+      color: #b0b0b0;
+      font-size: 1.2rem;
+    }
+    .error { color: #ff6b6b; }
+    .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: #0a0a0a; }
   </style>
 </head>
 <body>
-
   <!-- Navbar will be loaded here -->
-  <div id="navbarContainer"></div>
+  <div id="navbar-placeholder"></div>
 
   <!-- Search + Categories -->
   <section class="search-section">
@@ -60,15 +180,15 @@
   </footer>
 
   <script>
-    // Load navbar dynamically
+    // Load Navbar from navbar.html
     fetch('navbar.html')
       .then(res => res.text())
-      .then(data => {
-        document.getElementById('navbarContainer').innerHTML = data;
+      .then(html => {
+        document.getElementById('navbar-placeholder').insertAdjacentHTML('afterbegin', html);
       })
       .catch(err => console.error('Failed to load navbar:', err));
 
-    // Game loading script unchanged ...
+    // Game loading scripts (same as your original)
     const loadingState = document.getElementById('loadingState');
     const gamesGrid = document.getElementById('gamesGrid');
     const errorState = document.getElementById('errorState');
@@ -128,14 +248,14 @@
       searchGames(e.target.value);
     });
 
-    document.addEventListener('click', e => {
-      if (e.target.classList.contains('category-tab')) {
+    document.querySelectorAll('.category-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
         document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-        e.target.classList.add('active');
-        const cat = e.target.dataset.category;
+        tab.classList.add('active');
+        const cat = tab.dataset.category;
         if (cat === 'all') displayGames(allGames);
         else displayGames(allGames.filter(g => g.category.toLowerCase() === cat.toLowerCase()));
-      }
+      });
     });
 
     document.addEventListener('DOMContentLoaded', loadGames);
