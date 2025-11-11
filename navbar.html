@@ -1,64 +1,42 @@
 <!-- navbar.html -->
-
 <style>
-/* Navbar Styles */
-.navbar {
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 15px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid #333;
-}
+  /* Navbar styles */
+  .navbar {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #333;
+  }
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.navbar-logo {
-  width: 80px;       /* bigger logo */
-  height: 80px;      /* bigger logo */
-  border-radius: 50%;
-  object-fit: contain;
-}
-
-.navbar-title {
-  font-size: 2.2rem; /* slightly bigger title */
-  text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
-  color: #ffffff;
-  letter-spacing: 2px;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.nav-link {
-  color: #e0e0e0;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  padding: 8px 15px;
-  border-radius: 5px;
-}
-
-.nav-link:hover {
-  color: #00ff9d;
-  background: rgba(0, 255, 157, 0.1);
-}
+  .navbar-brand { display: flex; align-items: center; gap: 15px; }
+  .navbar-logo {
+    width: 100px;       /* bigger logo */
+    height: 100px;      /* bigger logo */
+    object-fit: contain; /* prevent squishing */
+    border-radius: 50%;
+  }
+  .navbar-title { font-size: 1.8rem; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; color: #ffffff; letter-spacing: 2px; }
+  .navbar-links { display: flex; gap: 25px; align-items: center; }
+  .nav-link {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
 </style>
 
 <nav class="navbar">
   <div class="navbar-brand">
-    <img src="https://i.ibb.co/ccKKCM55/aaaa.png" class="navbar-logo" alt="Tcaw Games Logo" />
+    <img src="https://i.ibb.co/ccKKCM55/aaaa.png" class="navbar-logo" />
     <h1 class="navbar-title">Tcaw Games</h1>
   </div>
   <div class="navbar-links">
