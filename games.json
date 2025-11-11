@@ -24,6 +24,16 @@
       "url": "games/retro-bowl",
       "category": "sports"
     },
+       {
+      "name": "boxing-random",
+      "displayName": "Boxing Random",
+      "icon": "https://scout.wgimager.com/f_jpg/w_800/h_600/q_90/https://static.wgplayground.com/6855106681935877ef8e937426c3d083/wgplayground/76e061c19b18bbc9f83ac7070cf0940a.jpg",
+      "description": "Random boxing matches with fun controls",
+      "url": "games/boxing-random",
+      "category": "fighting"
+    },
+
+
         {
       "name": "volley-random",
       "displayName": "Volley Random",
