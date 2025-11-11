@@ -119,6 +119,14 @@
       "description": "Random volleyball matches",
       "url": "games/volley-random",
       "category": "sports"
+    },
+        {
+      "name": "grow-a-garden",
+      "displayName": "Grow A Garden",
+      "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/5e6f3ffaa6eaa22ff97cb2066e10b1b8/wgplayground/eafffd99f00566c7ab07d344ca288ae5.jpg",
+      "description": "Web port of Grow A Garden! (this is not the offical roblox game and just a unity fan game)",
+      "url": "games/grow-a-garden",
+      "category": "idle"
     }
   ]
 }
