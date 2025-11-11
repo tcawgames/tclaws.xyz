@@ -18,7 +18,7 @@
     },
     {
       "name": "retro-bowl",
-      "displayName": "Boxing Random",
+      "displayName": "Retro Bowl",
       "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROIf7c2HY84vkcxMtNYlfq_4I4xkEfOJB76g&s",
       "description": "8 bit football game!",
       "url": "games/retro-bowl",
@@ -73,6 +73,14 @@
       "description": "Collect and grow your duck army",
       "url": "games/ducklings-io",
       "category": "io"
+    },
+      {
+      "name": "stickman-hook",
+      "displayName": "Stickman Hook",
+      "icon": "https://scout.wgimager.com/f_jpg/w_800/h_600/q_90/https://static.wgplayground.com/4d1efd0fb83544f449c110fd6af0116b/wgplayground/8134b25fdc8ea69ff058bd476888645d.png",
+      "description": "swing from a rope as a stickman to the next level",
+      "url": "games/stickman-hook",
+      "category": "casual"
     },
     {
       "name": "flappy-dunk",
