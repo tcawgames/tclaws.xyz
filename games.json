@@ -24,6 +24,14 @@
       "url": "games/retro-bowl",
       "category": "sports"
     },
+     {
+      "name": "run-3",
+      "displayName": "Run 3",
+      "icon": "https://scout.wgimager.com/f_jpg/w_800/h_600/q_90/https://static.wgplayground.com/8d54ce8d0b027ce055039f5217475db3/wgplayground/6b62681569859d98677307c480770159.png",
+      "description": "Endless space runner game ",
+      "url": "games/run-3",
+      "category": "arcade"
+    },
        {
       "name": "boxing-random",
       "displayName": "Boxing Random",
