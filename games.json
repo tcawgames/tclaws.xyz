@@ -9,6 +9,14 @@
       "category": "casual"
     },
     {
+      "name": "geometry-dash",
+      "displayName": "Geometry Dash",
+      "icon": "https://tcawgames.github.io/images/logo/geometry-dash.png",
+      "description": "Avoid spikes and complete levels!",
+      "url": "games/geometry-dash",
+      "category": "strategy"
+    },
+    {
       "name": "basket-random",
       "displayName": "Basket Random",
       "icon": "https://scout.wgimager.com/f_webp/w_207/q_70/https://static.wgplayground.com/43105ae03bf75070f5e80a76bb59ac6e/wgplayground/c8a520f67cc563041d2a75bd8223939e.jpg",
