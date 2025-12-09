@@ -6,9 +6,48 @@
   <title>Tcaw Games</title>
   <link rel="icon" type="image/x-icon" href="https://i.ibb.co/KcMpfrRw/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0a0a0a; min-height: 100vh; color: white; }
+
+    /* Announcement Popup */
+    .update-popup {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      border: 1px solid #00ff9d;
+      color: #00ff9d;
+      padding: 12px 18px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      z-index: 9999;
+      box-shadow: 0 0 15px rgba(0,255,157,.4);
+      animation: slideDown .6s ease;
+    }
+
+    .update-popup img { width: 32px; height: 32px; }
+
+    .popup-close {
+      margin-left: auto;
+      cursor: pointer;
+      color: #ff6b6b;
+      font-size: 18px;
+      font-weight: bold;
+      transition: .2s;
+    }
+    .popup-close:hover { color: white; }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translate(-50%, -20px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
 
     /* Search Area */
     .search-section {
@@ -20,6 +59,7 @@
       border-bottom: 1px solid #222;
       flex-wrap: wrap;
       gap: 15px;
+      margin-top: 60px; /* prevents popup from covering the top */
     }
 
     .categories {
@@ -49,16 +89,9 @@
       box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
     }
 
-    .category-tab i {
-      color: #00ff9d;
-      text-shadow: 0 0 8px #00ff9d;
-    }
+    .category-tab i { color: #00ff9d; text-shadow: 0 0 8px #00ff9d; }
 
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .search-bar { display: flex; align-items: center; gap: 10px; }
 
     .search-bar input {
       padding: 10px 15px;
@@ -91,19 +124,18 @@
       box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
     }
 
-    /* Games Section */
     .content-section { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
     .section-title { font-size: 2.3rem; text-align: center; margin-bottom: 40px; color: #00ff9d; text-shadow: 0 0 10px rgba(0, 255, 157, 0.3); }
 
     .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-bottom: 60px; }
+
     .game-card {
       background: #1a1a1a;
       border-radius: 15px;
       padding: 25px;
       border: 1px solid #333;
-      transition: all 0.3s ease;
+      transition: .3s;
       text-align: center;
-      position: relative;
       overflow: hidden;
     }
     .game-card:hover {
@@ -111,49 +143,43 @@
       border-color: #00ff9d;
       box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
     }
-    .game-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 15px;
-      object-fit: cover;
-      margin: 0 auto 15px;
-      border: 2px solid #333;
-      transition: 0.3s;
-    }
+
+    .game-icon { width: 80px; height: 80px; border-radius: 15px; margin: 0 auto 15px; border: 2px solid #333; object-fit: cover; }
     .game-card:hover .game-icon { border-color: #00ff9d; transform: scale(1.1); }
-    .game-name { font-size: 1.4rem; margin-bottom: 8px; color: white; font-weight: 600; }
-    .game-category { display: inline-block; background: rgba(0, 255, 157, 0.1); color: #00ff9d; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 10px; }
-    .game-description { color: #b0b0b0; margin-bottom: 15px; font-size: 0.9rem; }
+
+    .game-name { font-size: 1.4rem; font-weight: 600; margin-bottom: 8px; }
+    .game-category { background: rgba(0,255,157,.1); color:#00ff9d; padding:4px 12px; border-radius:20px; font-size:.8rem; font-weight:500; margin-bottom:10px; display:inline-block; }
+    .game-description { color:#b0b0b0; font-size:.9rem; margin-bottom:15px; }
+
     .game-btn {
-      display: inline-block;
-      padding: 10px 25px;
-      background: rgba(0, 255, 157, 0.1);
-      border: 2px solid #00ff9d;
-      color: #00ff9d;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: 600;
-      transition: 0.3s;
+      display:inline-block;
+      padding:10px 25px;
+      background:rgba(0,255,157,.1);
+      border:2px solid #00ff9d;
+      color:#00ff9d;
+      text-decoration:none;
+      border-radius:25px;
+      font-weight:600;
+      transition:.3s;
     }
-    .game-btn:hover {
-      background: rgba(0, 255, 157, 0.2);
-      box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
-      transform: translateY(-2px);
-    }
+    .game-btn:hover { background:rgba(0,255,157,.2); box-shadow:0 0 15px rgba(0,255,157,.4); transform:translateY(-2px); }
 
-    .loading, .error {
-      text-align: center;
-      padding: 50px 0;
-      color: #b0b0b0;
-      font-size: 1.2rem;
-    }
+    .loading,.error { text-align:center; padding:50px 0; color:#b0b0b0; font-size:1.2rem; }
+    .error { color:#ff6b6b; }
 
-    .error { color: #ff6b6b; }
-
-    .footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; color: #b0b0b0; font-size: 0.9rem; background: #0a0a0a; }
+    .footer { text-align:center; padding:40px 20px; border-top:1px solid #333; color:#b0b0b0; background:#0a0a0a; font-size:.9rem; }
   </style>
 </head>
+
 <body>
+
+  <!-- Popup ANNOUNCEMENT -->
+  <div class="update-popup" id="updatePopup">
+    <img src="https://images.emojiterra.com/google/noto-emoji/animated-emoji/1f929.gif">
+    Geometry Dash and some other games fixed! 🎉
+    <span class="popup-close" onclick="document.getElementById('updatePopup').remove()">✖</span>
+  </div>
+
   <!-- Load navbar -->
   <div id="navbarContainer"></div>
 
@@ -175,7 +201,6 @@
     </div>
   </section>
 
-  <!-- Games Section -->
   <section class="content-section">
     <h2 class="section-title">Games Library</h2>
 
@@ -183,10 +208,10 @@
       <i class="fas fa-spinner fa-spin"></i> Loading games...
     </div>
 
-    <div class="games-grid" id="gamesGrid" style="display: none;"></div>
+    <div class="games-grid" id="gamesGrid" style="display:none;"></div>
 
-    <div class="error" id="errorState" style="display: none;">
-      <i class="fas fa-exclamation-triangle" style="font-size: 2rem;"></i>
+    <div class="error" id="errorState" style="display:none;">
+      <i class="fas fa-exclamation-triangle" style="font-size:2rem;"></i>
       <p>Failed to load games. Try again later.</p>
     </div>
   </section>
@@ -196,87 +221,66 @@
   </footer>
 
   <script>
-    // Load navbar
-    fetch('navbar.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('navbarContainer').innerHTML = html;
-      })
-      .catch(err => console.error('Failed to load navbar:', err));
+    fetch('navbar.html').then(r=>r.text()).then(h=>navbarContainer.innerHTML=h).catch(()=>console.error("Navbar load fail"));
 
-    // Game loader and search functions
-    const loadingState = document.getElementById('loadingState');
-    const gamesGrid = document.getElementById('gamesGrid');
-    const errorState = document.getElementById('errorState');
-    let allGames = [];
+    const loadingState=document.getElementById('loadingState');
+    const gamesGrid=document.getElementById('gamesGrid');
+    const errorState=document.getElementById('errorState');
+    let allGames=[];
 
-    async function loadGames() {
-      try {
-        const res = await fetch('games.json');
-        if (!res.ok) throw new Error('Failed to load');
-        const data = await res.json();
-        allGames = data.games;
+    async function loadGames(){
+      try{
+        const res=await fetch('games.json');
+        if(!res.ok) throw new Error();
+        const data=await res.json();
+        allGames=data.games;
         displayGames(allGames);
-      } catch (err) {
-        console.error(err);
+      }catch{
         showError();
       }
     }
 
-    function displayGames(games) {
-      loadingState.style.display = 'none';
-      gamesGrid.innerHTML = '';
-      games.forEach(g => {
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.innerHTML = `
+    function displayGames(games){
+      loadingState.style.display='none';
+      gamesGrid.style.display='grid';
+      gamesGrid.innerHTML='';
+      games.forEach(g=>{
+        gamesGrid.innerHTML+=`
+        <div class="game-card">
           <img src="${g.icon}" class="game-icon" onerror="this.src='https://via.placeholder.com/80/1a1a1a/00ff9d?text=🎮'">
-          <h3 class="game-name">${g.displayName || g.name}</h3>
+          <h3 class="game-name">${g.displayName||g.name}</h3>
           <span class="game-category">${g.category}</span>
           <p class="game-description">${g.description}</p>
           <a href="https://tclaws.xyz/${g.url}" class="game-btn"><i class="fas fa-play"></i> Play</a>
-        `;
-        gamesGrid.appendChild(card);
+        </div>`;
       });
-      gamesGrid.style.display = 'grid';
     }
 
-    function showError() {
-      loadingState.style.display = 'none';
-      gamesGrid.style.display = 'none';
-      errorState.style.display = 'block';
+    function showError(){
+      loadingState.style.display='none';
+      gamesGrid.style.display='none';
+      errorState.style.display='block';
     }
 
-    function searchGames(query) {
-      const filtered = allGames.filter(g =>
-        g.name.toLowerCase().includes(query.toLowerCase()) ||
-        g.category.toLowerCase().includes(query.toLowerCase())
-      );
-      displayGames(filtered);
+    function searchGames(q){
+      displayGames(allGames.filter(g=>g.name.toLowerCase().includes(q.toLowerCase())||g.category.toLowerCase().includes(q.toLowerCase())));
     }
 
-    document.getElementById('searchBtn').addEventListener('click', () => {
-      const query = document.getElementById('searchInput').value.trim();
-      searchGames(query);
-    });
+    searchBtn.onclick=()=>searchGames(searchInput.value.trim());
+    searchInput.oninput=e=>searchGames(e.target.value);
 
-    document.getElementById('searchInput').addEventListener('input', e => {
-      searchGames(e.target.value);
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded",()=>{
       loadGames();
-
-      document.querySelectorAll('.category-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.category-tab').forEach(tab=>{
+        tab.onclick=()=>{
+          document.querySelectorAll('.category-tab').forEach(t=>t.classList.remove('active'));
           tab.classList.add('active');
-          const cat = tab.dataset.category;
-          if (cat === 'all') displayGames(allGames);
-          else displayGames(allGames.filter(g => g.category.toLowerCase() === cat.toLowerCase()));
-        });
+          const cat=tab.dataset.category;
+          displayGames(cat==="all"?allGames:allGames.filter(g=>g.category.toLowerCase()==cat.toLowerCase()));
+        };
       });
     });
   </script>
+
 </body>
 </html>
