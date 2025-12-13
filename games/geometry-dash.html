@@ -15,6 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* NAVBAR */
         .navbar {
             background-color: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
@@ -38,14 +39,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            object-fit: cover;
         }
 
         .navbar-title {
             font-size: 1.8rem;
-            text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
-            color: #ffffff;
-            letter-spacing: 2px;
+            color: white;
+            text-shadow: 0 0 10px #00ff9d;
         }
 
         .navbar-links {
@@ -57,46 +56,45 @@
         .nav-link {
             color: #e0e0e0;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 5px;
         }
 
         .nav-link:hover {
             color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
         }
 
-        .home-link {
-            color: #00ff9d;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            padding: 8px 15px;
-            border-radius: 6px;
-            border: 1px solid rgba(0, 255, 157, 0.3);
-        }
-
-        .home-link:hover {
-            background: rgba(0, 255, 157, 0.1);
-            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-        }
-
+        /* GAME CONTAINER */
         .game-container {
             background: rgba(26, 26, 26, 0.9);
             border-radius: 15px;
             padding: 25px;
             margin: 30px auto;
             border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            max-width: 1200px;
+            max-width: 1400px;
         }
 
+        /* GAME + ADS GRID */
+        .game-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr 220px;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        /* AD BOX */
+        .side-ad {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #00ff9d;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow:
+                0 0 15px rgba(0, 255, 157, 0.35),
+                inset 0 0 10px rgba(0, 255, 157, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* GAME IFRAME */
         .game-iframe-container {
             position: relative;
             width: 100%;
@@ -105,7 +103,6 @@
             overflow: hidden;
             border: 1px solid #333;
             background: #1a1a1a;
-            transition: all 0.3s ease;
         }
 
         .game-iframe {
@@ -114,21 +111,22 @@
             border: none;
         }
 
+        /* FULLSCREEN */
         .game-iframe-container.fullscreen {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100vw;
             height: 100vh;
             z-index: 1000;
             border-radius: 0;
         }
 
+        /* GAME INFO */
         .game-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-top: 25px;
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -136,8 +134,6 @@
         .single-title {
             font-size: 2.5rem;
             color: #00ff9d;
-            text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-            margin: 0;
         }
 
         .btn-capsule {
@@ -146,91 +142,39 @@
             color: #00ff9d;
             padding: 10px 20px;
             border-radius: 25px;
-            transition: all 0.3s ease;
-            font-weight: 600;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            cursor: pointer;
         }
 
         .btn-capsule:hover {
-            background: rgba(0, 255, 157, 0.2);
             box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
         }
 
-        .b-icon {
-            font-size: 1.2rem;
-        }
-
+        /* DETAILS */
         .game-details {
-            background: rgba(10, 10, 10, 0.7);
-            border-radius: 15px;
-            padding: 25px;
             margin-top: 25px;
+            padding: 25px;
             border: 1px solid #333;
+            border-radius: 15px;
+            background: rgba(10, 10, 10, 0.7);
         }
 
-        .game-details h3 {
-            color: #00ff9d;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .game-description {
-            color: #b0b0b0;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .game-meta {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #b0b0b0;
-        }
-
-        .meta-item i {
-            color: #00ff9d;
-        }
-
-        /* AD CONTAINER STYLE */
-        .ad-container {
-            margin: 25px 0;
-            text-align: center;
-        }
-
+        /* FOOTER */
         .footer {
             text-align: center;
             padding: 40px 20px;
             border-top: 1px solid #333;
             color: #b0b0b0;
-            font-size: 0.9rem;
-            background: rgba(10, 10, 10, 0.9);
-            margin-top: 50px;
         }
 
-        @media (max-width: 768px) {
-            .single-title {
-                font-size: 2rem;
+        /* MOBILE */
+        @media (max-width: 992px) {
+            .game-layout {
+                grid-template-columns: 1fr;
             }
-            .game-iframe-container {
-                height: 60vh;
-            }
-        }
 
-        @media (max-width: 480px) {
-            .game-iframe-container {
-                height: 50vh;
-            }
-            .game-container {
-                padding: 15px;
+            .side-ad {
+                display: none;
             }
         }
     </style>
@@ -240,109 +184,72 @@
 
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <img src="https://i.ibb.co/KcMpfrRw/favicon.png" alt="TcawPlay Logo" class="navbar-logo" />
-            <h1 class="navbar-title">Tcaw Games</h1>
-        </div>
-
-        <div class="navbar-links">
-            <a href="https://tclaws.xyz" class="nav-link">Home</a>
-            <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
-            <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
-            <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
-            <a href="https://tclaws.xyz/about" class="nav-link">About</a>
-
-            <a href="https://tclaws.xyz" class="home-link">
-                <i class="fas fa-home"></i>
-                <span>Back to tclaws.xyz</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- ⭐ TOP BANNER AD -->
-    <div class="ad-container">
-        <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-        <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
-        <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <img src="https://i.ibb.co/KcMpfrRw/favicon.png" class="navbar-logo">
+        <h1 class="navbar-title">Tcaw Games</h1>
     </div>
+    <div class="navbar-links">
+        <a href="https://tclaws.xyz" class="nav-link">Home</a>
+        <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
+    </div>
+</nav>
 
-    <div class="container">
-        <div class="game-container">
+<div class="container">
+    <div class="game-container">
 
+        <div class="game-layout">
+
+            <!-- LEFT AD -->
+            <div class="side-ad">
+                <script async src="https://a.magsrv.com/ad-provider.js"></script>
+                <ins class="eas6a97888e2" data-zoneid="5798964"></ins>
+                <script>(AdProvider = window.AdProvider || []).push({serve:{}});</script>
+            </div>
+
+            <!-- GAME -->
             <div class="game-iframe-container" id="game-player">
                 <iframe class="game-iframe"
                     src="https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec"
                     allowfullscreen></iframe>
             </div>
 
-            <!-- ⭐ AD UNDER GAME -->
-            <div class="ad-container">
-                <script async type="application/javascript" src="https://a.magsrv.com/ad-provider.js"></script>
-                <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
-                <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
-            </div>
-
-            <div class="game-info">
-                <h1 class="single-title">Geometry Dash Lite</h1>
-
-                <a href="#" onclick="toggleFullscreen()" class="btn-capsule" id="fullscreenBtn">
-                    <i class="fas fa-expand b-icon"></i>Fullscreen
-                </a>
-            </div>
-
-            <div class="game-details">
-                <h3>About Geometry Dash Lite</h3>
-
-                <p class="game-description">
-                    Geometry Dash Lite is a rhythm-based platformer where you control 
-                    a geometric cube that automatically moves forward. Tap (or click) 
-                    to jump, fly, and flip to avoid spikes and obstacles synced to 
-                    energetic electronic music.
-                </p>
-
-                <ul class="game-meta">
-                    <li class="meta-item">
-                        <i class="fas fa-music"></i><span>Rhythm Platformer</span>
-                    </li>
-                    <li class="meta-item">
-                        <i class="fas fa-cube"></i><span>Minimal Controls, High Challenge</span>
-                    </li>
-                    <li class="meta-item">
-                        <i class="fas fa-star"></i><span>Free / Demo Version</span>
-                    </li>
-                </ul>
+            <!-- RIGHT AD -->
+            <div class="side-ad">
+                <script async src="https://a.magsrv.com/ad-provider.js"></script>
+                <ins class="eas6a97888e2" data-zoneid="5798964"></ins>
+                <script>(AdProvider = window.AdProvider || []).push({serve:{}});</script>
             </div>
 
         </div>
-    </div>
 
-    <footer class="footer">
-        <p>&copy; 2025 TcawPlay. All rights reserved.</p>
-        <p>
-            <a href="https://tclaws.xyz" style="color: #00ff9d; text-decoration: none;">
-                <i class="fas fa-arrow-left"></i> Back to tclaws.xyz
+        <div class="game-info">
+            <h1 class="single-title">Geometry Dash Lite</h1>
+            <a class="btn-capsule" onclick="toggleFullscreen()">
+                <i class="fas fa-expand"></i> Fullscreen
             </a>
-        </p>
-    </footer>
+        </div>
 
-    <script>
-        function toggleFullscreen() {
-            const iframeContainer = document.getElementById('game-player');
-            iframeContainer.classList.toggle('fullscreen');
+        <div class="game-details">
+            <h3>About Geometry Dash Lite</h3>
+            <p>
+                Geometry Dash Lite is a rhythm-based platformer where timing is everything.
+                Jump, fly, and flip through dangerous obstacles synced to music.
+            </p>
+        </div>
 
-            const btn = document.getElementById('fullscreenBtn');
-            const icon = btn.querySelector('i');
+    </div>
+</div>
 
-            if (iframeContainer.classList.contains('fullscreen')) {
-                icon.classList.replace('fa-expand', 'fa-compress');
-                btn.innerHTML = '<i class="fas fa-compress b-icon"></i>Exit Fullscreen';
-            } else {
-                icon.classList.replace('fa-compress', 'fa-expand');
-                btn.innerHTML = '<i class="fas fa-expand b-icon"></i>Fullscreen';
-            }
-        }
-    </script>
+<footer class="footer">
+    &copy; 2025 TcawPlay. All rights reserved.
+</footer>
+
+<script>
+function toggleFullscreen() {
+    document.getElementById("game-player").classList.toggle("fullscreen");
+}
+</script>
 
 </body>
 </html>
