@@ -30,40 +30,175 @@
       border-bottom: 1px solid #333;
     }
 
-    .navbar-brand { display: flex; align-items: center; gap: 15px; }
-    .navbar-logo { width: 40px; height: 40px; border-radius: 50%; }
-    .navbar-title { font-size: 1.8rem; letter-spacing: 2px; color: #ffffff; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; }
-    .navbar-links { display: flex; gap: 20px; align-items: center; }
-    .nav-link { color: #e0e0e0; text-decoration: none; padding: 8px 15px; border-radius: 6px; }
-    .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
-    .home-link { color: #00ff9d; border: 1px solid rgba(0, 255, 157, 0.3); padding: 8px 15px; border-radius: 6px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-    /* PAGE LAYOUT WITH SIDE ADS */
-    .page-layout { display: flex; justify-content: center; gap: 25px; padding: 30px 15px; }
+    .navbar-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
 
-    .side-ad { width: 300px; position: sticky; top: 110px; height: fit-content; }
-    .side-ad-box { width: 300px; height: 250px; background: rgba(0,255,157,0.05); border: 1px solid rgba(0,255,157,0.45); border-radius: 15px; padding: 10px; box-shadow: 0 0 20px rgba(0,255,157,0.35), inset 0 0 10px rgba(0,255,157,0.2); display: flex; align-items: center; justify-content: center; }
+    .navbar-title {
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
+    }
+
+    .navbar-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: #e0e0e0;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+    }
+
+    .nav-link:hover {
+      color: #00ff9d;
+      background: rgba(0, 255, 157, 0.1);
+    }
+
+    .home-link {
+      color: #00ff9d;
+      border: 1px solid rgba(0, 255, 157, 0.3);
+      padding: 8px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* PAGE LAYOUT */
+    .page-layout {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      padding: 40px 15px;
+    }
+
+    /* SIDE ADS – pushed DOWN but glowing */
+    .side-ad {
+      width: 300px;
+      position: sticky;
+      top: 240px; /* THIS is what keeps ads away from the top */
+      height: fit-content;
+    }
+
+    .side-ad-box {
+      width: 300px;
+      height: 250px;
+      background: rgba(0,255,157,0.05);
+      border: 1px solid rgba(0,255,157,0.45);
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow:
+        0 0 20px rgba(0,255,157,0.35),
+        inset 0 0 10px rgba(0,255,157,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     /* GAME CONTAINER */
-    .game-container { max-width: 1200px; width: 100%; padding: 25px; background: rgba(26,26,26,0.9); border-radius: 15px; border:1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .game-iframe-container { position: relative; width: 100%; height: 70vh; background: #1a1a1a; border-radius: 15px; overflow: hidden; border:1px solid #333; }
-    .game-iframe-container.fullscreen { position: fixed; inset: 0; z-index: 1000; border-radius: 0; }
-    .game-iframe { width: 100%; height: 100%; border: none; }
+    .game-container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 25px;
+      background: rgba(26,26,26,0.9);
+      border-radius: 15px;
+      border: 1px solid #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
 
-    .game-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; }
-    .single-title { font-size: 2.5rem; color: #00ff9d; text-shadow:0 0 10px rgba(0,255,157,0.3); margin:0; }
-    .btn-capsule { background: rgba(0,255,157,0.1); border: 1px solid #00ff9d; color: #00ff9d; padding:10px 20px; border-radius: 25px; font-weight: 600; display: inline-flex; align-items:center; gap:8px; text-decoration:none; }
-    .btn-capsule:hover { box-shadow:0 0 15px rgba(0,255,157,0.4); }
+    .game-iframe-container {
+      position: relative;
+      width: 100%;
+      height: 70vh;
+      background: #1a1a1a;
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .game-iframe-container.fullscreen {
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      border-radius: 0;
+    }
+
+    .game-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .game-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .single-title {
+      font-size: 2.5rem;
+      color: #00ff9d;
+      text-shadow: 0 0 10px rgba(0,255,157,0.3);
+      margin: 0;
+    }
+
+    .btn-capsule {
+      background: rgba(0,255,157,0.1);
+      border: 1px solid #00ff9d;
+      color: #00ff9d;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-capsule:hover {
+      box-shadow: 0 0 15px rgba(0,255,157,0.4);
+    }
 
     /* FOOTER */
-    .footer { text-align:center; padding:40px 20px; margin-top:40px; border-top:1px solid #333; color:#b0b0b0; }
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 40px;
+      border-top: 1px solid #333;
+      color: #b0b0b0;
+    }
 
-    @media (max-width: 1200px) { .side-ad { display:none; } }
-    @media (max-width: 768px) { .single-title{font-size:2rem;} .game-iframe-container{height:55vh;} }
+    @media (max-width: 1200px) {
+      .side-ad { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .single-title { font-size: 2rem; }
+      .game-iframe-container { height: 55vh; }
+    }
   </style>
 
   <script src="https://kit.fontawesome.com/a2d9b6a66a.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
 
 <!-- NAVBAR -->
@@ -78,41 +213,52 @@
     <a href="https://tclaws.xyz/bookmarks" class="nav-link">Bookmarks</a>
     <a href="https://tclaws.xyz/games" class="nav-link">Games</a>
     <a href="https://tclaws.xyz/about" class="nav-link">About</a>
-    <a href="https://tclaws.xyz" class="home-link"><i class="fas fa-home"></i> Back</a>
+    <a href="https://tclaws.xyz" class="home-link">
+      <i class="fas fa-home"></i> Back
+    </a>
   </div>
 </nav>
 
 <!-- PAGE CONTENT -->
 <div class="page-layout">
 
-  <!-- LEFT SIDE AD -->
+  <!-- LEFT AD -->
   <div class="side-ad">
     <div class="side-ad-box">
       <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({ serve: {} });</script>
+      <script>
+        (AdProvider = window.AdProvider || []).push({ serve: {} });
+      </script>
     </div>
   </div>
 
-  <!-- GAME CONTAINER -->
+  <!-- GAME -->
   <div class="game-container">
     <div class="game-iframe-container" id="game-player">
-      <iframe class="game-iframe" src="https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec" allowfullscreen></iframe>
+      <iframe
+        class="game-iframe"
+        src="https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec"
+        allowfullscreen>
+      </iframe>
     </div>
+
     <div class="game-header">
       <h1 class="single-title">Geometry Dash Lite</h1>
-      <a href="#" class="btn-capsule" id="fullscreenBtn" onclick="toggleFullscreen()">
+      <a class="btn-capsule" id="fullscreenBtn" onclick="toggleFullscreen()">
         <i class="fas fa-expand"></i> Fullscreen
       </a>
     </div>
   </div>
 
-  <!-- RIGHT SIDE AD -->
+  <!-- RIGHT AD -->
   <div class="side-ad">
     <div class="side-ad-box">
       <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({ serve: {} });</script>
+      <script>
+        (AdProvider = window.AdProvider || []).push({ serve: {} });
+      </script>
     </div>
   </div>
 
@@ -123,15 +269,27 @@
   <p>&copy; 2025 TcawPlay. All rights reserved.</p>
 </footer>
 
+<!-- FULLSCREEN SCRIPT -->
 <script>
+  const container = document.getElementById('game-player');
+  const btn = document.getElementById('fullscreenBtn');
+
   function toggleFullscreen() {
-    const container = document.getElementById('game-player');
-    const btn = document.getElementById('fullscreenBtn');
-    container.classList.toggle('fullscreen');
-    btn.innerHTML = container.classList.contains('fullscreen')
+    if (!document.fullscreenElement) {
+      container.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    const isFs = document.fullscreenElement === container;
+
+    container.classList.toggle('fullscreen', isFs);
+    btn.innerHTML = isFs
       ? '<i class="fas fa-compress"></i> Exit Fullscreen'
       : '<i class="fas fa-expand"></i> Fullscreen';
-  }
+  });
 </script>
 
 </body>
