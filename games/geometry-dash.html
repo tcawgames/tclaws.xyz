@@ -16,7 +16,7 @@
       margin: 0;
     }
 
-    /* ===== NAVBAR ===== */
+    /* NAVBAR */
     .navbar {
       background-color: rgba(10, 10, 10, 0.95);
       backdrop-filter: blur(10px);
@@ -30,156 +30,36 @@
       border-bottom: 1px solid #333;
     }
 
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
+    .navbar-brand { display: flex; align-items: center; gap: 15px; }
+    .navbar-logo { width: 40px; height: 40px; border-radius: 50%; }
+    .navbar-title { font-size: 1.8rem; letter-spacing: 2px; color: #ffffff; text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d; }
+    .navbar-links { display: flex; gap: 20px; align-items: center; }
+    .nav-link { color: #e0e0e0; text-decoration: none; padding: 8px 15px; border-radius: 6px; }
+    .nav-link:hover { color: #00ff9d; background: rgba(0, 255, 157, 0.1); }
+    .home-link { color: #00ff9d; border: 1px solid rgba(0, 255, 157, 0.3); padding: 8px 15px; border-radius: 6px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
 
-    .navbar-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
+    /* PAGE LAYOUT WITH SIDE ADS */
+    .page-layout { display: flex; justify-content: center; gap: 25px; padding: 30px 15px; }
 
-    .navbar-title {
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-      color: #ffffff;
-      text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d;
-    }
+    .side-ad { width: 300px; position: sticky; top: 110px; height: fit-content; }
+    .side-ad-box { width: 300px; height: 250px; background: rgba(0,255,157,0.05); border: 1px solid rgba(0,255,157,0.45); border-radius: 15px; padding: 10px; box-shadow: 0 0 20px rgba(0,255,157,0.35), inset 0 0 10px rgba(0,255,157,0.2); display: flex; align-items: center; justify-content: center; }
 
-    .navbar-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
+    /* GAME CONTAINER */
+    .game-container { max-width: 1200px; width: 100%; padding: 25px; background: rgba(26,26,26,0.9); border-radius: 15px; border:1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .game-iframe-container { position: relative; width: 100%; height: 70vh; background: #1a1a1a; border-radius: 15px; overflow: hidden; border:1px solid #333; }
+    .game-iframe-container.fullscreen { position: fixed; inset: 0; z-index: 1000; border-radius: 0; }
+    .game-iframe { width: 100%; height: 100%; border: none; }
 
-    .nav-link {
-      color: #e0e0e0;
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-    }
+    .game-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; }
+    .single-title { font-size: 2.5rem; color: #00ff9d; text-shadow:0 0 10px rgba(0,255,157,0.3); margin:0; }
+    .btn-capsule { background: rgba(0,255,157,0.1); border: 1px solid #00ff9d; color: #00ff9d; padding:10px 20px; border-radius: 25px; font-weight: 600; display: inline-flex; align-items:center; gap:8px; text-decoration:none; }
+    .btn-capsule:hover { box-shadow:0 0 15px rgba(0,255,157,0.4); }
 
-    .nav-link:hover {
-      color: #00ff9d;
-      background: rgba(0, 255, 157, 0.1);
-    }
+    /* FOOTER */
+    .footer { text-align:center; padding:40px 20px; margin-top:40px; border-top:1px solid #333; color:#b0b0b0; }
 
-    .home-link {
-      color: #00ff9d;
-      border: 1px solid rgba(0, 255, 157, 0.3);
-      padding: 8px 15px;
-      border-radius: 6px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ===== MAIN GAME CARD ===== */
-    .game-container {
-      max-width: 1200px;
-      margin: 30px auto;
-      padding: 25px;
-      background: rgba(26, 26, 26, 0.9);
-      border-radius: 15px;
-      border: 1px solid #333;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .game-iframe-container {
-      position: relative;
-      width: 100%;
-      height: 70vh;
-      background: #1a1a1a;
-      border-radius: 15px;
-      overflow: hidden;
-      border: 1px solid #333;
-    }
-
-    .game-iframe-container.fullscreen {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      border-radius: 0;
-    }
-
-    .game-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .game-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 25px;
-    }
-
-    .single-title {
-      font-size: 2.5rem;
-      color: #00ff9d;
-      text-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-      margin: 0;
-    }
-
-    .btn-capsule {
-      background: rgba(0, 255, 157, 0.1);
-      border: 1px solid #00ff9d;
-      color: #00ff9d;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .btn-capsule:hover {
-      box-shadow: 0 0 15px rgba(0, 255, 157, 0.4);
-    }
-
-    /* ===== 300x250 AD STRIP ===== */
-    .ad-row {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 25px 0 10px;
-      flex-wrap: wrap;
-    }
-
-    .ad-box {
-      width: 300px;
-      height: 250px;
-      background: rgba(0, 255, 157, 0.05);
-      border: 1px solid rgba(0, 255, 157, 0.45);
-      border-radius: 15px;
-      padding: 10px;
-      box-shadow: 0 0 20px rgba(0, 255, 157, 0.35), inset 0 0 10px rgba(0, 255, 157, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ===== FOOTER ===== */
-    .footer {
-      text-align: center;
-      padding: 40px 20px;
-      margin-top: 40px;
-      border-top: 1px solid #333;
-      color: #b0b0b0;
-    }
-
-    @media (max-width: 768px) {
-      .single-title { font-size: 2rem; }
-      .game-iframe-container { height: 55vh; }
-    }
+    @media (max-width: 1200px) { .side-ad { display:none; } }
+    @media (max-width: 768px) { .single-title{font-size:2rem;} .game-iframe-container{height:55vh;} }
   </style>
 
   <script src="https://kit.fontawesome.com/a2d9b6a66a.js" crossorigin="anonymous"></script>
@@ -192,7 +72,6 @@
     <img src="https://i.ibb.co/KcMpfrRw/favicon.png" class="navbar-logo" />
     <h1 class="navbar-title">Tcaw Games</h1>
   </div>
-
   <div class="navbar-links">
     <a href="https://tclaws.xyz" class="nav-link">Home</a>
     <a href="https://tclaws.xyz/apps" class="nav-link">Apps</a>
@@ -203,29 +82,35 @@
   </div>
 </nav>
 
-<!-- GAME CARD -->
-<div class="game-container">
+<!-- PAGE CONTENT -->
+<div class="page-layout">
 
-  <div class="game-iframe-container" id="game-player">
-    <iframe class="game-iframe" src="https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec" allowfullscreen></iframe>
-  </div>
-
-  <div class="game-header">
-    <h1 class="single-title">Geometry Dash Lite</h1>
-    <a href="#" class="btn-capsule" id="fullscreenBtn" onclick="toggleFullscreen()">
-      <i class="fas fa-expand"></i> Fullscreen
-    </a>
-  </div>
-
-  <!-- 300x250 ADS UNDER TITLE -->
-  <div class="ad-row">
-    <div class="ad-box">
+  <!-- LEFT SIDE AD -->
+  <div class="side-ad">
+    <div class="side-ad-box">
       <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
       <script>(AdProvider = window.AdProvider || []).push({ serve: {} });</script>
     </div>
+  </div>
 
-    <div class="ad-box">
+  <!-- GAME CONTAINER -->
+  <div class="game-container">
+    <div class="game-iframe-container" id="game-player">
+      <iframe class="game-iframe" src="https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec" allowfullscreen></iframe>
+    </div>
+    <div class="game-header">
+      <h1 class="single-title">Geometry Dash Lite</h1>
+      <a href="#" class="btn-capsule" id="fullscreenBtn" onclick="toggleFullscreen()">
+        <i class="fas fa-expand"></i> Fullscreen
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE AD -->
+  <div class="side-ad">
+    <div class="side-ad-box">
+      <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798836"></ins>
       <script>(AdProvider = window.AdProvider || []).push({ serve: {} });</script>
     </div>
