@@ -51,7 +51,7 @@
       gap:6px;
     }
 
-    /* PAGE LAYOUT */
+    /* LAYOUT */
     .page-layout {
       display:flex;
       justify-content:center;
@@ -59,7 +59,7 @@
       padding:35px 15px;
     }
 
-    /* SIDE BANNER ADS */
+    /* SIDE ADS */
     .side-ad {
       width:160px;
       position:sticky;
@@ -151,9 +151,9 @@
       box-shadow:0 0 15px rgba(0,255,157,0.4);
     }
 
-    /* BOTTOM LEADERBOARD */
+    /* LEADERBOARD */
     .leaderboard-ad {
-      margin-top:25px;
+      margin-top:45px;
       display:flex;
       justify-content:center;
     }
@@ -180,7 +180,7 @@
       color:#b0b0b0;
     }
 
-    /* HIDE EVERYTHING DURING FULLSCREEN */
+    /* FULLSCREEN HIDES ADS */
     body.fullscreen-active .navbar,
     body.fullscreen-active .side-ad,
     body.fullscreen-active .leaderboard-ad,
@@ -220,9 +220,8 @@
   <!-- LEFT AD -->
   <div class="side-ad">
     <div class="side-ad-box">
-      <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798964"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+      <script>(AdProvider = window.AdProvider || []).push({serve:{}});</script>
     </div>
   </div>
 
@@ -244,9 +243,8 @@
     <!-- LEADERBOARD AD -->
     <div class="leaderboard-ad">
       <div class="leaderboard-box">
-        <script async src="https://a.magsrv.com/ad-provider.js"></script>
         <ins class="eas6a97888e2" data-zoneid="5800730"></ins>
-        <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+        <script>(AdProvider = window.AdProvider || []).push({serve:{}});</script>
       </div>
     </div>
   </div>
@@ -254,9 +252,8 @@
   <!-- RIGHT AD -->
   <div class="side-ad">
     <div class="side-ad-box">
-      <script async src="https://a.magsrv.com/ad-provider.js"></script>
       <ins class="eas6a97888e2" data-zoneid="5798964"></ins>
-      <script>(AdProvider = window.AdProvider || []).push({"serve": {}});</script>
+      <script>(AdProvider = window.AdProvider || []).push({serve:{}});</script>
     </div>
   </div>
 
@@ -266,16 +263,16 @@
   <p>&copy; 2025 TcawPlay. All rights reserved.</p>
 </footer>
 
+<!-- LOAD AD PROVIDER ONCE -->
+<script async src="https://a.magsrv.com/ad-provider.js"></script>
+
 <script>
   const gamePlayer = document.getElementById('game-player');
   const fullscreenBtn = document.getElementById('fullscreenBtn');
 
   fullscreenBtn.addEventListener('click', () => {
-    if (!document.fullscreenElement) {
-      gamePlayer.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
+    if (!document.fullscreenElement) gamePlayer.requestFullscreen();
+    else document.exitFullscreen();
   });
 
   document.addEventListener('fullscreenchange', () => {
